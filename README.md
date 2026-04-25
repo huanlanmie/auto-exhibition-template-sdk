@@ -90,6 +90,7 @@ SDK 对模板层只暴露这一个通用取值方法。
 2. 模板项目只需要在 `vite.config` 里启用插件并显式传入 `configJson` 对象，不需要再额外写生成脚本。
 3. 插件只生成开发期类型声明，不参与运行时渲染。
 4. 自动生成的声明文件应该忽略提交。
+5. 安装 SDK 后可以直接使用 `template-sdk/config` 和 `template-sdk/vite`，不需要额外为项目补 `jsconfig` 路径映射或本地声明文件。
 
 ## configJson 约定
 

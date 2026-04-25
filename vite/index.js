@@ -1,0 +1,1 @@
+export { templateSdkTypes } from '../dist/vite/index.js'

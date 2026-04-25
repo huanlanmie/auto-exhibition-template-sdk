@@ -1,0 +1,1 @@
+export { defineTemplateConfig } from '../dist/config/index.js'

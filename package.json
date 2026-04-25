@@ -6,20 +6,35 @@
   "module": "./dist/sdk/index.js",
   "types": "./dist/sdk/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "config",
+    "vite"
   ],
+  "typesVersions": {
+    "*": {
+      "config": [
+        "config/index.d.ts"
+      ],
+      "vite": [
+        "vite/index.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "types": "./dist/sdk/index.d.ts",
-      "import": "./dist/sdk/index.js"
+      "import": "./dist/sdk/index.js",
+      "default": "./dist/sdk/index.js"
     },
     "./config": {
-      "types": "./dist/config/index.d.ts",
-      "import": "./dist/config/index.js"
+      "types": "./config/index.d.ts",
+      "import": "./config/index.js",
+      "default": "./config/index.js"
     },
     "./vite": {
-      "types": "./dist/vite/index.d.ts",
-      "import": "./dist/vite/index.js"
+      "types": "./vite/index.d.ts",
+      "import": "./vite/index.js",
+      "default": "./vite/index.js"
     }
   },
   "scripts": {
