@@ -22,11 +22,29 @@ function u(e, t) {
 }
 //#endregion
 //#region src/runtime/context/createTemplateContext.ts
-function d(e) {
-	let t = r(e?.configJson), n = o(t.configJson), i = o(t.valueMap);
-	return { context: {
-		config: n,
-		valueMap: i,
+var d = "/config.json", f = "/assets/template/valueMap.json";
+async function p(e) {
+	let t = await fetch(e, { cache: "no-cache" });
+	if (!t.ok) throw Error(`加载 ${e} 失败：${t.status}`);
+	return t.json();
+}
+async function m() {
+	let [e, t] = await Promise.all([p(d), p(f)]);
+	return {
+		configJson: e,
+		valueMap: t
+	};
+}
+function h(e = {}) {
+	let t = o(null), n = o(null);
+	function i(e) {
+		t.value = e.configJson, n.value = e.valueMap;
+	}
+	return e?.configJson === void 0 ? typeof window < "u" && typeof fetch == "function" && m().then((e) => i(e)).catch((e) => {
+		console.error("[template-sdk] 自动加载模板配置失败", e);
+	}) : i(r(e.configJson)), { context: {
+		config: t,
+		valueMap: n,
 		resolvePath(e, t = "") {
 			let n = String(e || "").trim();
 			if (!n) return s(t);
@@ -34,24 +52,24 @@ function d(e) {
 			return s(c(t, n));
 		},
 		resolveValue(e) {
-			return u(i.value, e);
+			return u(n.value, e);
 		}
 	} };
 }
 //#endregion
 //#region src/runtime/context/keys.ts
-var f = Symbol("template-sdk-context");
+var g = Symbol("template-sdk-context");
 //#endregion
 //#region src/runtime/context/useTemplateContext.ts
-function p() {
-	let e = a(f, null);
+function _() {
+	let e = a(g, null);
 	if (!e) throw Error("useTemplateValue requires TemplateSdk to be installed before use");
 	return e;
 }
 //#endregion
 //#region src/sdk/useTemplateValue.ts
-function m(e, t) {
-	let n = p();
+function v(e, t) {
+	let n = _();
 	return i(() => {
 		let r = n.resolvePath(String(e || "")), i = n.resolveValue(r);
 		return i === void 0 ? t : i;
@@ -59,9 +77,9 @@ function m(e, t) {
 }
 //#endregion
 //#region src/sdk/index.ts
-var h = { install(e, t) {
-	let { context: n } = d({ ...t });
-	e.provide(f, n);
+var y = { install(e, t = {}) {
+	let { context: n } = h({ ...t });
+	e.provide(g, n);
 } };
 //#endregion
-export { r as buildTemplateArtifacts, t as buildTemplateJsonFiles, n as buildTemplateValueMap, h as default, m as useTemplateValue, e as validateTemplateConfig };
+export { r as buildTemplateArtifacts, t as buildTemplateJsonFiles, n as buildTemplateValueMap, y as default, v as useTemplateValue, e as validateTemplateConfig };

@@ -47,10 +47,10 @@ export type {
 } from './types'
 
 const TemplateSdk: Plugin = {
-  install(app: App, options: TemplateSdkOptions) {
-    // SDK 只接收 configJson。
-    // 模板作者维护的源数据边界被固定在这一份对象上，
-    // 运行时 valueMap 则由 SDK 在内部统一推导，避免调用方手工拼装第二份结构。
+  install(app: App, options: TemplateSdkOptions = {}) {
+    // 标准模板项目不再在 main.js 传 configJson；
+    // configJson 由 templateSdkPlugin 在 dev/build 阶段提供为固定 JSON 产物，运行时自动加载。
+    // options 仅保留给 SDK 自测和非 Vite 场景，避免把运行时安装和构建配置再次绑在一起。
     const { context } = createTemplateContext({ ...options })
 
     app.provide(TEMPLATE_CONTEXT_KEY, context)

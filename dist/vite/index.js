@@ -135,19 +135,26 @@ function T() {
 		valueMap: s
 	};
 }
-function E(t, n) {
-	let r = e(n.configJson), i = T();
-	t({
+function E(t) {
+	let n = e(t.configJson);
+	return {
+		fileNames: T(),
+		files: n
+	};
+}
+function D(e, t) {
+	let { files: n, fileNames: r } = E(t);
+	e({
 		type: "asset",
-		fileName: i.configJson,
-		source: r.configJson
-	}), t({
+		fileName: r.configJson,
+		source: n.configJson
+	}), e({
 		type: "asset",
-		fileName: i.valueMap,
-		source: r.valueMap
+		fileName: r.valueMap,
+		source: n.valueMap
 	});
 }
-function D(e) {
+function O(e) {
 	if (!e || e.configJson === void 0) throw Error("template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkPlugin({ configJson })");
 	let t = "", n = !1, r = async (n) => {
 		try {
@@ -167,9 +174,23 @@ function D(e) {
 		async buildStart() {
 			n || await r((e) => this.error(e));
 		},
+		configureServer(t) {
+			t.middlewares.use((t, n, r) => {
+				let i = String(t.url || "").split("?")[0], { files: a, fileNames: o } = E(e);
+				if (i === `/${o.configJson}`) {
+					n.setHeader("Content-Type", "application/json; charset=utf-8"), n.end(a.configJson);
+					return;
+				}
+				if (i === `/${o.valueMap}`) {
+					n.setHeader("Content-Type", "application/json; charset=utf-8"), n.end(a.valueMap);
+					return;
+				}
+				r();
+			});
+		},
 		generateBundle() {
 			try {
-				E((e) => this.emitFile(e), e);
+				D((e) => this.emitFile(e), e);
 			} catch (e) {
 				let t = e instanceof Error ? e.stack || e.message : String(e);
 				this.error(`template-sdk/vite 生成模板 JSON 产物失败:\n${t}`);
@@ -178,4 +199,4 @@ function D(e) {
 	};
 }
 //#endregion
-export { D as templateSdkPlugin };
+export { O as templateSdkPlugin };

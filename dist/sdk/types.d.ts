@@ -112,7 +112,7 @@ export type RegisteredTemplateValueMap = keyof TemplateValueMapRegistry extends 
 export type TemplateValuePath = TemplateNestedPath<RegisteredTemplateValueMap>;
 export type TemplateValueAtPath<Path extends string> = TemplatePathValue<RegisteredTemplateValueMap, NormalizeTemplatePath<Path>>;
 export type TemplateSdkOptions = {
-    configJson: unknown;
+    configJson?: unknown;
 };
 export type TemplateContext = {
     config: Ref<TemplateConfig | null>;

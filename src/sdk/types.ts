@@ -238,9 +238,10 @@ export type TemplateValuePath = TemplateNestedPath<RegisteredTemplateValueMap>
 
 export type TemplateValueAtPath<Path extends string> = TemplatePathValue<RegisteredTemplateValueMap, NormalizeTemplatePath<Path>>
 
-// 插件安装参数只接受 configJson；valueMap 是 SDK 内部构建出的产物，不再由模板项目注入。
+// Vue 插件安装阶段不再要求模板项目传入 configJson。
+// 标准接入由 Vite 插件提供固定 JSON 产物，运行时自动加载；configJson 只保留给 SDK 自测和非 Vite 场景。
 export type TemplateSdkOptions = {
-  configJson: unknown
+  configJson?: unknown
 }
 
 // 所有 SDK 取值方法都通过这一份上下文读取 valueMap。

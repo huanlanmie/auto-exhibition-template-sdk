@@ -276,14 +276,23 @@ function buildTemplateArtifactFileNames() {
   }
 }
 
+function buildTemplateJsonFileSources(options: TemplateSdkPluginOptions) {
+  const files = buildTemplateJsonFiles(options.configJson)
+  const fileNames = buildTemplateArtifactFileNames()
+
+  return {
+    fileNames,
+    files,
+  }
+}
+
 function emitTemplateJsonFiles(
   emitFile: (emittedFile: { type: 'asset'; fileName: string; source: string }) => void,
   options: TemplateSdkPluginOptions,
 ) {
   // JSON 产物必须复用 SDK 的正式构建方法，不能在 Vite 插件里再手写一套转换规则。
   // 这样运行时 valueMap、构建输出 valueMap 和外部脚本拿到的 valueMap 都来自同一份校验与归一逻辑。
-  const files = buildTemplateJsonFiles(options.configJson)
-  const fileNames = buildTemplateArtifactFileNames()
+  const { files, fileNames } = buildTemplateJsonFileSources(options)
 
   emitFile({
     type: 'asset',
@@ -333,6 +342,26 @@ export function templateSdkPlugin(options: TemplateSdkPluginOptions): Plugin {
       if (!hasGenerated) {
         await generateTypes((message) => this.error(message))
       }
+    },
+    configureServer(server) {
+      server.middlewares.use((request, response, next) => {
+        const requestPath = String(request.url || '').split('?')[0]
+        const { files, fileNames } = buildTemplateJsonFileSources(options)
+
+        if (requestPath === `/${fileNames.configJson}`) {
+          response.setHeader('Content-Type', 'application/json; charset=utf-8')
+          response.end(files.configJson)
+          return
+        }
+
+        if (requestPath === `/${fileNames.valueMap}`) {
+          response.setHeader('Content-Type', 'application/json; charset=utf-8')
+          response.end(files.valueMap)
+          return
+        }
+
+        next()
+      })
     },
     generateBundle() {
       try {

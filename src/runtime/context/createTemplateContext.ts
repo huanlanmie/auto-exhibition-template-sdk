@@ -3,15 +3,53 @@ import { getValueByPath, joinPath, normalizeRootPath } from '../value-map/path'
 import { buildTemplateArtifacts } from '../schema/artifacts'
 import type { TemplateConfig, TemplateContext, TemplateSdkOptions } from '../../sdk/types'
 
+const CONFIG_JSON_URL = '/config.json'
+const VALUE_MAP_URL = '/assets/template/valueMap.json'
+
+async function fetchJsonFile(url: string) {
+  const response = await fetch(url, { cache: 'no-cache' })
+
+  if (!response.ok) {
+    throw new Error(`加载 ${url} 失败：${response.status}`)
+  }
+
+  return response.json()
+}
+
+async function loadTemplateArtifactsFromPluginOutput() {
+  const [configJson, valueMap] = await Promise.all([
+    fetchJsonFile(CONFIG_JSON_URL),
+    fetchJsonFile(VALUE_MAP_URL),
+  ])
+
+  return {
+    configJson,
+    valueMap,
+  }
+}
+
 // SDK 安装时会立即创建一份全局模板上下文。
 // 模板项目后续只通过 useTemplateValue 读取，不需要再自己维护 Provider 或中间状态。
-export function createTemplateContext(options: TemplateSdkOptions) {
-  // 这里先把 configJson 校验并转换成 valueMap，
-  // 后面的读取链路就只剩“路径解析 + 查值”，不会把重逻辑分散到每次渲染里。
-  const artifacts = buildTemplateArtifacts(options?.configJson)
+export function createTemplateContext(options: TemplateSdkOptions = {}) {
+  const config = ref<TemplateConfig | null>(null)
+  const valueMap = ref<Record<string, unknown> | null>(null)
 
-  const config = ref<TemplateConfig | null>(artifacts.configJson)
-  const valueMap = ref<Record<string, unknown> | null>(artifacts.valueMap)
+  function applyArtifacts(artifacts: { configJson: TemplateConfig; valueMap: Record<string, unknown> }) {
+    config.value = artifacts.configJson
+    valueMap.value = artifacts.valueMap
+  }
+
+  // 运行时优先支持旧式直接传入，方便 SDK 自测和非 Vite 场景；
+  // 模板项目标准接入则由 Vite 插件在 dev/build 阶段提供固定 JSON 产物，运行时自动加载。
+  if (options?.configJson !== undefined) {
+    applyArtifacts(buildTemplateArtifacts(options.configJson))
+  } else if (typeof window !== 'undefined' && typeof fetch === 'function') {
+    loadTemplateArtifactsFromPluginOutput()
+      .then((artifacts) => applyArtifacts(artifacts))
+      .catch((error) => {
+        console.error('[template-sdk] 自动加载模板配置失败', error)
+      })
+  }
 
   const context: TemplateContext = {
     config,
