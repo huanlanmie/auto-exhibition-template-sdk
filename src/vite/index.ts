@@ -8,7 +8,7 @@ const DEFAULT_DTS_PATH = '.template-sdk/template-sdk.generated.d.ts'
 const DEFAULT_ARTIFACTS_DIR = 'assets/template'
 const INDENT = '  '
 
-type TemplateSdkVitePluginOptions = {
+type TemplateSdkPluginOptions = {
   configJson: TemplateConfig
   dtsPath?: string
   artifactsDir?: string
@@ -244,7 +244,7 @@ export {}
 `
 }
 
-async function writeTemplateDeclarationFile(projectRoot: string, options: TemplateSdkVitePluginOptions) {
+async function writeTemplateDeclarationFile(projectRoot: string, options: TemplateSdkPluginOptions) {
   const dtsFilePath = path.resolve(projectRoot, options.dtsPath || DEFAULT_DTS_PATH)
 
   // 先校验再生成声明文件，保证“开发期类型上下文”和“运行期认可的配置边界”不会分叉。
@@ -278,7 +278,7 @@ function normalizeOutputPath(value: string) {
     .replace(/\/+$/, '')
 }
 
-function buildTemplateArtifactFileNames(options: TemplateSdkVitePluginOptions) {
+function buildTemplateArtifactFileNames(options: TemplateSdkPluginOptions) {
   const artifactDir = normalizeOutputPath(options.artifactsDir || DEFAULT_ARTIFACTS_DIR)
   const prefix = artifactDir ? `${artifactDir}/` : ''
 
@@ -290,7 +290,7 @@ function buildTemplateArtifactFileNames(options: TemplateSdkVitePluginOptions) {
 
 function emitTemplateJsonFiles(
   emitFile: (emittedFile: { type: 'asset'; fileName: string; source: string }) => void,
-  options: TemplateSdkVitePluginOptions,
+  options: TemplateSdkPluginOptions,
 ) {
   // JSON 产物必须复用 SDK 的正式构建方法，不能在 Vite 插件里再手写一套转换规则。
   // 这样运行时 valueMap、构建输出 valueMap 和外部脚本拿到的 valueMap 都来自同一份校验与归一逻辑。
@@ -310,9 +310,9 @@ function emitTemplateJsonFiles(
   })
 }
 
-export function templateSdkVite(options: TemplateSdkVitePluginOptions): Plugin {
+export function templateSdkPlugin(options: TemplateSdkPluginOptions): Plugin {
   if (!options || options.configJson === undefined) {
-    throw new Error('template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkVite({ configJson })')
+    throw new Error('template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkPlugin({ configJson })')
   }
 
   let projectRoot = ''
@@ -360,4 +360,4 @@ export function templateSdkVite(options: TemplateSdkVitePluginOptions): Plugin {
   }
 }
 
-export type { TemplateSdkVitePluginOptions }
+export type { TemplateSdkPluginOptions }

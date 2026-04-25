@@ -152,7 +152,7 @@ function E(t, n) {
 	});
 }
 function D(e) {
-	if (!e || e.configJson === void 0) throw Error("template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkVite({ configJson })");
+	if (!e || e.configJson === void 0) throw Error("template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkPlugin({ configJson })");
 	let t = "", n = !1, r = async (n) => {
 		try {
 			await C(t, {
@@ -185,4 +185,4 @@ function D(e) {
 	};
 }
 //#endregion
-export { D as templateSdkVite };
+export { D as templateSdkPlugin };

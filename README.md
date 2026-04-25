@@ -75,9 +75,9 @@ SDK 对模板层只暴露这一个通用取值方法。
 
 这个入口就是给构建脚本使用的。模板项目在打包或导出阶段，可以直接拿这两个字符串写入 JSON 文件。
 
-### templateSdkVite
+### templateSdkPlugin
 
-`templateSdkVite(options)` 是 SDK 提供的 Vite 插件入口，用来根据模板项目当前显式传入的 `configJson` 对象完成配置校验、类型声明生成，并在 `vite build` 时输出构建产物 JSON。
+`templateSdkPlugin(options)` 是 SDK 提供的 Vite 插件入口，用来根据模板项目当前显式传入的 `configJson` 对象完成配置校验、类型声明生成，并在 `vite build` 时输出构建产物 JSON。
 
 参数：
 
@@ -213,10 +213,10 @@ export default configJson
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import configJson from './src/template/configJson.ts'
-import { templateSdkVite } from 'template-sdk/vite'
+import { templateSdkPlugin } from 'template-sdk/vite'
 
 export default defineConfig({
-	plugins: [templateSdkVite({ configJson }), vue()]
+	plugins: [templateSdkPlugin({ configJson }), vue()]
 })
 ```
 
@@ -239,9 +239,9 @@ export default defineConfig({
 }
 ```
 
-`.template-sdk` 目录是插件自动生成的产物，不需要手写，也不应该提交到仓库。插件不会自动猜测配置文件；模板项目必须显式把当前使用的 `configJson` 对象传给 `templateSdkVite`。
+`.template-sdk` 目录是插件自动生成的产物，不需要手写，也不应该提交到仓库。插件不会自动猜测配置文件；模板项目必须显式把当前使用的 `configJson` 对象传给 `templateSdkPlugin`。
 
-`templateSdkVite` 在生成声明文件和构建 JSON 产物之前会先校验当前 `configJson`：
+`templateSdkPlugin` 在生成声明文件和构建 JSON 产物之前会先校验当前 `configJson`：
 
 1. 根级 `dataSchema.fields` 同层 `key` 重复会直接阻断 `vite dev` / `vite build`。
 2. 数组字段 `value` / `defaultValue` 里的子项同层 `key` 重复，也会直接阻断构建。

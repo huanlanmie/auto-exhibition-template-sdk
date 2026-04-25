@@ -1,9 +1,9 @@
 import type { Plugin } from 'vite';
 import type { TemplateConfig } from '../sdk/types';
-type TemplateSdkVitePluginOptions = {
+type TemplateSdkPluginOptions = {
     configJson: TemplateConfig;
     dtsPath?: string;
     artifactsDir?: string;
 };
-export declare function templateSdkVite(options: TemplateSdkVitePluginOptions): Plugin;
-export type { TemplateSdkVitePluginOptions };
+export declare function templateSdkPlugin(options: TemplateSdkPluginOptions): Plugin;
+export type { TemplateSdkPluginOptions };

@@ -1,1 +1,1 @@
-export { templateSdkVite } from '../dist/vite/index.js'
+export { templateSdkPlugin } from '../dist/vite/index.js'

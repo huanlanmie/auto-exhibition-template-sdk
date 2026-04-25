@@ -1,2 +1,2 @@
-export { templateSdkVite } from '../dist/vite/index'
-export type { TemplateSdkVitePluginOptions } from '../dist/vite/index'
+export { templateSdkPlugin } from '../dist/vite/index'
+export type { TemplateSdkPluginOptions } from '../dist/vite/index'
