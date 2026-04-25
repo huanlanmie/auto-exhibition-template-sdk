@@ -1,6 +1,6 @@
 {
   "name": "template-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "main": "./dist/sdk/index.js",
   "module": "./dist/sdk/index.js",
