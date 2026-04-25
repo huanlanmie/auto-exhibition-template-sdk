@@ -79,11 +79,7 @@ SDK 对模板层只暴露这一个通用取值方法。
 
 `templateSdkPlugin(options)` 是 SDK 提供的 Vite 插件入口，用来根据模板项目当前显式传入的 `configJson` 对象完成配置校验、类型声明生成，并在 `vite build` 时输出构建产物 JSON。
 
-参数：
-
-1. `configJson`：必填。模板项目当前使用的配置对象。
-2. `dtsPath`：自动生成的声明文件路径，默认是 `.template-sdk/template-sdk.generated.d.ts`。
-3. `valueMapDir`：`valueMap.json` 在 `dist` 下的输出目录，默认是 `assets/template`。
+参数只有一个：`configJson`，必填，表示模板项目当前使用的完整配置对象。
 
 说明：
 
@@ -92,7 +88,8 @@ SDK 对模板层只暴露这一个通用取值方法。
 3. 插件在开发阶段只生成类型声明，不参与运行时渲染。
 4. 插件在正式构建阶段会额外生成 `config.json` 和 `valueMap.json`。
 5. 自动生成的声明文件应该忽略提交。
-6. 安装 SDK 后可以直接使用 `template-sdk/config` 和 `template-sdk/vite`，不需要额外为项目补 `jsconfig` 路径映射或本地声明文件。
+6. 类型声明和 JSON 产物路径由 SDK 固定管理，不暴露无意义的路径配置给模板项目。
+7. 安装 SDK 后可以直接使用 `template-sdk/config` 和 `template-sdk/vite`，不需要额外为项目补 `jsconfig` 路径映射或本地声明文件。
 
 默认构建输出：
 

@@ -6,13 +6,11 @@ import type { TemplateConfig } from '../sdk/types'
 
 const DEFAULT_DTS_PATH = '.template-sdk/template-sdk.generated.d.ts'
 const CONFIG_JSON_FILE_NAME = 'config.json'
-const DEFAULT_VALUE_MAP_DIR = 'assets/template'
+const VALUE_MAP_FILE_NAME = 'assets/template/valueMap.json'
 const INDENT = '  '
 
 type TemplateSdkPluginOptions = {
   configJson: TemplateConfig
-  dtsPath?: string
-  valueMapDir?: string
 }
 
 type ValidationIssue = {
@@ -246,7 +244,7 @@ export {}
 }
 
 async function writeTemplateDeclarationFile(projectRoot: string, options: TemplateSdkPluginOptions) {
-  const dtsFilePath = path.resolve(projectRoot, options.dtsPath || DEFAULT_DTS_PATH)
+  const dtsFilePath = path.resolve(projectRoot, DEFAULT_DTS_PATH)
 
   // 先校验再生成声明文件，保证“开发期类型上下文”和“运行期认可的配置边界”不会分叉。
   validateConfigJsonForBuild(options.configJson)
@@ -271,21 +269,10 @@ async function writeTemplateDeclarationFile(projectRoot: string, options: Templa
   }
 }
 
-function normalizeOutputPath(value: string) {
-  return String(value || '')
-    .trim()
-    .replace(/^[./\\]+/, '')
-    .replace(/\\/g, '/')
-    .replace(/\/+$/, '')
-}
-
-function buildTemplateArtifactFileNames(options: TemplateSdkPluginOptions) {
-  const valueMapDir = normalizeOutputPath(options.valueMapDir || DEFAULT_VALUE_MAP_DIR)
-  const valueMapPrefix = valueMapDir ? `${valueMapDir}/` : ''
-
+function buildTemplateArtifactFileNames() {
   return {
     configJson: CONFIG_JSON_FILE_NAME,
-    valueMap: `${valueMapPrefix}valueMap.json`,
+    valueMap: VALUE_MAP_FILE_NAME,
   }
 }
 
@@ -296,7 +283,7 @@ function emitTemplateJsonFiles(
   // JSON 产物必须复用 SDK 的正式构建方法，不能在 Vite 插件里再手写一套转换规则。
   // 这样运行时 valueMap、构建输出 valueMap 和外部脚本拿到的 valueMap 都来自同一份校验与归一逻辑。
   const files = buildTemplateJsonFiles(options.configJson)
-  const fileNames = buildTemplateArtifactFileNames(options)
+  const fileNames = buildTemplateArtifactFileNames()
 
   emitFile({
     type: 'asset',
@@ -323,7 +310,6 @@ export function templateSdkPlugin(options: TemplateSdkPluginOptions): Plugin {
     try {
       await writeTemplateDeclarationFile(projectRoot, {
         configJson: options.configJson,
-        dtsPath: options.dtsPath || DEFAULT_DTS_PATH,
       })
     } catch (error) {
       const message = error instanceof Error ? error.stack || error.message : String(error)

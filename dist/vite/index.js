@@ -2,7 +2,7 @@ import { n as e } from "../chunks/artifacts-DPTHD8wj.js";
 import { mkdir as t, readFile as n, writeFile as r } from "node:fs/promises";
 import i from "node:path";
 //#region src/vite/index.ts
-var a = ".template-sdk/template-sdk.generated.d.ts", o = "config.json", s = "assets/template", c = "  ";
+var a = ".template-sdk/template-sdk.generated.d.ts", o = "config.json", s = "assets/template/valueMap.json", c = "  ";
 function l(e, t, n) {
 	e.push({
 		path: t,
@@ -117,7 +117,7 @@ export {}
 `;
 }
 async function w(e, o) {
-	let s = i.resolve(e, o.dtsPath || a);
+	let s = i.resolve(e, a);
 	_(o.configJson);
 	let c = C(o.configJson, "explicit configJson object");
 	await t(i.dirname(s), { recursive: !0 });
@@ -129,18 +129,14 @@ async function w(e, o) {
 	}
 	return l !== c && await r(s, c, "utf8"), { dtsFilePath: s };
 }
-function T(e) {
-	return String(e || "").trim().replace(/^[./\\]+/, "").replace(/\\/g, "/").replace(/\/+$/, "");
-}
-function E(e) {
-	let t = T(e.valueMapDir || s);
+function T() {
 	return {
 		configJson: o,
-		valueMap: `${t ? `${t}/` : ""}valueMap.json`
+		valueMap: s
 	};
 }
-function D(t, n) {
-	let r = e(n.configJson), i = E(n);
+function E(t, n) {
+	let r = e(n.configJson), i = T();
 	t({
 		type: "asset",
 		fileName: i.configJson,
@@ -151,14 +147,11 @@ function D(t, n) {
 		source: r.valueMap
 	});
 }
-function O(e) {
+function D(e) {
 	if (!e || e.configJson === void 0) throw Error("template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkPlugin({ configJson })");
 	let t = "", n = !1, r = async (n) => {
 		try {
-			await w(t, {
-				configJson: e.configJson,
-				dtsPath: e.dtsPath || a
-			});
+			await w(t, { configJson: e.configJson });
 		} catch (e) {
 			n(`template-sdk/vite 生成类型声明失败:\n${e instanceof Error ? e.stack || e.message : String(e)}`);
 		}
@@ -176,7 +169,7 @@ function O(e) {
 		},
 		generateBundle() {
 			try {
-				D((e) => this.emitFile(e), e);
+				E((e) => this.emitFile(e), e);
 			} catch (e) {
 				let t = e instanceof Error ? e.stack || e.message : String(e);
 				this.error(`template-sdk/vite 生成模板 JSON 产物失败:\n${t}`);
@@ -185,4 +178,4 @@ function O(e) {
 	};
 }
 //#endregion
-export { O as templateSdkPlugin };
+export { D as templateSdkPlugin };
