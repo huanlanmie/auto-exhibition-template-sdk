@@ -2,11 +2,13 @@
   "name": "template-sdk",
   "version": "0.1.1",
   "type": "module",
-  "main": "./dist/sdk/index.js",
-  "module": "./dist/sdk/index.js",
-  "types": "./dist/sdk/index.d.ts",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
   "files": [
     "dist",
+    "index.js",
+    "index.d.ts",
     "config",
     "vite"
   ],
@@ -22,9 +24,9 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/sdk/index.d.ts",
-      "import": "./dist/sdk/index.js",
-      "default": "./dist/sdk/index.js"
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "default": "./index.js"
     },
     "./config": {
       "types": "./config/index.d.ts",
