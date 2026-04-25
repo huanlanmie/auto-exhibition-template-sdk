@@ -5,7 +5,7 @@ import { buildTemplateJsonFiles } from '../runtime/schema/artifacts'
 import type { TemplateConfig } from '../sdk/types'
 
 const DEFAULT_DTS_PATH = '.template-sdk/template-sdk.generated.d.ts'
-const CONFIG_JSON_FILE_NAME = 'configJson.json'
+const CONFIG_JSON_FILE_NAME = 'config.json'
 const DEFAULT_VALUE_MAP_DIR = 'assets/template'
 const INDENT = '  '
 
@@ -351,7 +351,7 @@ export function templateSdkPlugin(options: TemplateSdkPluginOptions): Plugin {
     generateBundle() {
       try {
         // 只在正式构建产物阶段输出 configJson/valueMap 文件。
-        // configJson 固定放在 dist 根目录，便于平台解析模板包的 schema 入口；
+        // config.json 固定放在 dist 根目录，便于平台解析模板包的 schema 入口；
         // valueMap 保持在 assets/template 下，继续作为模板运行时可直接访问的值快照。
         // dev 阶段仍只生成类型声明，避免开发时频繁写入 public 或 dist 目录。
         emitTemplateJsonFiles((emittedFile) => this.emitFile(emittedFile), options)
