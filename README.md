@@ -85,7 +85,7 @@ SDK 对模板层只暴露这一个通用取值方法。
 
 1. 用户仍然只安装一个包：`template-sdk`。
 2. 模板项目只需要在 `vite.config` 里启用插件并显式传入 `configJson` 对象，不需要再额外写生成脚本。
-3. 插件在开发阶段生成类型声明，并在 dev server 中提供 `/config.json` 和 `/assets/template/valueMap.json`。
+3. 插件在开发阶段生成类型声明，并在 dev server 中提供 `/config.json` 和 `/assets/template-sdk/valueMap.json`。
 4. 插件在正式构建阶段会额外生成 `config.json` 和 `valueMap.json`。
 5. 自动生成的声明文件应该忽略提交。
 6. 类型声明和 JSON 产物路径由 SDK 固定管理，不暴露无意义的路径配置给模板项目。
@@ -94,7 +94,7 @@ SDK 对模板层只暴露这一个通用取值方法。
 默认构建输出：
 
 1. `dist/config.json`
-2. `dist/assets/template/valueMap.json`
+2. `dist/assets/template-sdk/valueMap.json`
 
 这两个文件都由 SDK 根据当前 `configJson` 生成；模板作者不需要、也不应该手工维护 `valueMap.json`。
 
@@ -325,4 +325,4 @@ SDK 当前已经按“源码目录 + dist 分发目录”的方式组织：
 3. 模板项目在 `vite.config` 中通过 `templateSdkPlugin({ configJson })` 统一把完整配置对象传给 SDK。
 4. 模板项目在应用挂载时只调用 `app.use(TemplateSdk)` 安装运行时，不再重复传入 `configJson`。
 5. 模板项目启用 `template-sdk/vite` 后，会同时获得配置校验、编辑器类型增强、dev server JSON 提供和构建产物输出能力，不需要安装第二个包。
-5. 如果后续切换到 npm 或私有制品仓库，只需要替换依赖来源，不需要改模板项目里的导入方式。
+6. 如果后续切换到 npm 或私有制品仓库，只需要替换依赖来源，不需要改模板项目里的导入方式。

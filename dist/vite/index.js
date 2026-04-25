@@ -2,7 +2,7 @@ import { n as e } from "../chunks/artifacts-DPTHD8wj.js";
 import { mkdir as t, readFile as n, writeFile as r } from "node:fs/promises";
 import i from "node:path";
 //#region src/vite/index.ts
-var a = ".template-sdk/template-sdk.generated.d.ts", o = "config.json", s = "assets/template/valueMap.json", c = "  ";
+var a = ".template-sdk/template-sdk.generated.d.ts", o = "config.json", s = "assets/template-sdk/valueMap.json", c = "  ";
 function l(e, t, n) {
 	e.push({
 		path: t,

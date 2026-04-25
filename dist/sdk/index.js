@@ -22,7 +22,7 @@ function u(e, t) {
 }
 //#endregion
 //#region src/runtime/context/createTemplateContext.ts
-var d = "/config.json", f = "/assets/template/valueMap.json";
+var d = "/config.json", f = "/assets/template-sdk/valueMap.json";
 async function p(e) {
 	let t = await fetch(e, { cache: "no-cache" });
 	if (!t.ok) throw Error(`加载 ${e} 失败：${t.status}`);

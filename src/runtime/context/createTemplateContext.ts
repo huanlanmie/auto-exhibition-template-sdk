@@ -4,7 +4,7 @@ import { buildTemplateArtifacts } from '../schema/artifacts'
 import type { TemplateConfig, TemplateContext, TemplateSdkOptions } from '../../sdk/types'
 
 const CONFIG_JSON_URL = '/config.json'
-const VALUE_MAP_URL = '/assets/template/valueMap.json'
+const VALUE_MAP_URL = '/assets/template-sdk/valueMap.json'
 
 async function fetchJsonFile(url: string) {
   const response = await fetch(url, { cache: 'no-cache' })
