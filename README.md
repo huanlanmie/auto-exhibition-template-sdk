@@ -83,7 +83,7 @@ SDK 对模板层只暴露这一个通用取值方法。
 
 1. `configJson`：必填。模板项目当前使用的配置对象。
 2. `dtsPath`：自动生成的声明文件路径，默认是 `.template-sdk/template-sdk.generated.d.ts`。
-3. `artifactsDir`：构建产物 JSON 在 `dist` 下的输出目录，默认是 `assets/template`。
+3. `valueMapDir`：`valueMap.json` 在 `dist` 下的输出目录，默认是 `assets/template`。
 
 说明：
 
@@ -96,7 +96,7 @@ SDK 对模板层只暴露这一个通用取值方法。
 
 默认构建输出：
 
-1. `dist/assets/template/configJson.json`
+1. `dist/configJson.json`
 2. `dist/assets/template/valueMap.json`
 
 这两个文件都由 SDK 根据当前 `configJson` 生成；模板作者不需要、也不应该手工维护 `valueMap.json`。
