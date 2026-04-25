@@ -1,14 +1,17 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import type { Plugin } from 'vite'
+import { buildTemplateJsonFiles } from '../runtime/schema/artifacts'
 import type { TemplateConfig } from '../sdk/types'
 
 const DEFAULT_DTS_PATH = '.template-sdk/template-sdk.generated.d.ts'
+const DEFAULT_ARTIFACTS_DIR = 'assets/template'
 const INDENT = '  '
 
 type TemplateSdkVitePluginOptions = {
   configJson: TemplateConfig
   dtsPath?: string
+  artifactsDir?: string
 }
 
 type ValidationIssue = {
@@ -267,6 +270,46 @@ async function writeTemplateDeclarationFile(projectRoot: string, options: Templa
   }
 }
 
+function normalizeOutputPath(value: string) {
+  return String(value || '')
+    .trim()
+    .replace(/^[./\\]+/, '')
+    .replace(/\\/g, '/')
+    .replace(/\/+$/, '')
+}
+
+function buildTemplateArtifactFileNames(options: TemplateSdkVitePluginOptions) {
+  const artifactDir = normalizeOutputPath(options.artifactsDir || DEFAULT_ARTIFACTS_DIR)
+  const prefix = artifactDir ? `${artifactDir}/` : ''
+
+  return {
+    configJson: `${prefix}configJson.json`,
+    valueMap: `${prefix}valueMap.json`,
+  }
+}
+
+function emitTemplateJsonFiles(
+  emitFile: (emittedFile: { type: 'asset'; fileName: string; source: string }) => void,
+  options: TemplateSdkVitePluginOptions,
+) {
+  // JSON 产物必须复用 SDK 的正式构建方法，不能在 Vite 插件里再手写一套转换规则。
+  // 这样运行时 valueMap、构建输出 valueMap 和外部脚本拿到的 valueMap 都来自同一份校验与归一逻辑。
+  const files = buildTemplateJsonFiles(options.configJson)
+  const fileNames = buildTemplateArtifactFileNames(options)
+
+  emitFile({
+    type: 'asset',
+    fileName: fileNames.configJson,
+    source: files.configJson,
+  })
+
+  emitFile({
+    type: 'asset',
+    fileName: fileNames.valueMap,
+    source: files.valueMap,
+  })
+}
+
 export function templateSdkTypes(options: TemplateSdkVitePluginOptions): Plugin {
   if (!options || options.configJson === undefined) {
     throw new Error('template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkTypes({ configJson })')
@@ -302,6 +345,16 @@ export function templateSdkTypes(options: TemplateSdkVitePluginOptions): Plugin 
     async buildStart() {
       if (!hasGenerated) {
         await generateTypes((message) => this.error(message))
+      }
+    },
+    generateBundle() {
+      try {
+        // 只在正式构建产物阶段输出 configJson/valueMap 文件。
+        // dev 阶段仍只生成类型声明，避免开发时频繁写入 public 或 dist 目录。
+        emitTemplateJsonFiles((emittedFile) => this.emitFile(emittedFile), options)
+      } catch (error) {
+        const message = error instanceof Error ? error.stack || error.message : String(error)
+        this.error(`template-sdk/vite 生成模板 JSON 产物失败:\n${message}`)
       }
     },
   }

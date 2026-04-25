@@ -77,20 +77,29 @@ SDK 对模板层只暴露这一个通用取值方法。
 
 ### templateSdkTypes
 
-`templateSdkTypes(options)` 是 SDK 提供的可选 Vite 插件入口，用来根据模板项目当前显式传入的 `configJson` 对象自动生成类型声明。
+`templateSdkTypes(options)` 是 SDK 提供的可选 Vite 插件入口，用来根据模板项目当前显式传入的 `configJson` 对象自动生成类型声明，并在 `vite build` 时输出构建产物 JSON。
 
 参数：
 
 1. `configJson`：必填。模板项目当前使用的配置对象。
 2. `dtsPath`：自动生成的声明文件路径，默认是 `.template-sdk/template-sdk.generated.d.ts`。
+3. `artifactsDir`：构建产物 JSON 在 `dist` 下的输出目录，默认是 `assets/template`。
 
 说明：
 
 1. 用户仍然只安装一个包：`template-sdk`。
 2. 模板项目只需要在 `vite.config` 里启用插件并显式传入 `configJson` 对象，不需要再额外写生成脚本。
-3. 插件只生成开发期类型声明，不参与运行时渲染。
-4. 自动生成的声明文件应该忽略提交。
-5. 安装 SDK 后可以直接使用 `template-sdk/config` 和 `template-sdk/vite`，不需要额外为项目补 `jsconfig` 路径映射或本地声明文件。
+3. 插件在开发阶段只生成类型声明，不参与运行时渲染。
+4. 插件在正式构建阶段会额外生成 `configJson.json` 和 `valueMap.json`。
+5. 自动生成的声明文件应该忽略提交。
+6. 安装 SDK 后可以直接使用 `template-sdk/config` 和 `template-sdk/vite`，不需要额外为项目补 `jsconfig` 路径映射或本地声明文件。
+
+默认构建输出：
+
+1. `dist/assets/template/configJson.json`
+2. `dist/assets/template/valueMap.json`
+
+这两个文件都由 SDK 根据当前 `configJson` 生成；模板作者不需要、也不应该手工维护 `valueMap.json`。
 
 ## configJson 约定
 
@@ -298,7 +307,7 @@ SDK 当前已经按“源码目录 + dist 分发目录”的方式组织：
 
 1. 开发时维护 `src` 下的源码。
 2. 发布前执行 `pnpm build`，由库构建产出 `dist`。
-3. `package.json` 的 `main`、`types` 和 `exports` 都指向 `dist`，外部项目不再直接吃 `src` 源码入口。
+3. `package.json` 的 `main`、`types` 和 `exports` 都指向包根兼容入口，再由兼容入口转到 `dist`，外部项目不再直接吃 `src` 源码入口。
 4. 如果通过 Git 仓库分发给模板项目，`dist` 应该和源码一起提交，保证安装时能直接拿到可用产物。
 5. 包根目录和 `config`、`vite` 子路径都提供了兼容入口文件，模板项目安装后不需要再额外补本地声明或路径映射。
 
