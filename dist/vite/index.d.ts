@@ -5,5 +5,5 @@ type TemplateSdkVitePluginOptions = {
     dtsPath?: string;
     artifactsDir?: string;
 };
-export declare function templateSdkTypes(options: TemplateSdkVitePluginOptions): Plugin;
+export declare function templateSdkVite(options: TemplateSdkVitePluginOptions): Plugin;
 export type { TemplateSdkVitePluginOptions };

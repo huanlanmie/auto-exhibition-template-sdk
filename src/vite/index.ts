@@ -310,9 +310,9 @@ function emitTemplateJsonFiles(
   })
 }
 
-export function templateSdkTypes(options: TemplateSdkVitePluginOptions): Plugin {
+export function templateSdkVite(options: TemplateSdkVitePluginOptions): Plugin {
   if (!options || options.configJson === undefined) {
-    throw new Error('template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkTypes({ configJson })')
+    throw new Error('template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkVite({ configJson })')
   }
 
   let projectRoot = ''
@@ -331,7 +331,7 @@ export function templateSdkTypes(options: TemplateSdkVitePluginOptions): Plugin 
   }
 
   return {
-    name: 'template-sdk:types',
+    name: 'template-sdk:vite',
     enforce: 'pre',
     async configResolved(config) {
       // 在配置解析阶段先落盘声明文件，

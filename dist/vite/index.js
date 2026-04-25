@@ -152,7 +152,7 @@ function E(t, n) {
 	});
 }
 function D(e) {
-	if (!e || e.configJson === void 0) throw Error("template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkTypes({ configJson })");
+	if (!e || e.configJson === void 0) throw Error("template-sdk/vite 需要显式传入 configJson 对象，例如 templateSdkVite({ configJson })");
 	let t = "", n = !1, r = async (n) => {
 		try {
 			await C(t, {
@@ -164,7 +164,7 @@ function D(e) {
 		}
 	};
 	return {
-		name: "template-sdk:types",
+		name: "template-sdk:vite",
 		enforce: "pre",
 		async configResolved(e) {
 			t = e.root, await r((e) => {
@@ -185,4 +185,4 @@ function D(e) {
 	};
 }
 //#endregion
-export { D as templateSdkTypes };
+export { D as templateSdkVite };

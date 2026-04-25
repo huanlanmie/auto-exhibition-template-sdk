@@ -17,7 +17,7 @@ SDK 对模板项目不再暴露模板组件，模板作者直接在 `script setu
 7. 支持按点路径读取模板数据。
 8. 支持通过单一取值方法完成标签内容、组件内容、prop 和属性绑定。
 9. 支持在构建阶段直接从 SDK 内部的 `configJson` 产出 JSON 文件内容。
-10. 支持通过 `template-sdk/vite` 在模板项目里自动生成类型声明文件，不需要第二个 npm 包。
+10. 支持通过 `template-sdk/vite` 在模板项目里完成配置校验、类型声明生成和构建产物输出，不需要第二个 npm 包。
 
 ## 方法和构建入口
 
@@ -75,9 +75,9 @@ SDK 对模板层只暴露这一个通用取值方法。
 
 这个入口就是给构建脚本使用的。模板项目在打包或导出阶段，可以直接拿这两个字符串写入 JSON 文件。
 
-### templateSdkTypes
+### templateSdkVite
 
-`templateSdkTypes(options)` 是 SDK 提供的可选 Vite 插件入口，用来根据模板项目当前显式传入的 `configJson` 对象自动生成类型声明，并在 `vite build` 时输出构建产物 JSON。
+`templateSdkVite(options)` 是 SDK 提供的 Vite 插件入口，用来根据模板项目当前显式传入的 `configJson` 对象完成配置校验、类型声明生成，并在 `vite build` 时输出构建产物 JSON。
 
 参数：
 
@@ -213,10 +213,10 @@ export default configJson
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import configJson from './src/template/configJson.ts'
-import { templateSdkTypes } from 'template-sdk/vite'
+import { templateSdkVite } from 'template-sdk/vite'
 
 export default defineConfig({
-	plugins: [templateSdkTypes({ configJson }), vue()]
+	plugins: [templateSdkVite({ configJson }), vue()]
 })
 ```
 
@@ -239,9 +239,9 @@ export default defineConfig({
 }
 ```
 
-`.template-sdk` 目录是插件自动生成的产物，不需要手写，也不应该提交到仓库。插件不会自动猜测配置文件；模板项目必须显式把当前使用的 `configJson` 对象传给 `templateSdkTypes`。
+`.template-sdk` 目录是插件自动生成的产物，不需要手写，也不应该提交到仓库。插件不会自动猜测配置文件；模板项目必须显式把当前使用的 `configJson` 对象传给 `templateSdkVite`。
 
-`templateSdkTypes` 在生成声明文件之前会先校验当前 `configJson`：
+`templateSdkVite` 在生成声明文件和构建 JSON 产物之前会先校验当前 `configJson`：
 
 1. 根级 `dataSchema.fields` 同层 `key` 重复会直接阻断 `vite dev` / `vite build`。
 2. 数组字段 `value` / `defaultValue` 里的子项同层 `key` 重复，也会直接阻断构建。
@@ -318,5 +318,5 @@ SDK 当前已经按“源码目录 + dist 分发目录”的方式组织：
 1. SDK 仓库维护源码和构建后的 `dist`。
 2. 模板项目在 `package.json` 中通过 Git 地址或 tag 引用 SDK。
 3. 模板项目在应用挂载时通过 `app.use(TemplateSdk, { configJson })` 统一把完整配置对象传给 SDK。
-4. 如果需要编辑器类型增强，模板项目在 `vite.config` 中额外启用 `template-sdk/vite`，不需要安装第二个包。
+4. 模板项目在 `vite.config` 中启用 `template-sdk/vite` 后，会同时获得配置校验、编辑器类型增强和构建产物输出能力，不需要安装第二个包。
 5. 如果后续切换到 npm 或私有制品仓库，只需要替换依赖来源，不需要改模板项目里的导入方式。
