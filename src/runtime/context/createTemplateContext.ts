@@ -5,6 +5,15 @@ import type { TemplateConfig, TemplateContext, TemplateSdkOptions } from '../../
 
 const CONFIG_JSON_URL = '/config.json'
 const VALUE_MAP_URL = '/assets/template-sdk/valueMap.json'
+const VALUE_MAP_SYNC_MESSAGE_TYPE = 'template-sdk:update-value-map'
+
+function cloneRuntimeValue<T>(value: T): T {
+  if (value === undefined) {
+    return value
+  }
+
+  return JSON.parse(JSON.stringify(value)) as T
+}
 
 async function fetchJsonFile(url: string) {
   const response = await fetch(url, { cache: 'no-cache' })
@@ -35,8 +44,32 @@ export function createTemplateContext(options: TemplateSdkOptions = {}) {
   const valueMap = ref<Record<string, unknown> | null>(null)
 
   function applyArtifacts(artifacts: { configJson: TemplateConfig; valueMap: Record<string, unknown> }) {
-    config.value = artifacts.configJson
-    valueMap.value = artifacts.valueMap
+    config.value = cloneRuntimeValue(artifacts.configJson)
+    valueMap.value = cloneRuntimeValue(artifacts.valueMap)
+  }
+
+  function setValueMap(nextValueMap: Record<string, unknown> | null) {
+    valueMap.value = cloneRuntimeValue(nextValueMap || {})
+  }
+
+  function installPreviewMessageListener() {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    window.addEventListener('message', (event) => {
+      if (event.origin !== window.location.origin) {
+        return
+      }
+
+      if (event.data?.type !== VALUE_MAP_SYNC_MESSAGE_TYPE) {
+        return
+      }
+
+      // 预览宿主只需要把最新 valueMap 发进 iframe，
+      // 模板运行时收到消息后直接替换当前上下文里的值快照，不再整页重载。
+      setValueMap(event.data?.payload?.valueMap || {})
+    })
   }
 
   // 运行时优先支持旧式直接传入，方便 SDK 自测和非 Vite 场景；
@@ -50,6 +83,8 @@ export function createTemplateContext(options: TemplateSdkOptions = {}) {
         console.error('[template-sdk] 自动加载模板配置失败', error)
       })
   }
+
+  installPreviewMessageListener()
 
   const context: TemplateContext = {
     config,
