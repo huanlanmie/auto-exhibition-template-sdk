@@ -28,32 +28,26 @@ type TemplateFieldBase = {
 export type TemplateStringField = TemplateFieldBase & {
     type: 'string';
     value?: string;
-    defaultValue?: string;
 };
 export type TemplateNumberField = TemplateFieldBase & {
     type: 'number';
     value?: number;
-    defaultValue?: number;
 };
 export type TemplateBooleanField = TemplateFieldBase & {
     type: 'boolean';
     value?: boolean;
-    defaultValue?: boolean;
 };
 export type TemplateImageField = TemplateFieldBase & {
     type: 'image';
     value?: string;
-    defaultValue?: string;
 };
 export type TemplateVideoField = TemplateFieldBase & {
     type: 'video';
     value?: string;
-    defaultValue?: string;
 };
 export type TemplateArrayField = TemplateFieldBase & {
     type: 'array';
     value?: TemplateArrayValueItem[];
-    defaultValue?: TemplateArrayValueItem[];
     operations?: TemplateArrayOperation[];
 };
 type TemplateFieldRuntimeValue<Field> = Field extends {

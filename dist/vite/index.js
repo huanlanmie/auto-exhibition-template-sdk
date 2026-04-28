@@ -1,4 +1,4 @@
-import { n as e } from "../chunks/artifacts-DPTHD8wj.js";
+import { n as e } from "../chunks/artifacts-Cjpaf3MN.js";
 import { mkdir as t, readFile as n, writeFile as r } from "node:fs/promises";
 import i from "node:path";
 //#region src/vite/index.ts
@@ -43,7 +43,7 @@ function g(e, t, n) {
 		return;
 	}
 	h(e, t, n), e.forEach((e, r) => {
-		!m(e) || e.type !== "array" || (e.value !== void 0 && g(e.value, `${t}[${r}].value`, n), e.defaultValue !== void 0 && g(e.defaultValue, `${t}[${r}].defaultValue`, n));
+		!m(e) || e.type !== "array" || e.value !== void 0 && g(e.value, `${t}[${r}].value`, n);
 	});
 }
 function _(e) {

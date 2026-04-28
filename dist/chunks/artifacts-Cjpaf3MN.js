@@ -37,7 +37,7 @@ function a(t, r) {
 	}
 }
 function o(e) {
-	return e?.value === void 0 ? e?.defaultValue === void 0 ? r(e) : a(e, e.defaultValue) : a(e, e.value);
+	return e?.value === void 0 ? r(e) : a(e, e.value);
 }
 function s(e) {
 	let n = {};
@@ -180,7 +180,7 @@ function C(t, n, r, i) {
 	});
 }
 function w(e, t, n) {
-	p(e.operations, `${t}.operations`, "字段 operations", n), C(e.value, `${t}.value`, "字段 value", n), C(e.defaultValue, `${t}.defaultValue`, "字段 defaultValue", n);
+	p(e.operations, `${t}.operations`, "字段 operations", n), C(e.value, `${t}.value`, "字段 value", n);
 }
 function T(t, n, r) {
 	if (!e(t)) {
@@ -196,11 +196,11 @@ function T(t, n, r) {
 		case "string":
 		case "number":
 		case "boolean":
-			g(t, t.value, `${n}.value`, "字段 value", r), h(t.defaultValue, a, `${n}.defaultValue`, "字段 defaultValue", r);
+			g(t, t.value, `${n}.value`, "字段 value", r);
 			break;
 		case "image":
 		case "video":
-			g(t, t.value, `${n}.value`, "字段 value", r), m(t.defaultValue, `${n}.defaultValue`, "字段 defaultValue", r);
+			g(t, t.value, `${n}.value`, "字段 value", r);
 			break;
 		case "array":
 			w(t, n, r);
