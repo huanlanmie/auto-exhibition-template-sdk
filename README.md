@@ -1,271 +1,157 @@
 # template-sdk
 
-`template-sdk` 是给模板项目使用的前端 SDK。模板项目把完整 `configJson` 对象交给 `templateSdkPlugin`，由插件统一完成开发期类型声明、dev server JSON 产物和正式构建 JSON 产物。应用挂载时只安装 `TemplateSdk` 运行时，不再重复传入 `configJson`。SDK 运行时会自动读取插件提供的 `config.json` 和 `valueMap.json`，再通过 `useTemplateValue` 提供稳定取值能力。
+`template-sdk` 是给模板项目使用的前端 SDK。接入后，只需要准备 `configJson`、在页面里通过 `useTemplateValue` 取值，并在上传到管理后台前构建出 `dist`。
 
-SDK 项目内部保留了充足的源码注释，重点解释数据边界、路径解析、configJson 校验、configJson 到 valueMap 的转换和全局上下文逻辑，方便后续继续开发和维护。
+SDK 不提供页面组件，模板项目自己的页面结构、样式和业务组件仍然由模板作者实现。
 
-SDK 对模板项目不再暴露模板组件，模板作者直接在 `script setup` 中调用取值方法，然后用普通 Vue 模板写页面结构。
+## 快速接入
 
-## 当前能力
+这一部分只讲模板项目怎么接入 SDK，不展开实现细节。
 
-1. 模板项目只在 `templateSdkPlugin({ configJson })` 中声明配置入口。
-2. SDK 会在插件阶段从头到尾校验 `configJson` 的结构和字段类型。
-3. 支持字符串、数字、布尔、图片、视频、数组字段的节点级校验。
-4. 支持数组字段的 `value` 值校验，以及 `operations` 操作配置。
-5. SDK 运行时始终只读取自己内部构建出的 `valueMap`。
-6. 支持从 `configJson` 推导默认值并构建完整 `valueMap`。
-7. 支持按点路径读取模板数据。
-8. 支持通过单一取值方法完成标签内容、组件内容、prop 和属性绑定。
-9. 支持在 dev server 和正式构建阶段从插件传入的 `configJson` 产出 JSON 文件内容。
-10. 支持通过 `template-sdk/vite` 在模板项目里完成配置校验、类型声明生成和构建产物输出，不需要第二个 npm 包。
-11. 支持同源 `iframe` 预览宿主通过父子页通信推送新的 `valueMap`，在不重载页面的情况下刷新模板取值。
+### 1. 安装依赖
 
-## 方法和构建入口
+`pnpm`：
 
-### useTemplateValue
-
-SDK 对模板层只暴露这一个通用取值方法。
-
-参数：
-
-1. `key`：字段点路径，例如 `title`、`timeline[0].phase`、`timeline[0].milestones[0].state`。
-2. `defaultValue`：路径不存在时使用的默认值。
-
-返回值：
-
-1. 返回一个可直接在 Vue 模板中使用的响应式值。
-
-说明：
-
-1. `useTemplateValue` 只负责返回值，不负责任何默认渲染。
-2. 模板项目里的标签结构、组件结构和样式全部由模板作者自己实现。
-3. 模板上下文由 SDK 在 `app.use(TemplateSdk)` 时自动建立，并从插件产物加载数据。
-4. `key` 不接受以 `/` 开头的旧写法。
-5. 如果模板运行在同源 `iframe` 中，宿主页面可以通过 `postMessage` 推送最新 `valueMap`，SDK 会在当前页面内直接替换运行时值快照，不需要重载模板应用。
-
-### validateTemplateConfig
-
-`validateTemplateConfig(configJson)` 会对整份配置做运行时校验。校验范围包括：
-
-1. 根节点是否为对象。
-2. `meta`、`functions`、`dataSchema` 是否为对象。
-3. `dataSchema.fields` 是否为数组。
-4. 每个字段的 `key` 是否为非空字符串且不重复。
-5. 每个字段的 `type` 是否为受支持的类型。
-6. 不同字段类型的 `value` / `defaultValue` 是否与类型一致。
-7. 数组字段的 `value` 是否为数组，并校验每一项是否为对象。
-
-校验失败时会直接抛出错误，并在错误信息里列出每个节点的路径。
-
-### buildTemplateValueMap
-
-`buildTemplateValueMap(configJson)` 会先校验 `configJson`，再返回运行时使用的 `valueMap` 对象。
-
-### buildTemplateArtifacts
-
-`buildTemplateArtifacts(configJson)` 返回：
-
-1. 规范化后的 `configJson`
-2. 根据该 `configJson` 生成的 `valueMap`
-
-### buildTemplateJsonFiles
-
-`buildTemplateJsonFiles(configJson)` 返回：
-
-1. `configJson` JSON 字符串
-2. `valueMap` JSON 字符串
-
-这个入口就是给构建脚本使用的。模板项目在打包或导出阶段，可以直接拿这两个字符串写入 JSON 文件。
-
-### templateSdkPlugin
-
-`templateSdkPlugin(options)` 是 SDK 提供的 Vite 插件入口，用来根据模板项目当前显式传入的 `configJson` 对象完成配置校验、类型声明生成、dev server JSON 提供，并在 `vite build` 时输出构建产物 JSON。
-
-参数只有一个：`configJson`，必填，表示模板项目当前使用的完整配置对象。
-
-说明：
-
-1. 用户仍然只安装一个包：`template-sdk`。
-2. 模板项目只需要在 `vite.config` 里启用插件并显式传入 `configJson` 对象，不需要再额外写生成脚本。
-3. 插件在开发阶段生成类型声明，并在 dev server 中提供 `/config.json` 和 `/assets/template-sdk/valueMap.json`。
-4. 插件在正式构建阶段会额外生成 `config.json` 和 `valueMap.json`。
-5. 自动生成的声明文件应该忽略提交。
-6. 类型声明和 JSON 产物路径由 SDK 固定管理，不暴露无意义的路径配置给模板项目。
-7. 安装 SDK 后可以直接使用 `template-sdk/config` 和 `template-sdk/vite`，不需要额外为项目补 `jsconfig` 路径映射或本地声明文件。
-
-默认构建输出：
-
-1. `dist/config.json`
-2. `dist/assets/template-sdk/valueMap.json`
-
-这两个文件都由 SDK 根据当前 `configJson` 生成；模板作者不需要、也不应该手工维护 `valueMap.json`。
-
-## configJson 约定
-
-SDK 当前按照 `mju-smart-show` 里的 `TemplateAnalysis` 规范读取配置。
-
-最小结构示例：
-
-```json
-{
-	"meta": {
-		"name": "示例模板"
-	},
-	"dataSchema": {
-		"fields": [
-			{
-				"key": "title",
-				"type": "string",
-				"label": "标题",
-				"value": "默认标题"
-			},
-			{
-				"key": "tracks",
-				"type": "array",
-				"label": "片单",
-				"operations": ["add", "delete"],
-				"value": [
-					{
-						"key": "trackTitle",
-						"type": "string",
-						"label": "片名",
-						"value": "默认片名"
-					}
-				]
-			}
-		]
-	},
-	"functions": {}
-}
+```bash
+pnpm add git+https://gitee.com/CoolRainLy/template-sdk.git#main
 ```
 
-字段规则：
+`npm`：
 
-1. `value` 不是必填。
-2. 字段有 `value` 时，表示该字段的默认值。
-3. `key` 必须是非空字符串，同一层级内不能重复；这条规则同时适用于根级 `fields` 和所有数组字段里的子项。
-4. `type` 必须是 `string`、`number`、`boolean`、`image`、`video`、`array` 之一。
-5. 数组字段的实际数据写在数组字段自己的 `value` 中，`value` 必须是字段对象数组。
-6. 数组里的每一个子项都继续使用和普通字段一致的对象结构，也就是 `key`、`type`、`label`、`value` 这套字段定义。
-7. 数组字段可选 `operations` 数组来表达允许的数组操作；当前只支持 `add` 和 `delete`。
-
-字段类型约定：
-
-1. `string` 字段的 `value` 和 `defaultValue` 必须是字符串。
-2. `number` 字段的 `value` 和 `defaultValue` 必须是数字。
-3. `boolean` 字段的 `value` 和 `defaultValue` 必须是布尔值。
-4. `image` / `video` 字段的 `value` 和 `defaultValue` 必须是字符串路径。
-5. `array` 字段的 `value` 和 `defaultValue` 如果存在，必须是数组。
-6. `array` 字段的每个数组项都必须是合法字段对象，也就是说数组子项会继续按自己的 `type` 校验 `value`。
-7. 数组项里的嵌套数组也继续使用字段对象数组。
-8. `array` 字段的 `operations` 如果存在，必须是字符串数组，并且当前只支持 `add`、`delete`。
-
-## valueMap 说明
-
-1. 模板项目开发阶段只维护 `configJson`。
-2. 构建前只考虑 `configJson`。
-3. SDK 运行时会先把 `configJson` 转换成 `valueMap`。
-4. 构建后只考虑 `valueMap.json`。
-5. `valueMap.json` 不应该由模板开发者手工维护。
-6. `valueMap.json` 是构建后的产物，用来承载最终可渲染的数据快照。
-
-## 使用方式
-
-模板项目只在 Vite 插件里传入 `configJson`：
-
-```js
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import configJson from './src/template/configJson'
-import { templateSdkPlugin } from 'template-sdk/vite'
-
-export default defineConfig({
-	plugins: [templateSdkPlugin({ configJson }), vue()]
-})
+```bash
+npm install git+https://gitee.com/CoolRainLy/template-sdk.git#main
 ```
 
-应用挂载时只安装 SDK 运行时：
+### 2. 编写 `configJson`
 
-```js
-import TemplateSdk from 'template-sdk'
+`configJson` 是模板项目维护的完整配置对象。
 
-createApp(App).use(TemplateSdk).mount('#app')
-```
+`configJson` 可以来自 `.ts`、`.js`、`.json` 文件，也可以直接内联到 `vite.config`。只要最终传给 `templateSdkPlugin({ configJson })` 的是完整配置对象，就可以使用。
 
-如果希望在模板项目里直接获得字段类型提示，可以直接使用 SDK 提供的轻量 helper：
+常见写法：
+
+| 写法 | 适用场景 | 说明 |
+| --- | --- | --- |
+| `defineTemplateConfig` + `.ts` 文件 | TypeScript 项目 | 推荐写法，编辑器提示最好 |
+| `.js` / `.json` 文件 | JavaScript 项目或纯数据配置 | 可以直接使用 |
+| 直接内联到 `vite.config` | 临时示例或最小 demo | 可以使用，但不适合长期维护 |
+
+下面只给一个常用示例：
+
+顶层字段：
+
+| 字段 | 说明 | 类型 | 取值 / 约束 |
+| --- | --- | --- | --- |
+| `meta` | 模板元信息 | `object` | 普通对象，常见字段有 `name`、`code`、`version` |
+| `dataSchema` | 字段定义容器 | `object` | 当前使用 `{ fields: TemplateField[] }` |
+| `functions` | 预留配置对象 | `object` | 当前保留对象结构，通常写 `{}` |
+
+`dataSchema.fields` 中每一项都是字段对象，字段对象属性如下：
+
+| 属性 | 说明 | 类型 | 取值 / 约束 |
+| --- | --- | --- | --- |
+| `key` | 字段唯一标识 | `string` | 必填，非空，同一层级内不能重复 |
+| `type` | 字段类型 | `string` | 必填，只能是 `string`、`number`、`boolean`、`image`、`video`、`array` |
+| `label` | 字段展示名 | `string` | 可选，普通字符串 |
+| `value` | 默认值 | `unknown` | 可选；有 `value` 时表示默认值，取值类型取决于 `type` |
+| `operations` | 数组字段操作能力 | `string[]` | 仅 `array` 字段可用；未填写时默认允许 `add`、`delete`；空数组表示不允许操作；显式可选值只有 `add`、`delete` |
+
+不同 `type` 对应的 `value` 取值规则：
+
+| `type` | `value` 类型 | 说明 |
+| --- | --- | --- |
+| `string` | `string` | 普通文本 |
+| `number` | `number` | 数字 |
+| `boolean` | `boolean` | 布尔值 |
+| `image` | `string` | 图片路径 |
+| `video` | `string` | 视频路径 |
+| `array` | `TemplateField[]` | 直接写字段对象数组 |
 
 ```ts
 import { defineTemplateConfig } from 'template-sdk/config'
 
 const configJson = defineTemplateConfig({
 	meta: {
-		name: '示例模板'
+		name: '示例模板',
+		code: 'demo-template',
+		version: '0.1.0'
 	},
 	dataSchema: {
-		fields: []
+		fields: [
+			{ key: 'title', type: 'string', label: '标题', value: '星图态势科技舱' },
+			{ key: 'poster', type: 'image', label: '主视觉海报', value: '/assets/template/poster-core.svg' },
+			{
+				key: 'timeline',
+				type: 'array',
+				label: '时间轴',
+				operations: [],
+				value: [
+					{ key: 'phase01', type: 'string', label: '阶段一', value: '接入边缘传感节点。' },
+					{ key: 'phase02', type: 'string', label: '阶段二', value: '将采集数据转换为状态向量。' }
+				]
+			}
+		]
 	},
 	functions: {}
-}
+})
 
 export default configJson
 ```
 
-`defineTemplateConfig` 本身只负责保留配置对象的字面量类型，不再依赖复杂的类型体操去拼接重复 `key` 的错误文案。
+### 3. 在 `vite.config` 里启用插件
 
-如果希望在开发和构建阶段尽早暴露配置问题，可以在模板项目里启用 `template-sdk/vite`。这个入口会在生成类型声明和 JSON 产物之前先校验当前 `configJson`，因此像重复 `key` 这样的结构问题会直接让 `vite dev` / `vite build` 失败，而不会等到页面运行后才暴露。
-
-如果希望让编辑器根据当前 `configJson` 自动推导 `useTemplateValue` 的路径和值类型，可以使用同一个 Vite 插件入口：
+在现有 `vite.config` 里引入 `configJson` 和 `templateSdkPlugin`，再把 `templateSdkPlugin({ configJson })` 加到 `plugins`：
 
 ```js
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import configJson from './src/template/configJson'
 import { templateSdkPlugin } from 'template-sdk/vite'
 
-export default defineConfig({
-	plugins: [templateSdkPlugin({ configJson }), vue()]
-})
+plugins: [templateSdkPlugin({ configJson }), vue()]
 ```
 
-项目里需要让语言服务纳入自动生成的声明目录。默认 Vite JavaScript 项目可以通过 `jsconfig.json` 加入：
+### 4. 在 `main.js` 安装运行时
+
+在现有 `main.js` 里给应用增加 `TemplateSdk`：
+
+```js
+import { createApp } from 'vue'
+import App from './App.vue'
+import TemplateSdk from 'template-sdk'
+
+createApp(App)
+	.use(TemplateSdk)
+	.mount('#app')
+```
+
+### 5. 配置 `jsconfig.json`
+
+如果项目里已经有 `jsconfig.json`，把下面这段补进 `include`：
 
 ```json
 {
-	"compilerOptions": {
-		"allowJs": true,
-		"checkJs": true,
-		"moduleResolution": "Bundler",
-		"types": ["vite/client"]
-	},
 	"include": [
 		".template-sdk/**/*.d.ts",
-		"src/**/*.js",
-		"src/**/*.vue",
-		"vite.config.js"
 	]
 }
 ```
 
-`.template-sdk` 目录是插件自动生成的产物，不需要手写，也不应该提交到仓库。插件不会自动猜测配置文件；模板项目必须显式把当前使用的 `configJson` 对象传给 `templateSdkPlugin`。`main.js` 不再传入 `configJson`，只负责安装 `TemplateSdk` 运行时。
+重点是把 `.template-sdk/**/*.d.ts` 纳入语言服务。
 
-`templateSdkPlugin` 在生成声明文件和构建 JSON 产物之前会先校验当前 `configJson`：
+### 6. 在页面组件里取值
 
-1. 根级 `dataSchema.fields` 同层 `key` 重复会直接阻断 `vite dev` / `vite build`。
-2. 数组字段 `value` / `defaultValue` 里的子项同层 `key` 重复，也会直接阻断构建。
-3. 报错信息会保留完整路径，例如 `configJson.dataSchema.fields[8].value[4].key`，方便直接定位到问题节点。
+`useTemplateValue` 用来在页面组件里读取模板字段值。
 
-构建 JSON 文件示例：
+参数：
 
-```js
-import configJson from './src/template/configJson'
-import { buildTemplateJsonFiles } from 'template-sdk'
+1. 第一个参数是字段路径，例如 `title`、`timeline[0].phase`。
+2. 第二个参数是可选兜底值；当路径没有取到值时，返回这个兜底值。
 
-const files = buildTemplateJsonFiles(configJson)
+返回结果：
 
-// files.configJson 和 files.valueMap 都是可直接写入磁盘的 JSON 字符串
-```
+1. 返回一个可直接在 Vue 模板里使用的响应式值。
+2. 你可以直接在模板里显示这个值，或者继续拿它去做绑定和判断。
 
-页面中直接调用方法：
+示例：
 
 ```vue
 <script setup>
@@ -279,52 +165,304 @@ const title = useTemplateValue('title', '')
 </template>
 ```
 
-数组示例：
+### 7. 构建产物
 
-```vue
-<script setup>
-import { useTemplateValue } from 'template-sdk'
+上传到管理后台的模板管理时，需要先手动构建模板项目，再将生成的 `dist` 目录打包后上传。
 
-const timeline = useTemplateValue('timeline', [])
-</script>
+构建完成后，上传的内容是 `dist` 目录对应的打包结果，不是源码目录。
 
-<template>
-	<article v-for="(item, index) in timeline" :key="index">
-		<h3>{{ item.title }}</h3>
-	</article>
-</template>
+## configJson 结构约定
+
+这一部分先说明 `configJson` 的整体结构，再说明每一种对象结构，最后给出一个覆盖所有字段类型的最小示例。
+
+### 1. 顶层结构
+
+`configJson` 必须是完整配置对象：
+
+```json
+{
+	"meta": {},
+	"dataSchema": {
+		"fields": []
+	},
+	"functions": {}
+}
 ```
 
-## 目录说明
+顶层对象说明：
 
-当前源码已经按职责拆分，根目录下不再把入口、类型、构建插件和运行时工具混放在一起。
+1. `meta` 是模板元信息对象。
+2. `dataSchema.fields` 是模板作者维护的字段数组。
+3. `functions` 当前保留为对象结构。
 
-1. `src/sdk`：SDK 对外公开入口、类型定义和 `useTemplateValue`。
-2. `src/runtime/context`：全局上下文创建、注入 key 和上下文读取逻辑。
+### 2. 对象类型结构
+
+#### `meta` 对象
+
+`meta` 是普通对象，没有强制字段白名单，常见字段如下：
+
+```json
+{
+	"name": "示例模板",
+	"code": "demo-template",
+	"version": "0.1.0"
+}
+```
+
+#### `dataSchema` 对象
+
+`dataSchema` 当前只要求维护 `fields`：
+
+```json
+{
+	"fields": []
+}
+```
+
+#### 通用字段对象
+
+所有字段对象至少包含以下结构：
+
+```json
+{
+	"key": "title",
+	"type": "string",
+	"label": "标题",
+	"value": "默认标题"
+}
+```
+
+通用规则：
+
+1. `key` 必须是非空字符串。
+2. 同一层级内 `key` 不能重复。
+3. `label` 可选。
+4. `value` 不是必填；有 `value` 时表示默认值。
+
+#### `string` 字段对象
+
+```json
+{
+	"key": "title",
+	"type": "string",
+	"label": "标题",
+	"value": "默认标题"
+}
+```
+
+#### `number` 字段对象
+
+```json
+{
+	"key": "count",
+	"type": "number",
+	"label": "数量",
+	"value": 3
+}
+```
+
+#### `boolean` 字段对象
+
+```json
+{
+	"key": "enabled",
+	"type": "boolean",
+	"label": "是否启用",
+	"value": true
+}
+```
+
+#### `image` 字段对象
+
+```json
+{
+	"key": "poster",
+	"type": "image",
+	"label": "海报",
+	"value": "/assets/template/poster-core.svg"
+}
+```
+
+`image` 在 `configJson` 里只接受字符串路径。
+
+#### `video` 字段对象
+
+```json
+{
+	"key": "trailer",
+	"type": "video",
+	"label": "视频",
+	"value": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+}
+```
+
+`video` 在 `configJson` 里只接受字符串路径。
+
+#### `array` 字段对象
+
+```json
+{
+	"key": "timeline",
+	"type": "array",
+	"label": "时间轴",
+	"operations": ["add", "delete"],
+	"value": [
+		{
+			"key": "phase01",
+			"type": "string",
+			"label": "阶段一",
+			"value": "接入边缘传感节点。"
+		}
+	]
+}
+```
+
+数组字段规则：
+
+1. `value` 如果存在，必须是字段对象数组。
+2. 数组子项继续使用和普通字段一致的字段对象结构。
+3. `operations` 可选；未填写时默认允许 `add` 和 `delete`。
+4. `operations: []` 表示不允许任何操作。
+5. 如果显式填写操作项，当前只支持 `add` 和 `delete`。
+
+#### `functions` 对象
+
+```json
+{}
+```
+
+`functions` 当前只保留对象结构，不参与模板项目运行时取值。
+
+### 3. 支持的字段类型
+
+当前只支持以下类型：
+
+1. `string`
+2. `number`
+3. `boolean`
+4. `image`
+5. `video`
+6. `array`
+
+### 4. 覆盖所有类型的最小示例
+
+```ts
+import { defineTemplateConfig } from 'template-sdk/config'
+
+const configJson = defineTemplateConfig({
+	meta: {
+		name: '示例模板',
+		code: 'demo-template',
+		version: '0.1.0'
+	},
+	dataSchema: {
+		fields: [
+			{ key: 'title', type: 'string', label: '标题', value: '默认标题' },
+			{ key: 'count', type: 'number', label: '数量', value: 3 },
+			{ key: 'enabled', type: 'boolean', label: '启用状态', value: true },
+			{ key: 'poster', type: 'image', label: '海报', value: '/assets/template/poster-core.svg' },
+			{ key: 'trailer', type: 'video', label: '视频', value: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
+			{
+				key: 'timeline',
+				type: 'array',
+				label: '时间轴',
+				operations: ['add', 'delete'],
+				value: [
+					{ key: 'phase01', type: 'string', label: '阶段一', value: '接入边缘传感节点。' },
+					{ key: 'phase02', type: 'string', label: '阶段二', value: '将采集数据转换为状态向量。' }
+				]
+			}
+		]
+	},
+	functions: {}
+})
+
+export default configJson
+```
+
+## valueMap 的角色和边界
+
+这是 SDK 最重要的数据边界。
+
+1. 模板项目开发阶段只维护 `configJson`。
+2. `valueMap` 不是模板作者手工维护的源文件。
+3. SDK 在开发和构建阶段根据 `configJson` 生成 `valueMap`。
+4. 运行时读取的是 `valueMap`，不是 `configJson`。
+5. 平台侧如果要做运行时内容变更，改的是构建产物 `valueMap`，不是模板作者的源配置。
+
+## 对外入口
+
+SDK 当前对模板项目公开的入口只有这些：
+
+1. `template-sdk`：默认导出 `TemplateSdk`，并导出 `useTemplateValue`、`validateTemplateConfig`、`buildTemplateValueMap`、`buildTemplateArtifacts`、`buildTemplateJsonFiles`。
+2. `template-sdk/config`：导出 `defineTemplateConfig`。
+3. `template-sdk/vite`：导出 `templateSdkPlugin`。
+
+SDK 不提供模板 UI 组件。模板项目自己的 `HeroPanel`、`TimelinePanel`、`AlertsPanel` 这类组件，都是业务组件自己消费 `useTemplateValue`。
+
+## 实现方式
+
+上面讲的是模板项目怎么接入；这一部分再讲 SDK 内部是怎么工作的。
+
+### 运行链路
+
+SDK 的运行链路是固定的：
+
+1. 模板项目把 `configJson` 传给 `templateSdkPlugin`。
+2. 插件生成 `.template-sdk/**/*.d.ts`，并产出 `config.json` 和 `valueMap.json`。
+3. 模板项目运行时只安装 `TemplateSdk`。
+4. `TemplateSdk` 自动读取 `/config.json` 和 `/assets/template-sdk/valueMap.json`。
+5. 页面组件通过 `useTemplateValue` 按点路径读取运行时值。
+
+### useTemplateValue 规则
+
+`useTemplateValue` 只有一套路径语义：
+
+1. 只接受点路径，例如 `title`、`timeline[0].phase`。
+2. 不接受以 `/` 开头的旧写法。
+3. 普通字段直接返回标量值。
+4. `image`/`video` 运行时统一读取为媒体对象。
+5. `array` 运行时读取为字段对象数组。
+
+### 为什么运行时只读 valueMap
+
+`configJson` 是源配置，`valueMap` 是运行时快照。这样做的目的只有一个：把“结构定义”和“运行时内容”彻底分开。
+
+这能保证：
+
+1. 模板作者维护的配置结构不会被运行时回写。
+2. 平台侧只需要替换 `valueMap.json` 就能改变页面展示内容。
+3. 构建时和运行时使用同一份字段校验与默认值归一逻辑。
+
+### 目录分层
+
+当前源码目录按职责拆分如下：
+
+1. `src/sdk`：对外公开入口、类型定义和 `useTemplateValue`。
+2. `src/runtime/context`：运行时上下文创建、注入 key 和上下文读取逻辑。
 3. `src/runtime/schema`：`configJson` 校验、构建产物生成和 JSON 导出入口。
 4. `src/runtime/value-map`：点路径解析、默认值归一和 `configJson` 到 `valueMap` 的转换逻辑。
-5. `src/config`：`defineTemplateConfig` 轻量 helper 的运行时代码和类型声明。
-6. `src/vite`：可选的 Vite 插件入口，负责构建前校验和自动生成模板类型声明。
-7. `src/dev`：SDK 本地最小调试入口脚本，不参与对外导出。
-8. `src/env.d.ts`：Vite 环境下的 Vue 文件类型声明。
+5. `src/config`：`defineTemplateConfig` 的运行时代码和类型声明。
+6. `src/vite`：Vite 插件入口，负责构建前校验和自动生成模板类型声明。
+7. `src/dev`：SDK 本地调试入口，不参与对外导出。
 
-## 构建与发布方式
+### Git 分发要求
 
-SDK 当前已经按“源码目录 + dist 分发目录”的方式组织：
+当前模板项目是通过 Git 仓库直接安装 SDK，而不是从 npm registry 安装。
 
-1. 开发时维护 `src` 下的源码。
-2. 发布前执行 `pnpm build`，由库构建产出 `dist`。
-3. `package.json` 的 `main`、`types` 和 `exports` 都指向包根兼容入口，再由兼容入口转到 `dist`，外部项目不再直接吃 `src` 源码入口。
-4. 如果通过 Git 仓库分发给模板项目，`dist` 应该和源码一起提交，保证安装时能直接拿到可用产物。
-5. 包根目录和 `config`、`vite` 子路径都提供了兼容入口文件，模板项目安装后不需要再额外补本地声明或路径映射。
+因此有一个硬要求：
 
-## 当前模板项目接入方式
+1. SDK 每次修改后，`dist` 必须和源码一起保持最新。
+2. 包根目录的 `index.js`、`config/index.js`、`vite/index.js` 只是兼容入口，它们最终都会转到 `dist/**`。
+3. 如果 Git 仓库里没有最新的 `dist`，模板项目虽然能装下包，但运行或构建时会直接找不到导出文件。
 
-当前推荐通过 Git 仓库版本接入：
+## 构建与发布
 
-1. SDK 仓库维护源码和构建后的 `dist`。
-2. 模板项目在 `package.json` 中通过 Git 地址或 tag 引用 SDK。
-3. 模板项目在 `vite.config` 中通过 `templateSdkPlugin({ configJson })` 统一把完整配置对象传给 SDK。
-4. 模板项目在应用挂载时只调用 `app.use(TemplateSdk)` 安装运行时，不再重复传入 `configJson`。
-5. 模板项目启用 `template-sdk/vite` 后，会同时获得配置校验、编辑器类型增强、dev server JSON 提供和构建产物输出能力，不需要安装第二个包。
-6. 如果后续切换到 npm 或私有制品仓库，只需要替换依赖来源，不需要改模板项目里的导入方式。
+SDK 当前采用“源码目录 + dist 分发目录”的结构：
+
+1. 开发时维护 `src`。
+2. 发布前执行 `pnpm build`。
+3. 构建后产物输出到 `dist`。
+4. 模板项目安装时消费的是包根兼容入口，再转到 `dist`。
+
+如果 SDK 通过 Gitee `main` 直接分发给模板项目，记得在更新 SDK 代码后同步更新模板项目依赖，确保模板项目实际使用的是最新提交对应的 `dist` 产物。
