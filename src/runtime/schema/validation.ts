@@ -333,7 +333,6 @@ function validateArrayFieldValue(
 function validateArrayField(field: Record<string, unknown>, path: string, issues: TemplateValidationIssue[]) {
   validateArrayOperations(field.operations, `${path}.operations`, '字段 operations', issues)
   validateArrayFieldValue(field.value, `${path}.value`, '字段 value', issues)
-  validateArrayFieldValue(field.defaultValue, `${path}.defaultValue`, '字段 defaultValue', issues)
 }
 
 function validateField(field: unknown, path: string, issues: TemplateValidationIssue[]) {
@@ -368,18 +367,10 @@ function validateField(field: unknown, path: string, issues: TemplateValidationI
     case 'number':
     case 'boolean':
       validateValueAgainstField(field, field.value, `${path}.value`, '字段 value', issues)
-      validateScalarFieldValue(
-        field.defaultValue,
-        type as 'string' | 'number' | 'boolean',
-        `${path}.defaultValue`,
-        '字段 defaultValue',
-        issues,
-      )
       break
     case 'image':
     case 'video':
       validateValueAgainstField(field, field.value, `${path}.value`, '字段 value', issues)
-      validateMediaFieldValue(field.defaultValue, `${path}.defaultValue`, '字段 defaultValue', issues)
       break
     case 'array':
       validateArrayField(field, path, issues)

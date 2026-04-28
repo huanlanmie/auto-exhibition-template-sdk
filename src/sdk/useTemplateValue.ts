@@ -5,10 +5,10 @@ import type { TemplateValueAtPath, TemplateValuePath } from './types'
 // SDK 对模板层只暴露这一种取值方式：传入点路径和可选默认值，返回可直接在模板里消费的响应式结果。
 export function useTemplateValue<Path extends TemplateValuePath>(
   key: Path,
-  defaultValue?: TemplateValueAtPath<Path>,
+  fallbackValue?: TemplateValueAtPath<Path>,
 ): ComputedRef<TemplateValueAtPath<Path>>
-export function useTemplateValue<T = unknown>(key: string, defaultValue?: T): ComputedRef<T | unknown>
-export function useTemplateValue<T = unknown>(key: string, defaultValue?: T): ComputedRef<unknown> {
+export function useTemplateValue<T = unknown>(key: string, fallbackValue?: T): ComputedRef<T | unknown>
+export function useTemplateValue<T = unknown>(key: string, fallbackValue?: T): ComputedRef<unknown> {
   const context = useTemplateContext()
 
   return computed(() => {
@@ -20,6 +20,6 @@ export function useTemplateValue<T = unknown>(key: string, defaultValue?: T): Co
 
     // 只有 valueMap 里完全没命中时才回退默认值；
     // 如果命中了空字符串、false、0 这类合法值，就原样返回，不做误判。
-    return nextValue === undefined ? defaultValue : nextValue
+    return nextValue === undefined ? fallbackValue : nextValue
   })
 }

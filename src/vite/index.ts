@@ -93,14 +93,10 @@ function validateFieldArrayForBuild(fields: unknown, path: string, issues: Valid
       return
     }
 
-    // 数组字段里如果继续声明了 value/defaultValue 子字段数组，
+    // 数组字段里如果继续声明了 value 子字段数组，
     // 构建期同样要沿用“同层 key 不可重复”的规则向下递归。
     if (field.value !== undefined) {
       validateFieldArrayForBuild(field.value, `${path}[${index}].value`, issues)
-    }
-
-    if (field.defaultValue !== undefined) {
-      validateFieldArrayForBuild(field.defaultValue, `${path}[${index}].defaultValue`, issues)
     }
   })
 }

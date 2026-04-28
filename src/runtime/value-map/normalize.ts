@@ -39,10 +39,10 @@ function getEmptyValueByType(field: TemplateField) {
   }
 }
 
-// 数组字段的 value/defaultValue 本质上是字段对象数组。
+// 数组字段的 value 本质上是字段对象数组。
 // SDK 不在这里再做结构推断，只负责把每一项安全复制成运行时自己的值，
 // 具体是否合法已经由校验阶段在进入这里之前拦住。
-function buildArrayDefaultValue(field: TemplateField, value: unknown = field?.value): unknown[] {
+function buildArrayFieldValue(field: TemplateField, value: unknown = field?.value): unknown[] {
   if (field?.type !== 'array') {
     return []
   }
@@ -78,21 +78,16 @@ function normalizeFieldValueByType(field: TemplateField, value: unknown) {
 
       return isObjectRecord(value) ? cloneValue(value) : { url: '', poster: '' }
     case 'array':
-      return buildArrayDefaultValue(field, value)
+      return buildArrayFieldValue(field, value)
     default:
       return cloneValue(value)
   }
 }
 
-// value 比 defaultValue 优先级更高，因为它代表模板作者给出的默认展示值。
-// 两者都没有时，再按字段类型补空结构，保证 valueMap 始终完整可读。
+// 字段有 value 时使用 value；没有时再按字段类型补空结构，保证 valueMap 始终完整可读。
 function resolveDefaultFieldValue(field: TemplateField): unknown {
   if (field?.value !== undefined) {
     return normalizeFieldValueByType(field, field.value)
-  }
-
-  if (field?.defaultValue !== undefined) {
-    return normalizeFieldValueByType(field, field.defaultValue)
   }
 
   return getEmptyValueByType(field)
