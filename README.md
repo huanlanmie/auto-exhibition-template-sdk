@@ -411,7 +411,7 @@ SDK 的运行链路是固定的：
 1. 模板项目把 `configJson` 传给 `templateSdkPlugin`。
 2. 插件生成 `.template-sdk/**/*.d.ts`，并产出 `config.json` 和 `valueMap.json`。
 3. 模板项目运行时只安装 `TemplateSdk`。
-4. `TemplateSdk` 自动读取 `/config.json` 和 `/assets/template-sdk/valueMap.json`。
+4. `TemplateSdk` 自动读取 `./config.json` 和 `./assets/template-sdk/valueMap.json`。
 5. 页面组件通过 `useTemplateValue` 按点路径读取运行时值。
 
 ### useTemplateValue 规则
