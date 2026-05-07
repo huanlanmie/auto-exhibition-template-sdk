@@ -3,8 +3,13 @@ import { getValueByPath, joinPath, normalizeRootPath } from '../value-map/path'
 import { buildTemplateArtifacts } from '../schema/artifacts'
 import type { TemplateConfig, TemplateContext, TemplateSdkOptions } from '../../sdk/types'
 
-const CONFIG_JSON_URL = '/config.json'
-const VALUE_MAP_URL = '/assets/template-sdk/valueMap.json'
+// 运行时产物必须按文档入口 index.html 的基址读取。
+// 这里不能写成 /config.json 这类站点绝对路径：
+// 1. 模板被托管在子路径时会错误回到站点根；
+// 2. Electron file:// 场景会被解析成磁盘根目录（例如 C:/config.json）。
+// 因此 SDK 固定使用相对 index.html 的同级/子级路径读取构建产物。
+const CONFIG_JSON_URL = './config.json'
+const VALUE_MAP_URL = './assets/template-sdk/valueMap.json'
 const VALUE_MAP_SYNC_MESSAGE_TYPE = 'template-sdk:update-value-map'
 
 function cloneRuntimeValue<T>(value: T): T {
