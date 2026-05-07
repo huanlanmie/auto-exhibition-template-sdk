@@ -22,7 +22,7 @@ function u(e, t) {
 }
 //#endregion
 //#region src/runtime/context/createTemplateContext.ts
-var d = "/config.json", f = "/assets/template-sdk/valueMap.json", p = "template-sdk:update-value-map";
+var d = "./config.json", f = "./assets/template-sdk/valueMap.json", p = "template-sdk:update-value-map";
 function m(e) {
 	return e === void 0 ? e : JSON.parse(JSON.stringify(e));
 }
