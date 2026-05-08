@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>进阶用法 - template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
+            <span class="logo-text">template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="introduction.html" class="nav-item">指南</a>
+            <a href="../api/index.html" class="nav-item">API</a>
+            <a href="../examples/index.html" class="nav-item">示例</a>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="introduction.html" class="mobile-nav-item">介绍</a>
+      <a href="installation.html" class="mobile-nav-item">安装</a>
+      <a href="quick-start.html" class="mobile-nav-item">快速开始</a>
+      <a href="config-json.html" class="mobile-nav-item">configJson 结构</a>
+      <a href="valueMap.html" class="mobile-nav-item">valueMap 的角色</a>
+      <a href="advanced.html" class="mobile-nav-item">进阶用法</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">指南</h3>
+            <ul class="sidebar-menu">
+              <li><a href="introduction.html" class="sidebar-link">介绍</a></li>
+              <li><a href="installation.html" class="sidebar-link">安装</a></li>
+              <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
+              <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
+              <li><a href="valueMap.html" class="sidebar-link">valueMap 的角色</a></li>
+              <li><a href="advanced.html" class="sidebar-link active">进阶用法</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">进阶用法</h1>
+
+          <p class="intro-lead">
+            深入了解 SDK 的高级功能和使用场景。
+          </p>
+
+          <h2>类型推导</h2>
+          <p>
+            SDK 提供了完整的 TypeScript 类型推导支持。通过 <code>InferTemplateValueMap</code> 类型，可以从 configJson 自动推导出运行时 valueMap 的类型。
+          </p>
+
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/config'</span>
+<span class="code-keyword">import</span> type { InferTemplateValueMap } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> configJson = defineTemplateConfig({
+  <span class="code-property">meta</span>: { <span class="code-property">name</span>: <span class="code-string">'demo'</span> },
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">value</span>: <span class="code-string">'Hello'</span> }
+    ]
+  }
+})
+
+<span class="code-comment">// 自动推导类型</span>
+<span class="code-keyword">type</span> ValueMap = InferTemplateValueMap&lt;<span class="code-keyword">typeof</span> configJson&gt;
+<span class="code-comment">// { title: string }</span></code></pre>
+          </div>
+
+          <h2>配置校验</h2>
+          <p>
+            使用 <code>validateTemplateConfig</code> 函数可以在运行时校验配置是否符合规范。
+          </p>
+
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { validateTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> issues = validateTemplateConfig({
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span> }
+    ]
+  }
+})
+
+<span class="code-keyword">if</span> (issues.length > <span class="code-number">0</span>) {
+  console.error(<span class="code-string">'配置校验失败'</span>, issues)
+}</code></pre>
+          </div>
+
+          <h2>构建产物导出</h2>
+          <p>
+            SDK 提供了多个构建相关的工具函数，可以用于自定义构建流程。
+          </p>
+
+          <h3>buildTemplateValueMap</h3>
+          <p>根据 configJson 构建 valueMap。</p>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { buildTemplateValueMap } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> valueMap = buildTemplateValueMap(configJson)</code></pre>
+          </div>
+
+          <h3>buildTemplateArtifacts</h3>
+          <p>构建完整的模板产物。</p>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { buildTemplateArtifacts } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> artifacts = buildTemplateArtifacts(configJson)</code></pre>
+          </div>
+
+          <h3>buildTemplateJsonFiles</h3>
+          <p>构建 JSON 文件产物。</p>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { buildTemplateJsonFiles } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> files = buildTemplateJsonFiles(configJson)</code></pre>
+          </div>
+
+          <h2>嵌套数组取值</h2>
+          <p>
+            对于嵌套的数组字段，可以使用点路径语法进行读取。
+          </p>
+
+          <h3>configJson 示例</h3>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"dataSchema"</span>: {
+    <span class="code-property">"fields"</span>: [
+      {
+        <span class="code-property">"key"</span>: <span class="code-string">"sections"</span>,
+        <span class="code-property">"type"</span>: <span class="code-string">"array"</span>,
+        <span class="code-property">"value"</span>: [
+          {
+            <span class="code-property">"key"</span>: <span class="code-string">"section1"</span>,
+            <span class="code-property">"type"</span>: <span class="code-string">"array"</span>,
+            <span class="code-property">"value"</span>: [
+              { <span class="code-property">"key"</span>: <span class="code-string">"item"</span>, <span class="code-property">"type"</span>: <span class="code-string">"string"</span> }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+          </div>
+
+          <h3>取值方式</h3>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">const</span> sections = useTemplateValue(<span class="code-string">'sections'</span>)
+<span class="code-keyword">const</span> firstSection = useTemplateValue(<span class="code-string">'sections[0]'</span>)
+<span class="code-keyword">const</span> nestedItem = useTemplateValue(<span class="code-string">'sections[0].item'</span>)</code></pre>
+          </div>
+
+          <h2>媒体对象</h2>
+          <p>
+            image 和 video 字段在运行时返回的是媒体对象，而不是字符串路径。
+          </p>
+
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"url"</span>: <span class="code-string">"/assets/poster.png"</span>,   <span class="code-comment">// 媒体 URL</span>
+  <span class="code-property">"alt"</span>: <span class="code-string">"海报图片"</span>,             <span class="code-comment">// 替代文本</span>
+  <span class="code-property">"poster"</span>: <span class="code-string">"/assets/poster-thumb.png"</span> <span class="code-comment">// 视频封面</span>
+}</code></pre>
+          </div>
+
+          <h3>在模板中使用</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;template&gtgt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster.url"</span> <span class="code-attr">:alt</span>=<span class="code-string">"poster.alt"</span> <span class="code-tag">/&gt;</span>
+
+  <span class="code-tag">&lt;video</span> <span class="code-attr">:src</span>=<span class="code-string">"trailer.url"</span> <span class="code-attr">:poster</span>=<span class="code-string">"trailer.poster"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;/video&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h2>自定义构建配置</h2>
+          <p>
+            templateSdkPlugin 支持传入额外的构建配置选项。
+          </p>
+
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
+<span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
+<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span>
+
+<span class="code-keyword">export default</span> defineConfig({
+  <span class="code-property">plugins</span>: [
+    templateSdkPlugin({
+      <span class="code-property">configJson</span>
+      <span class="code-comment">// 可以添加更多配置选项</span>
+    }),
+    vue()
+  ]
+})</code></pre>
+          </div>
+
+          <h2>调试技巧</h2>
+          <p>
+            在开发过程中，可以通过以下方式进行调试：
+          </p>
+
+          <h3>查看运行时值</h3>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">''</span>)
+
+<span class="code-comment">// 在控制台查看</span>
+console.log(<span class="code-string">'title value:'</span>, title.value)</code></pre>
+          </div>
+
+          <h3>查看生成的类型文件</h3>
+          <p>
+            SDK 会自动生成 <code>.template-sdk/**/*.d.ts</code> 文件，可以查看这些文件了解 SDK 生成的类型定义。
+          </p>
+
+          <div class="page-navigation">
+            <div class="prev-page">
+              <span class="nav-label">上一页</span>
+              <a href="valueMap.html" class="nav-link">← valueMap 的角色</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

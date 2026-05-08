@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>defineTemplateConfig - template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
+            <span class="logo-text">template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="../guide/introduction.html" class="nav-item">指南</a>
+            <a href="index.html" class="nav-item active">API</a>
+            <a href="../examples/index.html" class="nav-item">示例</a>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="../guide/introduction.html" class="mobile-nav-item">指南</a>
+      <a href="index.html" class="mobile-nav-item">API</a>
+      <a href="../examples/index.html" class="mobile-nav-item">示例</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">SDK</h3>
+            <ul class="sidebar-menu">
+              <li><a href="useTemplateValue.html" class="sidebar-link">useTemplateValue</a></li>
+              <li><a href="TemplateSdk.html" class="sidebar-link">TemplateSdk</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">config</h3>
+            <ul class="sidebar-menu">
+              <li><a href="defineTemplateConfig.html" class="sidebar-link active">defineTemplateConfig</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">vite</h3>
+            <ul class="sidebar-menu">
+              <li><a href="templateSdkPlugin.html" class="sidebar-link">templateSdkPlugin</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">工具函数</h3>
+            <ul class="sidebar-menu">
+              <li><a href="validateTemplateConfig.html" class="sidebar-link">validateTemplateConfig</a></li>
+              <li><a href="buildFunctions.html" class="sidebar-link">build* 函数</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">defineTemplateConfig</h1>
+
+          <p class="intro-lead">
+            defineTemplateConfig 是用于定义模板配置的函数，提供 TypeScript 类型推导支持。
+          </p>
+
+          <h2>导入</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/config'</span></code></pre>
+          </div>
+
+          <h2>类型签名</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">function</span> defineTemplateConfig&lt;<span class="code-type">T extends TemplateConfig</span>&gt;(
+  config: T
+): T</code></pre>
+          </div>
+
+          <h2>参数</h2>
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>参数名</th>
+                <th>说明</th>
+                <th>类型</th>
+                <th>必填</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>config</code></td>
+                <td>模板配置对象</td>
+                <td><code>TemplateConfig</code></td>
+                <td><strong>是</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>返回值</h2>
+          <p>
+            返回配置对象的字面量类型，用于 TypeScript 类型推导。
+          </p>
+
+          <h2>为什么使用它</h2>
+          <p>
+            使用 <code>defineTemplateConfig</code> 而不是直接导出对象，主要有以下优势：
+          </p>
+          <ul class="feature-list">
+            <li><strong>类型推导</strong>：编辑器可以准确知道配置的结构</li>
+            <li><strong>智能提示</strong>：提供更好的代码补全</li>
+            <li><strong>类型安全</strong>：在定义阶段捕获类型错误</li>
+          </ul>
+
+          <h2>使用示例</h2>
+
+          <h3>基础用法</h3>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/config'</span>
+
+<span class="code-keyword">const</span> configJson = defineTemplateConfig({
+  <span class="code-property">meta</span>: {
+    <span class="code-property">name</span>: <span class="code-string">'示例模板'</span>,
+    <span class="code-property">code</span>: <span class="code-string">'demo-template'</span>
+  },
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">value</span>: <span class="code-string">'默认标题'</span> }
+    ]
+  }
+})
+
+<span class="code-keyword">export default</span> configJson</code></pre>
+          </div>
+
+          <h3>完整配置示例</h3>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/config'</span>
+
+<span class="code-keyword">const</span> configJson = defineTemplateConfig({
+  <span class="code-property">meta</span>: {
+    <span class="code-property">name</span>: <span class="code-string">'完整示例模板'</span>,
+    <span class="code-property">code</span>: <span class="code-string">'full-demo'</span>,
+    <span class="code-property">version</span>: <span class="code-string">'1.0.0'</span>
+  },
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      <span class="code-comment">// 字符串字段</span>
+      {
+        <span class="code-property">key</span>: <span class="code-string">'title'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'string'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'标题'</span>,
+        <span class="code-property">value</span>: <span class="code-string">'欢迎使用'</span>
+      },
+
+      <span class="code-comment">// 数字字段</span>
+      {
+        <span class="code-property">key</span>: <span class="code-string">'count'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'number'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'数量'</span>,
+        <span class="code-property">value</span>: <span class="code-number">10</span>
+      },
+
+      <span class="code-comment">// 布尔字段</span>
+      {
+        <span class="code-property">key</span>: <span class="code-string">'showBanner'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'boolean'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'显示横幅'</span>,
+        <span class="code-property">value</span>: <span class="code-keyword">true</span>
+      },
+
+      <span class="code-comment">// 图片字段</span>
+      {
+        <span class="code-property">key</span>: <span class="code-string">'poster'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'image'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'海报'</span>,
+        <span class="code-property">value</span>: <span class="code-string">'/assets/poster.png'</span>
+      },
+
+      <span class="code-comment">// 视频字段</span>
+      {
+        <span class="code-property">key</span>: <span class="code-string">'trailer'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'video'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'宣传视频'</span>,
+        <span class="code-property">value</span>: <span class="code-string">'/assets/trailer.mp4'</span>
+      },
+
+      <span class="code-comment">// 数组字段</span>
+      {
+        <span class="code-property">key</span>: <span class="code-string">'features'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'array'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'功能列表'</span>,
+        <span class="code-property">operations</span>: [<span class="code-string">'add'</span>, <span class="code-string">'delete'</span>],
+        <span class="code-property">value</span>: [
+          { <span class="code-property">key</span>: <span class="code-string">'f1'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">value</span>: <span class="code-string">'功能一'</span> },
+          { <span class="code-property">key</span>: <span class="code-string">'f2'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">value</span>: <span class="code-string">'功能二'</span> }
+        ]
+      }
+    ]
+  },
+  <span class="code-property">functions</span>: {}
+})
+
+<span class="code-keyword">export default</span> configJson</code></pre>
+          </div>
+
+          <h2>在 vite.config 中使用</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
+<span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
+<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span>
+
+<span class="code-keyword">export default</span> defineConfig({
+  <span class="code-property">plugins</span>: [
+    templateSdkPlugin({ configJson }),
+    vue()
+  ]
+})</code></pre>
+          </div>
+
+          <div class="page-navigation">
+            <div class="prev-page">
+              <span class="nav-label">上一页</span>
+              <a href="useTemplateValue.html" class="nav-link">← useTemplateValue</a>
+            </div>
+            <div class="next-page">
+              <span class="nav-label">下一页</span>
+              <a href="templateSdkPlugin.html" class="nav-link">templateSdkPlugin →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

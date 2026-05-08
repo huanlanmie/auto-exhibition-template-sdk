@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>介绍 - template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
+            <span class="logo-text">template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="introduction.html" class="nav-item active">指南</a>
+            <a href="../api/index.html" class="nav-item">API</a>
+            <a href="../examples/index.html" class="nav-item">示例</a>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="introduction.html" class="mobile-nav-item">介绍</a>
+      <a href="../api/index.html" class="mobile-nav-item">API</a>
+      <a href="../examples/index.html" class="mobile-nav-item">示例</a>
+      <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="mobile-nav-item">Gitee</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">指南</h3>
+            <ul class="sidebar-menu">
+              <li><a href="introduction.html" class="sidebar-link active">介绍</a></li>
+              <li><a href="installation.html" class="sidebar-link">安装</a></li>
+              <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
+              <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
+              <li><a href="valueMap.html" class="sidebar-link">valueMap 的角色</a></li>
+              <li><a href="advanced.html" class="sidebar-link">进阶用法</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">介绍</h1>
+
+          <div class="intro-section">
+            <p class="intro-lead">
+              template-sdk 是面向模板项目的前端 SDK，为模板项目提供标准化的配置管理、字段定义和运行时取值能力。
+            </p>
+          </div>
+
+          <h2>什么是 template-sdk</h2>
+          <p>
+            template-sdk 是一套面向模板项目的前端开发工具包。它不提供页面组件，而是专注于解决模板项目中的数据配置和取值问题。
+          </p>
+          <p>
+            通过 template-sdk，模板作者可以：
+          </p>
+          <ul class="feature-list">
+            <li>使用 TypeScript 类型安全地定义模板字段结构</li>
+            <li>在页面组件中通过简洁的 API 读取字段值</li>
+            <li>让平台侧可以独立修改运行时内容而不影响配置结构</li>
+          </ul>
+
+          <h2>核心概念</h2>
+
+          <h3>configJson</h3>
+          <p>
+            configJson 是模板项目维护的完整配置对象，包含了模板的元信息和所有字段定义。它是模板作者的"源代码"，由模板项目自己维护。
+          </p>
+
+          <h3>valueMap</h3>
+          <p>
+            valueMap 是 SDK 根据 configJson 生成的运行时快照。它包含了所有字段的当前值，用于模板项目的运行时读取。平台侧可以独立修改 valueMap 来改变页面展示内容。
+          </p>
+
+          <h3>useTemplateValue</h3>
+          <p>
+            useTemplateValue 是 SDK 提供的组合式函数，用于在 Vue 组件中读取模板字段值。它接受字段路径作为参数，返回响应式的字段值。
+          </p>
+
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">''</span>)</code></pre>
+          </div>
+
+          <h2>为什么需要 template-sdk</h2>
+          <p>
+            在没有 SDK 的情况下，模板项目通常会：
+          </p>
+          <ul class="feature-list">
+            <li>手动维护配置数据结构</li>
+            <li>使用不同的方式读取配置值</li>
+            <li>难以实现配置结构和运行时内容的分离</li>
+          </ul>
+          <p>
+            template-sdk 通过统一的配置规范和 API，解决了这些问题：
+          </p>
+          <ul class="feature-list">
+            <li><strong>配置规范化</strong>：提供清晰的字段定义规范</li>
+            <li><strong>API 统一</strong>：提供一致的取值方式</li>
+            <li><strong>数据分离</strong>：配置结构与运行时内容完全分离</li>
+            <li><strong>类型安全</strong>：基于 TypeScript 提供完整的类型推导</li>
+          </ul>
+
+          <h2>与 UI 框架的关系</h2>
+          <p>
+            template-sdk 不提供任何 UI 组件。它专注于数据层的配置和取值。模板项目自己的页面结构、样式和业务组件仍然由模板作者自己实现。
+          </p>
+          <p>
+            这意味着 template-sdk 可以与任何 UI 框架配合使用，包括 Vue 生态中的 Element Plus、Ant Design Vue、Naive UI 等。
+          </p>
+
+          <h2>技术栈</h2>
+          <ul class="feature-list">
+            <li><strong>Vue 3</strong>：SDK 的运行时基于 Vue 3 Composition API</li>
+            <li><strong>TypeScript</strong>：完整的类型定义和类型推导</li>
+            <li><strong>Vite</strong>：提供构建时插件支持</li>
+          </ul>
+
+          <div class="page-navigation">
+            <div class="next-page">
+              <span class="nav-label">下一页</span>
+              <a href="installation.html" class="nav-link">安装 →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

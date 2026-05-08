@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>template-sdk - 模板项目 SDK</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/logo.svg">
+  <link rel="stylesheet" href="./styles/common.css">
+  <link rel="stylesheet" href="./styles/index.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="./index.html" class="logo">
+            <img src="./assets/logo.svg" alt="template-sdk" class="logo-img">
+            <span class="logo-text">template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="./guide/introduction.html" class="nav-item">指南</a>
+            <a href="./api/index.html" class="nav-item">API</a>
+            <a href="./examples/index.html" class="nav-item">示例</a>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="./guide/introduction.html" class="mobile-nav-item">指南</a>
+      <a href="./api/index.html" class="mobile-nav-item">API</a>
+      <a href="./examples/index.html" class="mobile-nav-item">示例</a>
+      <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="mobile-nav-item">Gitee</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <h1 class="hero-title">
+              <span class="gradient-text">template-sdk</span>
+            </h1>
+            <p class="hero-description">
+              面向模板项目的前端 SDK，为模板项目提供标准化的配置管理、字段定义和运行时取值能力。
+            </p>
+            <div class="hero-actions">
+              <a href="./guide/introduction.html" class="btn btn-primary">
+                <span>开始使用</span>
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+              <a href="./guide/installation.html" class="btn btn-secondary">安装指南</a>
+            </div>
+          </div>
+          <div class="hero-code">
+            <div class="code-window">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span class="dot dot-red"></span>
+                  <span class="dot dot-yellow"></span>
+                  <span class="dot dot-green"></span>
+                </div>
+                <span class="code-filename">template/config.ts</span>
+              </div>
+              <pre class="code-content"><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/config'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span>
+
+<span class="code-keyword">const</span> config = defineTemplateConfig({
+  <span class="code-property">meta</span>: {
+    <span class="code-property">name</span>: <span class="code-string">'示例模板'</span>,
+    <span class="code-property">code</span>: <span class="code-string">'demo-template'</span>
+  },
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">value</span>: <span class="code-string">'默认标题'</span> },
+      { <span class="code-property">key</span>: <span class="code-property">poster</span>, <span class="code-property">type</span>: <span class="code-string">'image'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/poster.png'</span> }
+    ]
+  }
+})
+
+<span class="code-keyword">export default</span> config</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features">
+        <div class="container">
+          <h2 class="section-title">核心特性</h2>
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <h3 class="feature-title">声明式配置</h3>
+              <p class="feature-desc">通过 TypeScript 类型安全的配置定义，清晰的字段结构和编辑器智能提示支持。</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+              </div>
+              <h3 class="feature-title">自动构建</h3>
+              <p class="feature-desc">Vite 插件自动处理配置校验、类型生成和构建产物，无需手动维护。</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+              </div>
+              <h3 class="feature-title">运行时取值</h3>
+              <p class="feature-desc">简洁的 API 设计，通过 useTemplateValue 组合式函数轻松获取模板字段值。</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>
+                </svg>
+              </div>
+              <h3 class="feature-title">数据分离</h3>
+              <p class="feature-desc">配置结构与运行时内容完全分离，平台侧可独立修改运行时数据。</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+              </div>
+              <h3 class="feature-title">灵活扩展</h3>
+              <p class="feature-desc">支持多种字段类型，string、number、boolean、image、video、array 覆盖常见场景。</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M3 9h18M9 21V9"/>
+                </svg>
+              </div>
+              <h3 class="feature-title">平台无关</h3>
+              <p class="feature-desc">不绑定任何 UI 框架，模板项目可自由选择 Vue、React 或其他技术栈。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Start Section -->
+      <section class="quick-start">
+        <div class="container">
+          <h2 class="section-title">快速开始</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3 class="step-title">安装依赖</h3>
+                <div class="step-code">
+                  <code>pnpm add git+https://gitee.com/CoolRainLy/template-sdk.git#main</code>
+                  <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3 class="step-title">配置 configJson</h3>
+                <p class="step-desc">定义模板的字段结构和默认值</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3 class="step-title">启用 Vite 插件</h3>
+                <p class="step-desc">在 vite.config 中集成 templateSdkPlugin</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h3 class="step-title">在组件中取值</h3>
+                <p class="step-desc">使用 useTemplateValue 获取响应式字段值</p>
+              </div>
+            </div>
+          </div>
+          <div class="quick-start-cta">
+            <a href="./guide/quick-start.html" class="btn btn-primary">详细教程 →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Field Types Section -->
+      <section class="field-types">
+        <div class="container">
+          <h2 class="section-title">支持的字段类型</h2>
+          <div class="types-grid">
+            <div class="type-card">
+              <span class="type-badge type-string">string</span>
+              <p>普通文本字段</p>
+            </div>
+            <div class="type-card">
+              <span class="type-badge type-number">number</span>
+              <p>数字字段</p>
+            </div>
+            <div class="type-card">
+              <span class="type-badge type-boolean">boolean</span>
+              <p>布尔值字段</p>
+            </div>
+            <div class="type-card">
+              <span class="type-badge type-image">image</span>
+              <p>图片字段</p>
+            </div>
+            <div class="type-card">
+              <span class="type-badge type-video">video</span>
+              <p>视频字段</p>
+            </div>
+            <div class="type-card">
+              <span class="type-badge type-array">array</span>
+              <p>数组字段</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+      <div class="container footer-container">
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>文档</h4>
+            <a href="./guide/introduction.html">介绍</a>
+            <a href="./guide/installation.html">安装</a>
+            <a href="./guide/quick-start.html">快速开始</a>
+          </div>
+          <div class="footer-column">
+            <h4>API</h4>
+            <a href="./api/useTemplateValue.html">useTemplateValue</a>
+            <a href="./api/defineTemplateConfig.html">defineTemplateConfig</a>
+            <a href="./api/templateSdkPlugin.html">templateSdkPlugin</a>
+          </div>
+          <div class="footer-column">
+            <h4>资源</h4>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank">Gitee</a>
+            <a href="./examples/index.html">示例</a>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <p>template-sdk · Made with ❤️ for template projects</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="./scripts/common.js"></script>
+</body>
+</html>

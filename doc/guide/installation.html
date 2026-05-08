@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安装 - template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
+            <span class="logo-text">template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="introduction.html" class="nav-item">指南</a>
+            <a href="../api/index.html" class="nav-item">API</a>
+            <a href="../examples/index.html" class="nav-item">示例</a>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="introduction.html" class="mobile-nav-item">介绍</a>
+      <a href="installation.html" class="mobile-nav-item">安装</a>
+      <a href="../api/index.html" class="mobile-nav-item">API</a>
+      <a href="../examples/index.html" class="mobile-nav-item">示例</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">指南</h3>
+            <ul class="sidebar-menu">
+              <li><a href="introduction.html" class="sidebar-link">介绍</a></li>
+              <li><a href="installation.html" class="sidebar-link active">安装</a></li>
+              <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
+              <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
+              <li><a href="valueMap.html" class="sidebar-link">valueMap 的角色</a></li>
+              <li><a href="advanced.html" class="sidebar-link">进阶用法</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">安装</h1>
+
+          <h2>环境要求</h2>
+          <p>template-sdk 对运行环境有以下要求：</p>
+          <ul class="feature-list">
+            <li><strong>Node.js</strong>：>= 16.x</li>
+            <li><strong>Vue</strong>：>= 3.5.32</li>
+            <li><strong>Vite</strong>：>= 8.0.4</li>
+          </ul>
+
+          <h2>包管理器</h2>
+          <p>推荐使用 pnpm 或 npm 安装 SDK。</p>
+
+          <h3>pnpm（推荐）</h3>
+          <div class="code-block">
+            <pre><code>pnpm add git+https://gitee.com/CoolRainLy/template-sdk.git#main</code></pre>
+          </div>
+
+          <h3>npm</h3>
+          <div class="code-block">
+            <pre><code>npm install git+https://gitee.com/CoolRainLy/template-sdk.git#main</code></pre>
+          </div>
+
+          <h3>yarn</h3>
+          <div class="code-block">
+            <pre><code>yarn add git+https://gitee.com/CoolRainLy/template-sdk.git#main</code></pre>
+          </div>
+
+          <h2>Git 分发说明</h2>
+          <p>
+            SDK 当前通过 Gitee Git 仓库直接分发给模板项目，而不是从 npm registry 安装。
+          </p>
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>注意：</strong>
+              由于使用 Git 直接安装，每次更新 SDK 代码后，需要在模板项目中重新安装依赖，以确保使用最新的提交对应的 dist 产物。
+            </div>
+          </div>
+
+          <h2>验证安装</h2>
+          <p>安装完成后，你可以通过以下方式验证 SDK 是否安装成功：</p>
+
+          <h3>方式一：检查 node_modules</h3>
+          <div class="code-block">
+            <pre><code>ls node_modules/template-sdk</code></pre>
+          </div>
+
+          <h3>方式二：在代码中导入</h3>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> TemplateSdk <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+console.log(TemplateSdk)</code></pre>
+          </div>
+
+          <h2>IDE 配置</h2>
+          <p>
+            为了获得最佳的 TypeScript 类型提示和编辑器支持，建议在项目中添加 <code>jsconfig.json</code> 或 <code>tsconfig.json</code> 配置：
+          </p>
+
+          <h3>jsconfig.json</h3>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"include"</span>: [
+    <span class="code-string">".template-sdk/**/*.d.ts"</span>
+  ]
+}</code></pre>
+          </div>
+
+          <h3>tsconfig.json</h3>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"include"</span>: [
+    <span class="code-string">".template-sdk/**/*.d.ts"</span>
+  ]
+}</code></pre>
+          </div>
+
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>提示：</strong>
+              .template-sdk 目录下的 .d.ts 文件由 SDK 的 Vite 插件自动生成，用于提供类型提示。
+            </div>
+          </div>
+
+          <h2>下一步</h2>
+          <p>
+            安装完成后，请继续阅读 <a href="quick-start.html">快速开始</a> 了解如何使用 SDK。
+          </p>
+
+          <div class="page-navigation">
+            <div class="prev-page">
+              <span class="nav-label">上一页</span>
+              <a href="introduction.html" class="nav-link">← 介绍</a>
+            </div>
+            <div class="next-page">
+              <span class="nav-label">下一页</span>
+              <a href="quick-start.html" class="nav-link">快速开始 →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

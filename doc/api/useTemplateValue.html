@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>useTemplateValue - template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
+            <span class="logo-text">template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="../guide/introduction.html" class="nav-item">指南</a>
+            <a href="index.html" class="nav-item active">API</a>
+            <a href="../examples/index.html" class="nav-item">示例</a>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="../guide/introduction.html" class="mobile-nav-item">指南</a>
+      <a href="index.html" class="mobile-nav-item">API</a>
+      <a href="../examples/index.html" class="mobile-nav-item">示例</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">SDK</h3>
+            <ul class="sidebar-menu">
+              <li><a href="useTemplateValue.html" class="sidebar-link active">useTemplateValue</a></li>
+              <li><a href="TemplateSdk.html" class="sidebar-link">TemplateSdk</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">config</h3>
+            <ul class="sidebar-menu">
+              <li><a href="defineTemplateConfig.html" class="sidebar-link">defineTemplateConfig</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">vite</h3>
+            <ul class="sidebar-menu">
+              <li><a href="templateSdkPlugin.html" class="sidebar-link">templateSdkPlugin</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">工具函数</h3>
+            <ul class="sidebar-menu">
+              <li><a href="validateTemplateConfig.html" class="sidebar-link">validateTemplateConfig</a></li>
+              <li><a href="buildFunctions.html" class="sidebar-link">build* 函数</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">useTemplateValue</h1>
+
+          <p class="intro-lead">
+            useTemplateValue 是 SDK 的核心组合式函数，用于在 Vue 组件中读取模板字段值。
+          </p>
+
+          <h2>导入</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span></code></pre>
+          </div>
+
+          <h2>类型签名</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">function</span> useTemplateValue&lt;<span class="code-type">Path extends TemplateValuePath</span>&gt;(
+  <span class="code-property">path</span>: Path,
+  <span class="code-property">fallback</span>?: TemplateValueAtPath&lt;Path&gt;
+): Ref&lt;<span class="code-type">TemplateValueAtPath&lt;Path&gt;</span>&gt;</code></pre>
+          </div>
+
+          <h2>参数</h2>
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>参数名</th>
+                <th>说明</th>
+                <th>类型</th>
+                <th>必填</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>path</code></td>
+                <td>字段路径，支持点路径语法</td>
+                <td><code>string</code></td>
+                <td><strong>是</strong></td>
+              </tr>
+              <tr>
+                <td><code>fallback</code></td>
+                <td>兜底值，当路径没有取到值时返回</td>
+                <td><code>any</code></td>
+                <td>否</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>返回值</h2>
+          <p>
+            返回一个 <code>Ref&lt;T&gt;</code>，可直接在 Vue 模板中响应式使用。
+          </p>
+
+          <h2>路径语法</h2>
+          <p>
+            useTemplateValue 只接受点路径语法：
+          </p>
+
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>路径示例</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>'title'</code></td>
+                <td>读取根级 string/number/boolean 字段</td>
+              </tr>
+              <tr>
+                <td><code>'poster'</code></td>
+                <td>读取根级 image/video 字段，返回媒体对象</td>
+              </tr>
+              <tr>
+                <td><code>'timeline'</code></td>
+                <td>读取根级 array 字段</td>
+              </tr>
+              <tr>
+                <td><code>'timeline[0]'</code></td>
+                <td>读取数组第一项</td>
+              </tr>
+              <tr>
+                <td><code>'timeline[0].phase'</code></td>
+                <td>读取数组第一项的子字段</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>注意：</strong>
+              不接受以 <code>/</code> 开头的旧写法。
+            </div>
+          </div>
+
+          <h2>使用示例</h2>
+
+          <h3>基础用法</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-comment">// 读取字符串字段</span>
+<span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">'默认标题'</span>)
+
+<span class="code-comment">// 读取数字字段</span>
+<span class="code-keyword">const</span> count = useTemplateValue(<span class="code-string">'count'</span>, <span class="code-number">0</span>)
+
+<span class="code-comment">// 读取布尔字段</span>
+<span class="code-keyword">const</span> enabled = useTemplateValue(<span class="code-string">'enabled'</span>, <span class="code-keyword">false</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gtgt;</span>
+  <span class="code-tag">&lt;h1&gt;</span>{{ title }}<span class="code-tag">&lt;/h1&gt;</span>
+  <span class="code-tag">&lt;p&gt;</span>{{ count }}<span class="code-tag">&lt;/p&gt;</span>
+  <span class="code-tag">&lt;p&gt;</span>{{ enabled ? '启用' : '禁用' }}<span class="code-tag">&lt;/p&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h3>图片字段</h3>
+          <p>
+            image 字段返回媒体对象，包含 url、alt、poster 等属性。
+          </p>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, <span class="code-keyword">null</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gtgt;</span>
+  <span class="code-tag">&lt;img</span>
+    <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span>
+    <span class="code-attr">:alt</span>=<span class="code-string">"poster?.alt"</span>
+    <span class="code-attr">class</span>=<span class="code-string">"poster"</span>
+  <span class="code-tag">/&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h3>视频字段</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> trailer = useTemplateValue(<span class="code-string">'trailer'</span>, <span class="code-keyword">null</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gtgt;</span>
+  <span class="code-tag">&lt;video</span>
+    <span class="code-attr">:src</span>=<span class="code-string">"trailer?.url"</span>
+    <span class="code-attr">:poster</span>=<span class="code-string">"trailer?.poster"</span>
+    <span class="code-attr">controls</span>
+  <span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;/video&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h3>数组字段</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> timeline = useTemplateValue(<span class="code-string">'timeline'</span>, [])
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gtgt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">v-for</span>=<span class="code-string">"(item, index) in timeline"</span> <span class="code-attr">:key</span>=<span class="code-string">"index"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;p&gt;</span>{{ item.phase }}<span class="code-tag">&lt;/p&gt;</span>
+  <span class="code-tag">&lt;/div&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h3>嵌套数组取值</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-comment">// 读取嵌套数组的特定项</span>
+<span class="code-keyword">const</span> firstPhase = useTemplateValue(<span class="code-string">'timeline[0]'</span>)
+<span class="code-keyword">const</span> secondPhaseText = useTemplateValue(<span class="code-string">'timeline[1].phase'</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gtgt;</span>
+  <span class="code-tag">&lt;p&gt;</span>{{ firstPhase }}<span class="code-tag">&lt;/p&gt;</span>
+  <span class="code-tag">&lt;p&gt;</span>{{ secondPhaseText }}<span class="code-tag">&lt;/p&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h2>运行时值类型</h2>
+          <p>不同类型的字段在运行时的值类型：</p>
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>configJson 类型</th>
+                <th>运行时值类型</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>string</code></td>
+                <td><code>string</code></td>
+              </tr>
+              <tr>
+                <td><code>number</code></td>
+                <td><code>number</code></td>
+              </tr>
+              <tr>
+                <td><code>boolean</code></td>
+                <td><code>boolean</code></td>
+              </tr>
+              <tr>
+                <td><code>image</code></td>
+                <td><code>TemplateMediaObject</code></td>
+              </tr>
+              <tr>
+                <td><code>video</code></td>
+                <td><code>TemplateMediaObject</code></td>
+              </tr>
+              <tr>
+                <td><code>array</code></td>
+                <td><code>TemplateField[]</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="page-navigation">
+            <div class="prev-page">
+              <span class="nav-label">上一页</span>
+              <a href="index.html" class="nav-link">← API 概览</a>
+            </div>
+            <div class="next-page">
+              <span class="nav-label">下一页</span>
+              <a href="defineTemplateConfig.html" class="nav-link">defineTemplateConfig →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

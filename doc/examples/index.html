@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>示例 - template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
+            <span class="logo-text">template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="../guide/introduction.html" class="nav-item">指南</a>
+            <a href="../api/index.html" class="nav-item">API</a>
+            <a href="index.html" class="nav-item active">示例</a>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="../guide/introduction.html" class="mobile-nav-item">指南</a>
+      <a href="../api/index.html" class="mobile-nav-item">API</a>
+      <a href="index.html" class="mobile-nav-item">示例</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">示例</h3>
+            <ul class="sidebar-menu">
+              <li><a href="index.html" class="sidebar-link active">示例概览</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">示例</h1>
+
+          <p class="intro-lead">
+            这里收集了一些常用的 template-sdk 使用示例，帮助你快速上手。
+          </p>
+
+          <h2>基础示例</h2>
+
+          <div class="examples-grid">
+            <a href="basic-usage.html" class="example-card">
+              <div class="example-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+              </div>
+              <h3>基础使用</h3>
+              <p>最简单的基础使用示例，包含配置定义、插件安装和取值</p>
+              <span class="example-tag">入门</span>
+            </a>
+
+            <a href="field-types.html" class="example-card">
+              <div class="example-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M3 9h18M9 21V9"/>
+                </svg>
+              </div>
+              <h3>字段类型</h3>
+              <p>展示所有支持的字段类型：string、number、boolean、image、video、array</p>
+              <span class="example-tag">配置</span>
+            </a>
+
+            <a href="media-fields.html" class="example-card">
+              <div class="example-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <path d="M21 15l-5-5L5 21"/>
+                </svg>
+              </div>
+              <h3>媒体字段</h3>
+              <p>图片和视频字段的使用方法，以及如何访问媒体对象属性</p>
+              <span class="example-tag">媒体</span>
+            </a>
+
+            <a href="array-fields.html" class="example-card">
+              <div class="example-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+              </div>
+              <h3>数组字段</h3>
+              <p>数组字段的定义和取值，包括嵌套数组和数组操作</p>
+              <span class="example-tag">进阶</span>
+            </a>
+          </div>
+
+          <h2>完整项目示例</h2>
+
+          <div class="examples-grid">
+            <a href="demo-project.html" class="example-card example-card-large">
+              <div class="example-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                  <polyline points="2 17 12 22 22 17"/>
+                  <polyline points="2 12 12 17 22 12"/>
+                </svg>
+              </div>
+              <h3>完整模板项目</h3>
+              <p>一个完整的模板项目示例，包含多个页面组件和完整的配置结构</p>
+              <span class="example-tag">项目</span>
+            </a>
+          </div>
+
+          <h2>代码片段</h2>
+
+          <h3>简单文本显示</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">'默认标题'</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gtgt;</span>
+  <span class="code-tag">&lt;h1&gt;</span>{{ title }}<span class="code-tag">&lt;/h1&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h3>图片展示</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, <span class="code-keyword">null</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gtgt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span> <span class="code-attr">:alt</span>=<span class="code-string">"poster?.alt"</span> <span class="code-tag">/&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h3>循环列表</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> features = useTemplateValue(<span class="code-string">'features'</span>, [])
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gtgt;</span>
+  <span class="code-tag">&lt;ul&gt;</span>
+    <span class="code-tag">&lt;li</span> <span class="code-attr">v-for</span>=<span class="code-string">"feature in features"</span> <span class="code-attr">:key</span>=<span class="code-string">"feature.key"</span><span class="code-tag">&gt;</span>
+      {{ feature }}
+    <span class="code-tag">&lt;/li&gt;</span>
+  <span class="code-tag">&lt;/ul&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <style>
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-lg);
+      margin: var(--spacing-xl) 0;
+    }
+
+    .example-card {
+      display: flex;
+      flex-direction: column;
+      padding: var(--spacing-xl);
+      background: var(--color-bg-white);
+      border: 1px solid var(--color-border-lighter);
+      border-radius: var(--border-radius-large);
+      text-decoration: none;
+      transition: var(--transition-base);
+    }
+
+    .example-card:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-light);
+      transform: translateY(-2px);
+    }
+
+    .example-card-large {
+      grid-column: span 2;
+    }
+
+    .example-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: var(--spacing-md);
+      color: var(--color-primary);
+    }
+
+    .example-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .example-card h3 {
+      font-size: var(--font-size-large);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .example-card p {
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .example-tag {
+      display: inline-block;
+      margin-top: var(--spacing-md);
+      padding: 4px 12px;
+      font-size: var(--font-size-small);
+      background: var(--color-bg-light);
+      color: var(--color-text-secondary);
+      border-radius: var(--border-radius-base);
+      width: fit-content;
+    }
+
+    @media (max-width: 768px) {
+      .examples-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .example-card-large {
+        grid-column: span 1;
+      }
+    }
+  </style>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

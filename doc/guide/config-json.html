@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>configJson 结构 - template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
+            <span class="logo-text">template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="introduction.html" class="nav-item">指南</a>
+            <a href="../api/index.html" class="nav-item">API</a>
+            <a href="../examples/index.html" class="nav-item">示例</a>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="introduction.html" class="mobile-nav-item">介绍</a>
+      <a href="installation.html" class="mobile-nav-item">安装</a>
+      <a href="quick-start.html" class="mobile-nav-item">快速开始</a>
+      <a href="config-json.html" class="mobile-nav-item">configJson 结构</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">指南</h3>
+            <ul class="sidebar-menu">
+              <li><a href="introduction.html" class="sidebar-link">介绍</a></li>
+              <li><a href="installation.html" class="sidebar-link">安装</a></li>
+              <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
+              <li><a href="config-json.html" class="sidebar-link active">configJson 结构</a></li>
+              <li><a href="valueMap.html" class="sidebar-link">valueMap 的角色</a></li>
+              <li><a href="advanced.html" class="sidebar-link">进阶用法</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">configJson 结构</h1>
+
+          <p class="intro-lead">
+            了解 configJson 的完整结构，包括所有支持的字段类型和配置选项。
+          </p>
+
+          <h2>顶层结构</h2>
+          <p>configJson 必须是完整的配置对象：</p>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"meta"</span>: {},
+  <span class="code-property">"dataSchema"</span>: {
+    <span class="code-property">"fields"</span>: []
+  },
+  <span class="code-property">"functions"</span>: {}
+}</code></pre>
+          </div>
+
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>属性</th>
+                <th>说明</th>
+                <th>类型</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>meta</code></td>
+                <td>模板元信息对象</td>
+                <td><code>object</code></td>
+              </tr>
+              <tr>
+                <td><code>dataSchema</code></td>
+                <td>字段定义容器</td>
+                <td><code>object</code></td>
+              </tr>
+              <tr>
+                <td><code>functions</code></td>
+                <td>预留配置对象（当前保留）</td>
+                <td><code>object</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>meta 对象</h2>
+          <p>meta 是模板元信息对象，没有强制字段白名单，常见字段如下：</p>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"meta"</span>: {
+    <span class="code-property">"name"</span>: <span class="code-string">"示例模板"</span>,
+    <span class="code-property">"code"</span>: <span class="code-string">"demo-template"</span>,
+    <span class="code-property">"version"</span>: <span class="code-string">"0.1.0"</span>
+  }
+}</code></pre>
+          </div>
+
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>属性</th>
+                <th>说明</th>
+                <th>类型</th>
+                <th>必填</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>name</code></td>
+                <td>模板名称</td>
+                <td><code>string</code></td>
+                <td>否</td>
+              </tr>
+              <tr>
+                <td><code>code</code></td>
+                <td>模板代码</td>
+                <td><code>string</code></td>
+                <td>否</td>
+              </tr>
+              <tr>
+                <td><code>version</code></td>
+                <td>模板版本</td>
+                <td><code>string</code></td>
+                <td>否</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>通用字段对象</h2>
+          <p>所有字段对象至少包含以下结构：</p>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"key"</span>: <span class="code-string">"title"</span>,
+  <span class="code-property">"type"</span>: <span class="code-string">"string"</span>,
+  <span class="code-property">"label"</span>: <span class="code-string">"标题"</span>,
+  <span class="code-property">"value"</span>: <span class="code-string">"默认标题"</span>
+}</code></pre>
+          </div>
+
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>属性</th>
+                <th>说明</th>
+                <th>类型</th>
+                <th>必填</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>key</code></td>
+                <td>字段唯一标识</td>
+                <td><code>string</code></td>
+                <td><strong>是</strong></td>
+              </tr>
+              <tr>
+                <td><code>type</code></td>
+                <td>字段类型</td>
+                <td><code>string</code></td>
+                <td><strong>是</strong></td>
+              </tr>
+              <tr>
+                <td><code>label</code></td>
+                <td>字段展示名</td>
+                <td><code>string</code></td>
+                <td>否</td>
+              </tr>
+              <tr>
+                <td><code>value</code></td>
+                <td>默认值</td>
+                <td><code>unknown</code></td>
+                <td>否</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>通用规则：</strong>
+              <ul>
+                <li>key 必须是非空字符串</li>
+                <li>同一层级内 key 不能重复</li>
+                <li>value 不是必填；有 value 时表示默认值</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2>支持的字段类型</h2>
+          <p>当前只支持以下类型：</p>
+
+          <div class="type-grid">
+            <div class="type-item">
+              <span class="type-badge type-string">string</span>
+              <p>普通文本</p>
+            </div>
+            <div class="type-item">
+              <span class="type-badge type-number">number</span>
+              <p>数字</p>
+            </div>
+            <div class="type-item">
+              <span class="type-badge type-boolean">boolean</span>
+              <p>布尔值</p>
+            </div>
+            <div class="type-item">
+              <span class="type-badge type-image">image</span>
+              <p>图片路径</p>
+            </div>
+            <div class="type-item">
+              <span class="type-badge type-video">video</span>
+              <p>视频路径</p>
+            </div>
+            <div class="type-item">
+              <span class="type-badge type-array">array</span>
+              <p>字段数组</p>
+            </div>
+          </div>
+
+          <h2>string 字段</h2>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"key"</span>: <span class="code-string">"title"</span>,
+  <span class="code-property">"type"</span>: <span class="code-string">"string"</span>,
+  <span class="code-property">"label"</span>: <span class="code-string">"标题"</span>,
+  <span class="code-property">"value"</span>: <span class="code-string">"默认标题"</span>
+}</code></pre>
+          </div>
+
+          <h2>number 字段</h2>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"key"</span>: <span class="code-string">"count"</span>,
+  <span class="code-property">"type"</span>: <span class="code-string">"number"</span>,
+  <span class="code-property">"label"</span>: <span class="code-string">"数量"</span>,
+  <span class="code-property">"value"</span>: <span class="code-number">3</span>
+}</code></pre>
+          </div>
+
+          <h2>boolean 字段</h2>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"key"</span>: <span class="code-string">"enabled"</span>,
+  <span class="code-property">"type"</span>: <span class="code-string">"boolean"</span>,
+  <span class="code-property">"label"</span>: <span class="code-string">"是否启用"</span>,
+  <span class="code-property">"value"</span>: <span class="code-keyword">true</span>
+}</code></pre>
+          </div>
+
+          <h2>image 字段</h2>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"key"</span>: <span class="code-string">"poster"</span>,
+  <span class="code-property">"type"</span>: <span class="code-string">"image"</span>,
+  <span class="code-property">"label"</span>: <span class="code-string">"海报"</span>,
+  <span class="code-property">"value"</span>: <span class="code-string">"/assets/template/poster-core.svg"</span>
+}</code></pre>
+          </div>
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>注意：</strong>
+              image 在 configJson 里只接受字符串路径（相对路径或绝对 URL）。
+            </div>
+          </div>
+
+          <h2>video 字段</h2>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"key"</span>: <span class="code-string">"trailer"</span>,
+  <span class="code-property">"type"</span>: <span class="code-string">"video"</span>,
+  <span class="code-property">"label"</span>: <span class="code-string">"视频"</span>,
+  <span class="code-property">"value"</span>: <span class="code-string">"https://example.com/video.mp4"</span>
+}</code></pre>
+          </div>
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>注意：</strong>
+              video 在 configJson 里只接受字符串路径（相对路径或绝对 URL）。
+            </div>
+          </div>
+
+          <h2>array 字段</h2>
+          <p>数组字段用于表示一组有序的字段，数组子项继续使用和普通字段一致的字段对象结构。</p>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"key"</span>: <span class="code-string">"timeline"</span>,
+  <span class="code-property">"type"</span>: <span class="code-string">"array"</span>,
+  <span class="code-property">"label"</span>: <span class="code-string">"时间轴"</span>,
+  <span class="code-property">"operations"</span>: [<span class="code-string">"add"</span>, <span class="code-string">"delete"</span>],
+  <span class="code-property">"value"</span>: [
+    {
+      <span class="code-property">"key"</span>: <span class="code-string">"phase01"</span>,
+      <span class="code-property">"type"</span>: <span class="code-string">"string"</span>,
+      <span class="code-property">"label"</span>: <span class="code-string">"阶段一"</span>,
+      <span class="code-property">"value"</span>: <span class="code-string">"接入边缘传感节点。"</span>
+    },
+    {
+      <span class="code-property">"key"</span>: <span class="code-string">"phase02"</span>,
+      <span class="code-property">"type"</span>: <span class="code-string">"string"</span>,
+      <span class="code-property">"label"</span>: <span class="code-string">"阶段二"</span>,
+      <span class="code-property">"value"</span>: <span class="code-string">"将采集数据转换为状态向量。"</span>
+    }
+  ]
+}</code></pre>
+          </div>
+
+          <h3>operations 属性</h3>
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>值</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>add</code></td>
+                <td>允许添加新项</td>
+              </tr>
+              <tr>
+                <td><code>delete</code></td>
+                <td>允许删除已有项</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>operations 默认行为：</strong>
+              <ul>
+                <li>未填写 operations 时，默认允许 add 和 delete</li>
+                <li>operations: [] 表示不允许任何操作</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="page-navigation">
+            <div class="prev-page">
+              <span class="nav-label">上一页</span>
+              <a href="quick-start.html" class="nav-link">← 快速开始</a>
+            </div>
+            <div class="next-page">
+              <span class="nav-label">下一页</span>
+              <a href="valueMap.html" class="nav-link">valueMap 的角色 →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

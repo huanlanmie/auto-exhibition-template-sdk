@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>templateSdkPlugin - template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
+            <span class="logo-text">template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="../guide/introduction.html" class="nav-item">指南</a>
+            <a href="index.html" class="nav-item active">API</a>
+            <a href="../examples/index.html" class="nav-item">示例</a>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="../guide/introduction.html" class="mobile-nav-item">指南</a>
+      <a href="index.html" class="mobile-nav-item">API</a>
+      <a href="../examples/index.html" class="mobile-nav-item">示例</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">SDK</h3>
+            <ul class="sidebar-menu">
+              <li><a href="useTemplateValue.html" class="sidebar-link">useTemplateValue</a></li>
+              <li><a href="TemplateSdk.html" class="sidebar-link">TemplateSdk</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">config</h3>
+            <ul class="sidebar-menu">
+              <li><a href="defineTemplateConfig.html" class="sidebar-link">defineTemplateConfig</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">vite</h3>
+            <ul class="sidebar-menu">
+              <li><a href="templateSdkPlugin.html" class="sidebar-link active">templateSdkPlugin</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">工具函数</h3>
+            <ul class="sidebar-menu">
+              <li><a href="validateTemplateConfig.html" class="sidebar-link">validateTemplateConfig</a></li>
+              <li><a href="buildFunctions.html" class="sidebar-link">build* 函数</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">templateSdkPlugin</h1>
+
+          <p class="intro-lead">
+            templateSdkPlugin 是 Vite 插件，用于在构建时处理模板配置、生成类型声明文件和构建产物。
+          </p>
+
+          <h2>导入</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span></code></pre>
+          </div>
+
+          <h2>类型签名</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">function</span> templateSdkPlugin(
+  options: TemplateSdkPluginOptions
+): Plugin
+
+<span class="code-keyword">interface</span> TemplateSdkPluginOptions {
+  <span class="code-property">configJson</span>: TemplateConfig
+}</code></pre>
+          </div>
+
+          <h2>选项</h2>
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>属性</th>
+                <th>说明</th>
+                <th>类型</th>
+                <th>必填</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>configJson</code></td>
+                <td>模板配置对象</td>
+                <td><code>TemplateConfig</code></td>
+                <td><strong>是</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>插件功能</h2>
+          <p>
+            templateSdkPlugin 在开发和构建阶段自动执行以下任务：
+          </p>
+          <ul class="feature-list">
+            <li><strong>配置校验</strong>：验证 configJson 是否符合规范</li>
+            <li><strong>类型生成</strong>：生成 .template-sdk/**/*.d.ts 类型声明文件</li>
+            <li><strong>产物输出</strong>：输出 config.json 和 valueMap.json</li>
+          </ul>
+
+          <h2>使用示例</h2>
+
+          <h3>基本用法</h3>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// vite.config.ts</span>
+<span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
+<span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
+<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span>
+
+<span class="code-keyword">export default</span> defineConfig({
+  <span class="code-property">plugins</span>: [
+    templateSdkPlugin({ configJson }),
+    vue()
+  ]
+})</code></pre>
+          </div>
+
+          <h3>完整配置</h3>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// vite.config.ts</span>
+<span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
+<span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
+<span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'./src/template/config.ts'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span>
+
+<span class="code-keyword">const</span> config = defineConfig({
+  <span class="code-property">meta</span>: {
+    <span class="code-property">name</span>: <span class="code-string">'示例模板'</span>,
+    <span class="code-property">code</span>: <span class="code-string">'demo'</span>
+  },
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">value</span>: <span class="code-string">'标题'</span> }
+    ]
+  }
+})
+
+<span class="code-keyword">export default</span> defineConfig({
+  <span class="code-property">plugins</span>: [
+    templateSdkPlugin({ configJson: config }),
+    vue()
+  ]
+})</code></pre>
+          </div>
+
+          <h2>生成的文件</h2>
+          <p>
+            插件会在开发或构建时生成以下文件：
+          </p>
+
+          <h3>类型声明文件</h3>
+          <div class="code-block">
+            <pre><code>.template-sdk/
+└── template-sdk.d.ts   <span class="code-comment">// SDK 类型声明</span></code></pre>
+          </div>
+
+          <h3>构建产物</h3>
+          <div class="code-block">
+            <pre><code>dist/
+├── config.json                              <span class="code-comment">// 模板配置副本</span>
+└── assets/
+    └── template-sdk/
+        └── valueMap.json                     <span class="code-comment">// 运行时值映射</span></code></pre>
+          </div>
+
+          <h2>错误处理</h2>
+          <p>
+            如果 configJson 校验失败，插件会在终端输出详细的错误信息：
+          </p>
+          <div class="code-block">
+            <pre><code>[template-sdk] 配置校验失败
+- 路径: dataSchema.fields[0].key
+- 错误: key 不能为空</code></pre>
+          </div>
+
+          <div class="page-navigation">
+            <div class="prev-page">
+              <span class="nav-label">上一页</span>
+              <a href="defineTemplateConfig.html" class="nav-link">← defineTemplateConfig</a>
+            </div>
+            <div class="next-page">
+              <span class="nav-label">下一页</span>
+              <a href="validateTemplateConfig.html" class="nav-link">validateTemplateConfig →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

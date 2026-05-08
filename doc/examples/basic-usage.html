@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基础使用示例 - template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
+            <span class="logo-text">template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="../guide/introduction.html" class="nav-item">指南</a>
+            <a href="../api/index.html" class="nav-item">API</a>
+            <a href="index.html" class="nav-item active">示例</a>
+            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="../guide/introduction.html" class="mobile-nav-item">指南</a>
+      <a href="../api/index.html" class="mobile-nav-item">API</a>
+      <a href="index.html" class="mobile-nav-item">示例</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">示例</h3>
+            <ul class="sidebar-menu">
+              <li><a href="index.html" class="sidebar-link">示例概览</a></li>
+              <li><a href="basic-usage.html" class="sidebar-link active">基础使用</a></li>
+              <li><a href="field-types.html" class="sidebar-link">字段类型</a></li>
+              <li><a href="media-fields.html" class="sidebar-link">媒体字段</a></li>
+              <li><a href="array-fields.html" class="sidebar-link">数组字段</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">基础使用示例</h1>
+
+          <p class="intro-lead">
+            这是一个完整的基础使用示例，展示了如何使用 template-sdk 从配置到组件取值的完整流程。
+          </p>
+
+          <h2>项目结构</h2>
+          <div class="code-block">
+            <pre><code>src/
+├── template/
+│   └── config.ts          <span class="code-comment">// 模板配置</span>
+├── components/
+│   └── HeroSection.vue    <span class="code-comment">// 使用 SDK 的组件</span>
+├── App.vue
+├── main.ts
+└── vite.config.ts</code></pre>
+          </div>
+
+          <h2>第一步：定义配置</h2>
+          <p>创建 <code>src/template/config.ts</code> 文件：</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// src/template/config.ts</span>
+<span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/config'</span>
+
+<span class="code-keyword">const</span> configJson = defineTemplateConfig({
+  <span class="code-property">meta</span>: {
+    <span class="code-property">name</span>: <span class="code-string">'示例模板'</span>,
+    <span class="code-property">code</span>: <span class="code-string">'demo-template'</span>,
+    <span class="code-property">version</span>: <span class="code-string">'1.0.0'</span>
+  },
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      {
+        <span class="code-property">key</span>: <span class="code-string">'title'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'string'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'主标题'</span>,
+        <span class="code-property">value</span>: <span class="code-string">'欢迎使用 template-sdk'</span>
+      },
+      {
+        <span class="code-property">key</span>: <span class="code-string">'subtitle'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'string'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'副标题'</span>,
+        <span class="code-property">value</span>: <span class="code-string">'面向模板项目的前端 SDK'</span>
+      }
+    ]
+  },
+  <span class="code-property">functions</span>: {}
+})
+
+<span class="code-keyword">export default</span> configJson</code></pre>
+          </div>
+
+          <h2>第二步：配置 Vite 插件</h2>
+          <p>在 <code>vite.config.ts</code> 中启用插件：</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// vite.config.ts</span>
+<span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
+<span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
+<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span>
+
+<span class="code-keyword">export default</span> defineConfig({
+  <span class="code-property">plugins</span>: [
+    templateSdkPlugin({ configJson }),
+    vue()
+  ]
+})</code></pre>
+          </div>
+
+          <h2>第三步：安装运行时</h2>
+          <p>在 <code>main.ts</code> 中安装 TemplateSdk：</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// main.ts</span>
+<span class="code-keyword">import</span> { createApp } <span class="code-keyword">from</span> <span class="code-string">'vue'</span>
+<span class="code-keyword">import</span> App <span class="code-keyword">from</span> <span class="code-string">'./App.vue'</span>
+<span class="code-keyword">import</span> TemplateSdk <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-keyword">const</span> app = createApp(App)
+app.use(TemplateSdk)
+app.mount(<span class="code-string">'#app'</span>)</code></pre>
+          </div>
+
+          <h2>第四步：在组件中取值</h2>
+          <p>创建 <code>src/components/HeroSection.vue</code>：</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">&lt;!-- src/components/HeroSection.vue --&gt;</span>
+<span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+
+<span class="code-comment">// 读取标题字段，提供空字符串作为兜底值</span>
+<span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">'默认标题'</span>)
+
+<span class="code-comment">// 读取副标题字段</span>
+<span class="code-keyword">const</span> subtitle = useTemplateValue(<span class="code-string">'subtitle'</span>, <span class="code-string">''</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gtgt;</span>
+  <span class="code-tag">&lt;section</span> <span class="code-attr">class</span>=<span class="code-string">"hero"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;h1&gt;</span>{{ title }}<span class="code-tag">&lt;/h1&gt;</span>
+    <span class="code-tag">&lt;p</span> <span class="code-attr">class</span>=<span class="code-string">"subtitle"</span><span class="code-tag">&gt;</span>{{ subtitle }}<span class="code-tag">&lt;/p&gt;</span>
+  <span class="code-tag">&lt;/section&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span>
+
+<span class="code-tag">&lt;style</span> <span class="code-attr">scoped</span><span class="code-tag">&gt;</span>
+.hero {
+  <span class="code-property">text-align</span>: center;
+  <span class="code-property">padding</span>: <span class="code-number">48px</span> <span class="code-number">0</span>;
+}
+
+h1 {
+  <span class="code-property">font-size</span>: <span class="code-number">48px</span>;
+  <span class="code-property">margin-bottom</span>: <span class="code-number">16px</span>;
+}
+
+.subtitle {
+  <span class="code-property">font-size</span>: <span class="code-number">18px</span>;
+  <span class="code-property">color</span>: #606266;
+}
+<span class="code-tag">&lt;/style&gt;</span></code></pre>
+          </div>
+
+          <h2>效果预览</h2>
+          <p>
+            运行 <code>pnpm dev</code> 后，你将看到：
+          </p>
+          <div class="demo-preview">
+            <div class="preview-box">
+              <h1>欢迎使用 template-sdk</h1>
+              <p class="subtitle">面向模板项目的前端 SDK</p>
+            </div>
+          </div>
+
+          <h2>总结</h2>
+          <p>
+            完整的流程就是：
+          </p>
+          <ol>
+            <li>定义 configJson 配置</li>
+            <li>配置 Vite 插件</li>
+            <li>安装运行时插件</li>
+            <li>在组件中使用 useTemplateValue 取值</li>
+          </ol>
+          <p>
+            现在你可以继续探索更复杂的场景，如<a href="field-types.html">字段类型</a>、<a href="media-fields.html">媒体字段</a>和<a href="array-fields.html">数组字段</a>。
+          </p>
+
+          <div class="page-navigation">
+            <div class="prev-page">
+              <span class="nav-label">上一页</span>
+              <a href="index.html" class="nav-link">← 示例概览</a>
+            </div>
+            <div class="next-page">
+              <span class="nav-label">下一页</span>
+              <a href="field-types.html" class="nav-link">字段类型 →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <style>
+    .demo-preview {
+      background: var(--color-bg-light);
+      border-radius: var(--border-radius-large);
+      padding: var(--spacing-xl);
+      margin: var(--spacing-lg) 0;
+      text-align: center;
+    }
+
+    .preview-box {
+      background: var(--color-bg-white);
+      padding: var(--spacing-xl);
+      border-radius: var(--border-radius-base);
+      border: 1px solid var(--color-border-lighter);
+    }
+
+    .preview-box h1 {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .preview-box .subtitle {
+      font-size: 16px;
+      color: #606266;
+    }
+  </style>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>
