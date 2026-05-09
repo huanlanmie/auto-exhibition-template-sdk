@@ -9,8 +9,8 @@ import type { TemplateConfig, TemplateContext, TemplateSdkOptions } from '../../
 // 2. Electron file:// 场景会被解析成磁盘根目录（例如 C:/config.json）。
 // 因此 SDK 固定使用相对 index.html 的同级/子级路径读取构建产物。
 const CONFIG_JSON_URL = './config.json'
-const VALUE_MAP_URL = './assets/template-sdk/valueMap.json'
-const VALUE_MAP_SYNC_MESSAGE_TYPE = 'template-sdk:update-value-map'
+const VALUE_MAP_URL = './assets/auto-exhibition-template-sdk/valueMap.json'
+const VALUE_MAP_SYNC_MESSAGE_TYPE = 'auto-exhibition-template-sdk:update-value-map'
 
 function cloneRuntimeValue<T>(value: T): T {
   if (value === undefined) {
@@ -85,7 +85,7 @@ export function createTemplateContext(options: TemplateSdkOptions = {}) {
     loadTemplateArtifactsFromPluginOutput()
       .then((artifacts) => applyArtifacts(artifacts))
       .catch((error) => {
-        console.error('[template-sdk] 自动加载模板配置失败', error)
+        console.error('[auto-exhibition-template-sdk] 自动加载模板配置失败', error)
       })
   }
 
@@ -104,7 +104,7 @@ export function createTemplateContext(options: TemplateSdkOptions = {}) {
 
       // 旧版 /title 这类写法已经废弃，继续接受只会让模板层长期保留双语义路径。
       if (normalizedPath.startsWith('/')) {
-        throw new Error('template-sdk useTemplateValue key 不能以 / 开头，请改为 title、timeline[0].phase 这类点路径')
+        throw new Error('auto-exhibition-template-sdk useTemplateValue key 不能以 / 开头，请改为 title、timeline[0].phase 这类点路径')
       }
 
       // 先把当前作用域和局部 key 拼接，再统一去掉残留前导斜杠，保证最终读取只走一套根路径规范。

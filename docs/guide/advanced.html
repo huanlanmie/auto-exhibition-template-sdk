@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>进阶用法 - template-sdk</title>
+  <title>进阶用法 - auto-exhibition-template-sdk</title>
   <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
   <link rel="stylesheet" href="../styles/common.css">
   <link rel="stylesheet" href="../styles/page.css">
@@ -16,14 +16,14 @@
       <div class="container header-container">
         <div class="header-left">
           <a href="../index.html" class="logo">
-            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
-            <span class="logo-text">template-sdk</span>
+            <img src="../assets/logo.svg" alt="auto-exhibition-template-sdk" class="logo-img">
+            <span class="logo-text">auto-exhibition-template-sdk</span>
           </a>
           <nav class="nav">
             <a href="introduction.html" class="nav-item">指南</a>
             <a href="../api/index.html" class="nav-item">API</a>
             <a href="../examples/index.html" class="nav-item">示例</a>
-            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+            <a href="https://www.npmjs.com/package/auto-exhibition-template-sdk" target="_blank" class="nav-item">npm</a>
           </nav>
         </div>
         <div class="header-right">
@@ -81,8 +81,8 @@
           </p>
 
           <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/config'</span>
-<span class="code-keyword">import</span> type { InferTemplateValueMap } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
+<span class="code-keyword">import</span> type { InferTemplateValueMap } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-keyword">const</span> configJson = defineTemplateConfig({
   <span class="code-property">meta</span>: { <span class="code-property">name</span>: <span class="code-string">'demo'</span> },
@@ -104,7 +104,7 @@
           </p>
 
           <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { validateTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+            <pre><code><span class="code-keyword">import</span> { validateTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-keyword">const</span> issues = validateTemplateConfig({
   <span class="code-property">dataSchema</span>: {
@@ -127,7 +127,7 @@
           <h3>buildTemplateValueMap</h3>
           <p>根据 configJson 构建 valueMap。</p>
           <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { buildTemplateValueMap } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+            <pre><code><span class="code-keyword">import</span> { buildTemplateValueMap } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-keyword">const</span> valueMap = buildTemplateValueMap(configJson)</code></pre>
           </div>
@@ -135,7 +135,7 @@
           <h3>buildTemplateArtifacts</h3>
           <p>构建完整的模板产物。</p>
           <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { buildTemplateArtifacts } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+            <pre><code><span class="code-keyword">import</span> { buildTemplateArtifacts } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-keyword">const</span> artifacts = buildTemplateArtifacts(configJson)</code></pre>
           </div>
@@ -143,7 +143,7 @@
           <h3>buildTemplateJsonFiles</h3>
           <p>构建 JSON 文件产物。</p>
           <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { buildTemplateJsonFiles } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+            <pre><code><span class="code-keyword">import</span> { buildTemplateJsonFiles } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-keyword">const</span> files = buildTemplateJsonFiles(configJson)</code></pre>
           </div>
@@ -215,7 +215,7 @@
             <pre><code><span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
 <span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
 <span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
-<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
 
 <span class="code-keyword">export default</span> defineConfig({
   <span class="code-property">plugins</span>: [
@@ -243,7 +243,7 @@ console.log(<span class="code-string">'title value:'</span>, title.value)</code>
 
           <h3>查看生成的类型文件</h3>
           <p>
-            SDK 会自动生成 <code>.template-sdk/**/*.d.ts</code> 文件，可以查看这些文件了解 SDK 生成的类型定义。
+            SDK 会自动生成 <code>.auto-exhibition-template-sdk/**/*.d.ts</code> 文件，可以查看这些文件了解 SDK 生成的类型定义。
           </p>
 
           <div class="page-navigation">

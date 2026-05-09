@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>templateSdkPlugin - template-sdk</title>
+  <title>templateSdkPlugin - auto-exhibition-template-sdk</title>
   <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
   <link rel="stylesheet" href="../styles/common.css">
   <link rel="stylesheet" href="../styles/page.css">
@@ -16,14 +16,14 @@
       <div class="container header-container">
         <div class="header-left">
           <a href="../index.html" class="logo">
-            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
-            <span class="logo-text">template-sdk</span>
+            <img src="../assets/logo.svg" alt="auto-exhibition-template-sdk" class="logo-img">
+            <span class="logo-text">auto-exhibition-template-sdk</span>
           </a>
           <nav class="nav">
             <a href="../guide/introduction.html" class="nav-item">指南</a>
             <a href="index.html" class="nav-item active">API</a>
             <a href="../examples/index.html" class="nav-item">示例</a>
-            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+            <a href="https://www.npmjs.com/package/auto-exhibition-template-sdk" target="_blank" class="nav-item">npm</a>
           </nav>
         </div>
         <div class="header-right">
@@ -89,7 +89,7 @@
 
           <h2>导入</h2>
           <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span></code></pre>
+            <pre><code><span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span></code></pre>
           </div>
 
           <h2>类型签名</h2>
@@ -129,7 +129,7 @@
           </p>
           <ul class="feature-list">
             <li><strong>配置校验</strong>：验证 configJson 是否符合规范</li>
-            <li><strong>类型生成</strong>：生成 .template-sdk/**/*.d.ts 类型声明文件</li>
+            <li><strong>类型生成</strong>：生成 .auto-exhibition-template-sdk/**/*.d.ts 类型声明文件</li>
             <li><strong>产物输出</strong>：输出 config.json 和 valueMap.json</li>
           </ul>
 
@@ -141,7 +141,7 @@
 <span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
 <span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
 <span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
-<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
 
 <span class="code-keyword">export default</span> defineConfig({
   <span class="code-property">plugins</span>: [
@@ -157,7 +157,7 @@
 <span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
 <span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
 <span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'./src/template/config.ts'</span>
-<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
 
 <span class="code-keyword">const</span> config = defineConfig({
   <span class="code-property">meta</span>: {
@@ -186,8 +186,8 @@
 
           <h3>类型声明文件</h3>
           <div class="code-block">
-            <pre><code>.template-sdk/
-└── template-sdk.d.ts   <span class="code-comment">// SDK 类型声明</span></code></pre>
+            <pre><code>.auto-exhibition-template-sdk/
+└── auto-exhibition-template-sdk.d.ts   <span class="code-comment">// SDK 类型声明</span></code></pre>
           </div>
 
           <h3>构建产物</h3>
@@ -195,7 +195,7 @@
             <pre><code>dist/
 ├── config.json                              <span class="code-comment">// 模板配置副本</span>
 └── assets/
-    └── template-sdk/
+    └── auto-exhibition-template-sdk/
         └── valueMap.json                     <span class="code-comment">// 运行时值映射</span></code></pre>
           </div>
 
@@ -204,7 +204,7 @@
             如果 configJson 校验失败，插件会在终端输出详细的错误信息：
           </p>
           <div class="code-block">
-            <pre><code>[template-sdk] 配置校验失败
+            <pre><code>[auto-exhibition-template-sdk] 配置校验失败
 - 路径: dataSchema.fields[0].key
 - 错误: key 不能为空</code></pre>
           </div>

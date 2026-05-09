@@ -418,7 +418,7 @@ export function validateTemplateConfig(configJson: unknown): TemplateConfig {
 
   if (issues.length) {
     const message = issues.map((issue) => `${issue.path}: ${issue.message}`).join('\n')
-    throw new Error(`template-sdk configJson 校验失败:\n${message}`)
+    throw new Error(`auto-exhibition-template-sdk configJson 校验失败:\n${message}`)
   }
 
   // 返回深拷贝后的规范化配置，避免外部继续持有原始对象引用并在 SDK 运行过程中修改它。

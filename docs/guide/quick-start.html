@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>快速开始 - template-sdk</title>
+  <title>快速开始 - auto-exhibition-template-sdk</title>
   <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
   <link rel="stylesheet" href="../styles/common.css">
   <link rel="stylesheet" href="../styles/page.css">
@@ -16,14 +16,14 @@
       <div class="container header-container">
         <div class="header-left">
           <a href="../index.html" class="logo">
-            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
-            <span class="logo-text">template-sdk</span>
+            <img src="../assets/logo.svg" alt="auto-exhibition-template-sdk" class="logo-img">
+            <span class="logo-text">auto-exhibition-template-sdk</span>
           </a>
           <nav class="nav">
             <a href="introduction.html" class="nav-item">指南</a>
             <a href="../api/index.html" class="nav-item">API</a>
             <a href="../examples/index.html" class="nav-item">示例</a>
-            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+            <a href="https://www.npmjs.com/package/auto-exhibition-template-sdk" target="_blank" class="nav-item">npm</a>
           </nav>
         </div>
         <div class="header-right">
@@ -70,7 +70,7 @@
           <h1 class="page-title">快速开始</h1>
 
           <p class="intro-lead">
-            本章节介绍如何快速接入 template-sdk 到你的模板项目中。
+            本章节介绍如何快速接入 auto-exhibition-template-sdk 到你的模板项目中。
           </p>
 
           <h2>完整接入流程</h2>
@@ -80,7 +80,7 @@
             在项目中创建 <code>src/template/config.ts</code> 文件，定义模板的字段结构：
           </p>
           <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/config'</span>
+            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
 
 <span class="code-keyword">const</span> configJson = defineTemplateConfig({
   <span class="code-property">meta</span>: {
@@ -118,7 +118,7 @@
             <pre><code><span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
 <span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
 <span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
-<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/vite'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
 
 <span class="code-keyword">export default</span> defineConfig({
   <span class="code-property">plugins</span>: [
@@ -135,7 +135,7 @@
           <div class="code-block">
             <pre><code><span class="code-keyword">import</span> { createApp } <span class="code-keyword">from</span> <span class="code-string">'vue'</span>
 <span class="code-keyword">import</span> App <span class="code-keyword">from</span> <span class="code-string">'./App.vue'</span>
-<span class="code-keyword">import</span> TemplateSdk <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+<span class="code-keyword">import</span> TemplateSdk <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-keyword">const</span> app = createApp(App)
 app.use(TemplateSdk)
@@ -149,7 +149,7 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
           <div class="code-block">
             <pre><code><span class="code-comment">&lt;!-- src/components/HeroSection.vue --&gt;</span>
 <span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
-<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-comment">// 读取标题字段</span>
 <span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">'默认标题'</span>)
@@ -174,13 +174,13 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
             <pre><code>pnpm build</code></pre>
           </div>
           <p>
-            构建完成后，<code>dist</code> 目录中会包含 <code>config.json</code> 和 <code>assets/template-sdk/valueMap.json</code> 等文件，这些是上传到管理后台的必需文件。
+            构建完成后，<code>dist</code> 目录中会包含 <code>config.json</code> 和 <code>assets/auto-exhibition-template-sdk/valueMap.json</code> 等文件，这些是上传到管理后台的必需文件。
           </p>
 
           <h2>完整示例</h2>
           <p>完整的配置示例展示了如何使用所有支持的字段类型：</p>
           <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk/config'</span>
+            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
 
 <span class="code-keyword">const</span> configJson = defineTemplateConfig({
   <span class="code-property">meta</span>: {

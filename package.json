@@ -1,6 +1,9 @@
 {
-  "name": "template-sdk",
-  "version": "0.1.1",
+  "name": "auto-exhibition-template-sdk",
+  "version": "0.1.2",
+  "description": "前端展览模板 SDK，提供 configJson 校验、valueMap 构建和 Vite 插件支持",
+  "keywords": ["template", "sdk", "exhibition", "vue", "vite"],
+  "license": "MIT",
   "type": "module",
   "main": "./index.js",
   "module": "./index.js",

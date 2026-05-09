@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>useTemplateValue - template-sdk</title>
+  <title>useTemplateValue - auto-exhibition-template-sdk</title>
   <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
   <link rel="stylesheet" href="../styles/common.css">
   <link rel="stylesheet" href="../styles/page.css">
@@ -16,14 +16,14 @@
       <div class="container header-container">
         <div class="header-left">
           <a href="../index.html" class="logo">
-            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
-            <span class="logo-text">template-sdk</span>
+            <img src="../assets/logo.svg" alt="auto-exhibition-template-sdk" class="logo-img">
+            <span class="logo-text">auto-exhibition-template-sdk</span>
           </a>
           <nav class="nav">
             <a href="../guide/introduction.html" class="nav-item">指南</a>
             <a href="index.html" class="nav-item active">API</a>
             <a href="../examples/index.html" class="nav-item">示例</a>
-            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+            <a href="https://www.npmjs.com/package/auto-exhibition-template-sdk" target="_blank" class="nav-item">npm</a>
           </nav>
         </div>
         <div class="header-right">
@@ -89,7 +89,7 @@
 
           <h2>导入</h2>
           <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span></code></pre>
+            <pre><code><span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span></code></pre>
           </div>
 
           <h2>类型签名</h2>
@@ -185,7 +185,7 @@
           <h3>基础用法</h3>
           <div class="code-block">
             <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
-<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-comment">// 读取字符串字段</span>
 <span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">'默认标题'</span>)
@@ -210,7 +210,7 @@
           </p>
           <div class="code-block">
             <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
-<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, <span class="code-keyword">null</span>)
 <span class="code-tag">&lt;/script&gt;</span>
@@ -227,7 +227,7 @@
           <h3>视频字段</h3>
           <div class="code-block">
             <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
-<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-keyword">const</span> trailer = useTemplateValue(<span class="code-string">'trailer'</span>, <span class="code-keyword">null</span>)
 <span class="code-tag">&lt;/script&gt;</span>
@@ -245,7 +245,7 @@
           <h3>数组字段</h3>
           <div class="code-block">
             <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
-<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-keyword">const</span> timeline = useTemplateValue(<span class="code-string">'timeline'</span>, [])
 <span class="code-tag">&lt;/script&gt;</span>
@@ -260,7 +260,7 @@
           <h3>嵌套数组取值</h3>
           <div class="code-block">
             <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
-<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-comment">// 读取嵌套数组的特定项</span>
 <span class="code-keyword">const</span> firstPhase = useTemplateValue(<span class="code-string">'timeline[0]'</span>)

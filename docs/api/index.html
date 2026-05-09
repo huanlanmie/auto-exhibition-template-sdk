@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API - template-sdk</title>
+  <title>API - auto-exhibition-template-sdk</title>
   <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
   <link rel="stylesheet" href="../styles/common.css">
   <link rel="stylesheet" href="../styles/page.css">
@@ -16,14 +16,14 @@
       <div class="container header-container">
         <div class="header-left">
           <a href="../index.html" class="logo">
-            <img src="../assets/logo.svg" alt="template-sdk" class="logo-img">
-            <span class="logo-text">template-sdk</span>
+            <img src="../assets/logo.svg" alt="auto-exhibition-template-sdk" class="logo-img">
+            <span class="logo-text">auto-exhibition-template-sdk</span>
           </a>
           <nav class="nav">
             <a href="../guide/introduction.html" class="nav-item">指南</a>
             <a href="index.html" class="nav-item active">API</a>
             <a href="../examples/index.html" class="nav-item">示例</a>
-            <a href="https://gitee.com/CoolRainLy/template-sdk" target="_blank" class="nav-item">Gitee</a>
+            <a href="https://www.npmjs.com/package/auto-exhibition-template-sdk" target="_blank" class="nav-item">npm</a>
           </nav>
         </div>
         <div class="header-right">
@@ -90,7 +90,7 @@
           <h1 class="page-title">API</h1>
 
           <p class="intro-lead">
-            template-sdk 提供了一套简洁而强大的 API，涵盖了配置定义、构建处理和运行时取值等核心功能。
+            auto-exhibition-template-sdk 提供了一套简洁而强大的 API，涵盖了配置定义、构建处理和运行时取值等核心功能。
           </p>
 
           <h2>SDK 入口</h2>
@@ -99,15 +99,15 @@
           </p>
           <div class="code-block">
             <pre><code><span class="code-comment">// 默认导入（包含 Vue 插件和所有导出）</span>
-<span class="code-keyword">import</span> TemplateSdk <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span>
+<span class="code-keyword">import</span> TemplateSdk <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-comment">// 按需导入</span>
-<span class="code-keyword">import</span> { useTemplateValue, validateTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'template-sdk'</span></code></pre>
+<span class="code-keyword">import</span> { useTemplateValue, validateTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span></code></pre>
           </div>
 
           <h2>模块导出</h2>
 
-          <h3>template-sdk</h3>
+          <h3>auto-exhibition-template-sdk</h3>
           <p>SDK 的主入口，导出运行时所需的全部 API：</p>
           <table class="api-table">
             <thead>
@@ -151,7 +151,7 @@
             </tbody>
           </table>
 
-          <h3>template-sdk/config</h3>
+          <h3>auto-exhibition-template-sdk/config</h3>
           <p>配置相关的 API：</p>
           <table class="api-table">
             <thead>
@@ -170,7 +170,7 @@
             </tbody>
           </table>
 
-          <h3>template-sdk/vite</h3>
+          <h3>auto-exhibition-template-sdk/vite</h3>
           <p>Vite 插件相关的 API：</p>
           <table class="api-table">
             <thead>

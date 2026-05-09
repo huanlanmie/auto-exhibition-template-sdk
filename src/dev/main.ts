@@ -5,6 +5,6 @@ import { createApp, h } from 'vue'
 createApp({
 	name: 'TemplateSdkDevShell',
 	render() {
-		return h('div', null, 'template-sdk dev entry')
+		return h('div', null, 'auto-exhibition-template-sdk dev entry')
 	}
 }).mount('#app')

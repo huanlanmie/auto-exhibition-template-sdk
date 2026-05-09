@@ -1,5 +1,5 @@
-/**
- * template-sdk 文档网站 - 公共脚本
+﻿/**
+ * auto-exhibition-template-sdk 文档网站 - 公共脚本
  */
 
 // 移动端菜单切换
