@@ -1,0 +1,63 @@
+{
+  "supportedFieldTypes": [
+    "string",
+    "number",
+    "boolean",
+    "image",
+    "video",
+    "file",
+    "array"
+  ],
+  "supportedArrayOperations": [
+    "add",
+    "delete"
+  ],
+  "fileAccept": {
+    "builtinKinds": [
+      {
+        "key": "image",
+        "defaultExtensions": [
+          ".png",
+          ".jpg",
+          ".jpeg",
+          ".gif",
+          ".webp",
+          ".svg",
+          ".bmp",
+          ".ico",
+          ".avif"
+        ]
+      },
+      {
+        "key": "video",
+        "defaultExtensions": [
+          ".mp4",
+          ".mov",
+          ".avi",
+          ".mkv",
+          ".webm",
+          ".m4v",
+          ".mpeg",
+          ".mpg",
+          ".wmv",
+          ".flv",
+          ".3gp"
+        ]
+      },
+      {
+        "key": "audio",
+        "defaultExtensions": [
+          ".mp3",
+          ".wav",
+          ".ogg",
+          ".flac",
+          ".aac",
+          ".m4a",
+          ".wma",
+          ".ape",
+          ".opus"
+        ]
+      }
+    ]
+  }
+}

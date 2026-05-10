@@ -1,23 +1,39 @@
 import { cloneValue, isObjectRecord } from '../value-map/normalize'
+import schemaCapabilitiesJson from './schema-capabilities.json'
 import type {
   TemplateArrayOperation,
   TemplateConfig,
+  TemplateFileAcceptKind,
   TemplateFieldType,
   TemplateValidationIssue,
 } from '../../sdk/types'
 
+type SchemaCapabilityConfig = {
+  supportedFieldTypes?: TemplateFieldType[]
+  supportedArrayOperations?: TemplateArrayOperation[]
+  fileAccept?: {
+    builtinKinds?: Array<{
+      key: TemplateFileAcceptKind
+      defaultExtensions?: string[]
+    }>
+  }
+}
+
+const SCHEMA_CAPABILITY_CONFIG = schemaCapabilitiesJson as SchemaCapabilityConfig
+
 // 运行时和构建期共享同一份字段能力清单。
 // 这里一旦增删类型，README、类型声明和默认值归一逻辑都必须同步调整。
-const SUPPORTED_FIELD_TYPES: TemplateFieldType[] = [
-  'string',
-  'number',
-  'boolean',
-  'image',
-  'video',
-  'array',
-]
+const SUPPORTED_FIELD_TYPES: TemplateFieldType[] = Array.isArray(SCHEMA_CAPABILITY_CONFIG.supportedFieldTypes)
+  ? SCHEMA_CAPABILITY_CONFIG.supportedFieldTypes
+  : []
 
-const SUPPORTED_ARRAY_OPERATIONS: TemplateArrayOperation[] = ['add', 'delete']
+const SUPPORTED_ARRAY_OPERATIONS: TemplateArrayOperation[] = Array.isArray(SCHEMA_CAPABILITY_CONFIG.supportedArrayOperations)
+  ? SCHEMA_CAPABILITY_CONFIG.supportedArrayOperations
+  : []
+
+const SUPPORTED_FILE_ACCEPT_KINDS: TemplateFileAcceptKind[] = Array.isArray(SCHEMA_CAPABILITY_CONFIG.fileAccept?.builtinKinds)
+  ? SCHEMA_CAPABILITY_CONFIG.fileAccept.builtinKinds.map((item) => item.key)
+  : []
 
 function pushIssue(issues: TemplateValidationIssue[], path: string, message: string) {
   issues.push({ path, message })
@@ -103,6 +119,53 @@ function validateMediaFieldValue(
   validateOptionalString(value, path, label, issues)
 }
 
+function isExtensionToken(value: string) {
+  return /^\.[^\s.][^\s]*$/.test(value)
+}
+
+function validateFileAccept(
+  value: unknown,
+  path: string,
+  label: string,
+  issues: TemplateValidationIssue[],
+) {
+  if (value === undefined) {
+    return
+  }
+
+  if (!Array.isArray(value)) {
+    pushIssue(issues, path, `${label} 必须是字符串数组`)
+    return
+  }
+
+  const tokenSet = new Set<string>()
+
+  value.forEach((token, index) => {
+    const tokenPath = `${path}[${index}]`
+
+    if (typeof token !== 'string') {
+      pushIssue(issues, tokenPath, 'accept 项必须是字符串')
+      return
+    }
+
+    if (!SUPPORTED_FILE_ACCEPT_KINDS.includes(token as TemplateFileAcceptKind) && !isExtensionToken(token)) {
+      pushIssue(
+        issues,
+        tokenPath,
+        `accept 项只能是 ${SUPPORTED_FILE_ACCEPT_KINDS.join('、')} 或带 . 前缀的文件后缀`,
+      )
+      return
+    }
+
+    if (tokenSet.has(token)) {
+      pushIssue(issues, tokenPath, `accept 项 ${token} 重复`)
+      return
+    }
+
+    tokenSet.add(token)
+  })
+}
+
 function validateScalarFieldValue(
   value: unknown,
   expectedType: 'string' | 'number' | 'boolean',
@@ -145,6 +208,9 @@ function validateValueAgainstField(
     case 'image':
     case 'video':
       validateMediaFieldValue(value, path, label, issues)
+      return
+    case 'file':
+      validateScalarFieldValue(value, 'string', path, label, issues)
       return
     case 'array':
       validateArrayFieldValue(value, path, label, issues)
@@ -371,6 +437,10 @@ function validateField(field: unknown, path: string, issues: TemplateValidationI
     case 'image':
     case 'video':
       validateValueAgainstField(field, field.value, `${path}.value`, '字段 value', issues)
+      break
+    case 'file':
+      validateValueAgainstField(field, field.value, `${path}.value`, '字段 value', issues)
+      validateFileAccept(field.accept, `${path}.accept`, '字段 accept', issues)
       break
     case 'array':
       validateArrayField(field, path, issues)
