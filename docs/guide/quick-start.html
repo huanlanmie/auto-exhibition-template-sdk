@@ -142,7 +142,20 @@ app.use(TemplateSdk)
 app.mount(<span class="code-string">'#app'</span>)</code></pre>
           </div>
 
-          <h3>第四步：在组件中取值</h3>
+          <h3>第四步：配置 jsconfig.json</h3>
+          <p>
+            如果项目里已经有 <code>jsconfig.json</code>，把下面这段补进 <code>include</code>：
+          </p>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"include"</span>: [
+    <span class="code-string">".auto-exhibition-template-sdk/**/*.d.ts"</span>
+  ]
+}</code></pre>
+          </div>
+          <p>重点是把 <code>.auto-exhibition-template-sdk/**/*.d.ts</code> 纳入语言服务。</p>
+
+          <h3>第五步：在组件中取値</h3>
           <p>
             使用 <code>useTemplateValue</code> 组合式函数读取字段值：
           </p>
@@ -151,22 +164,15 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
 <span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
 <span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
-<span class="code-comment">// 读取标题字段</span>
-<span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">'默认标题'</span>)
-
-<span class="code-comment">// 读取图片字段</span>
-<span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, <span class="code-keyword">null</span>)
+<span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">''</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
-  <span class="code-tag">&lt;section</span> <span class="code-attr">class</span>=<span class="code-string">"hero"</span><span class="code-tag">&gt;</span>
-    <span class="code-tag">&lt;h1&gt;</span>{{ title }}<span class="code-tag">&lt;/h1&gt;</span>
-    <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span> <span class="code-attr">:alt</span>=<span class="code-string">"poster?.alt"</span> <span class="code-tag">/&gt;</span>
-  <span class="code-tag">&lt;/section&gt;</span>
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;h1&gt;</span>{{ title }}<span class="code-tag">&lt;/h1&gt;</span>
 <span class="code-tag">&lt;/template&gt;</span></code></pre>
           </div>
 
-          <h3>第五步：构建产物</h3>
+          <h3>第六步：构建产物</h3>
           <p>
             开发完成后，运行构建命令生成模板产物：
           </p>
@@ -174,7 +180,7 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
             <pre><code>pnpm build</code></pre>
           </div>
           <p>
-            构建完成后，<code>dist</code> 目录中会包含 <code>config.json</code> 和 <code>assets/auto-exhibition-template-sdk/valueMap.json</code> 等文件，这些是上传到管理后台的必需文件。
+            上传到管理后台的模板管理时，需要先手动构建模板项目，再将生成的 <code>dist</code> 目录打包后上传。上传的内容是 <code>dist</code> 目录对应的打包结果，不是源码目录。
           </p>
 
           <h2>完整示例</h2>
@@ -231,10 +237,6 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
             <code>defineTemplateConfig</code> 提供了 TypeScript 类型推导支持。使用它可以让编辑器准确知道配置的结构，从而提供更好的智能提示。
           </p>
 
-          <h3>Q: image 和 video 字段的 value 为什么是字符串？</h3>
-          <p>
-            在 configJson 中，媒体字段的值是资源路径字符串（相对路径或绝对 URL）。SDK 在运行时会自动将其转换为媒体对象，提供更丰富的属性（如 url、poster、alt）。
-          </p>
 
           <h3>Q: 如何修改模板的运行时内容？</h3>
           <p>
