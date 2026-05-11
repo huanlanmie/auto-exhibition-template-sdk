@@ -9,9 +9,14 @@ export type TemplateMediaObject = {
 
 export type TemplateMediaValue = TemplateMediaObject | null
 
+// file 字段允许声明内置媒体类别，也允许直接写带 . 前缀的具体后缀名。
+// 统一要求后缀带点，避免和 image/video/audio 这类内置类别关键字冲突。
+export type TemplateFileAcceptKind = 'image' | 'video' | 'audio'
+export type TemplateFileAcceptToken = TemplateFileAcceptKind | `.${string}`
+
 // 字段类型直接对齐当前 SDK 接受的 configJson 语义。
 // 这里只保留运行时和构建链路已经真正支持的类型，避免 README、校验器和类型系统各说各话。
-export type TemplateFieldType = 'string' | 'number' | 'boolean' | 'image' | 'video' | 'array'
+export type TemplateFieldType = 'string' | 'number' | 'boolean' | 'image' | 'video' | 'file' | 'array'
 
 export type TemplateFieldSchema = TemplateField[]
 
@@ -78,6 +83,12 @@ export type TemplateVideoField = TemplateFieldBase & {
   value?: string
 }
 
+export type TemplateFileField = TemplateFieldBase & {
+  type: 'file'
+  value?: string
+  accept?: TemplateFileAcceptToken[]
+}
+
 export type TemplateArrayField = TemplateFieldBase & {
   type: 'array'
   value?: TemplateArrayValueItem[]
@@ -86,7 +97,8 @@ export type TemplateArrayField = TemplateFieldBase & {
 
 // 这组类型把“字段声明”映射成“运行时最终读到的值”。
 // 这里反映的是 SDK 归一化后的结果，而不是 configJson 原始字面量：
-// 例如 image/video 字段在配置里存字符串路径，但运行时统一返回媒体对象。
+// 例如 image/video 字段在配置里存字符串路径，但运行时统一返回媒体对象；
+// file 字段则继续保持字符串，便于模板自己决定下载、播放或跳转方式。
 type TemplateFieldRuntimeValue<Field> =
   Field extends { type: 'string' }
     ? string
@@ -96,6 +108,8 @@ type TemplateFieldRuntimeValue<Field> =
         ? boolean
         : Field extends { type: 'image' | 'video' }
           ? TemplateMediaObject
+          : Field extends { type: 'file' }
+            ? string
           : Field extends { type: 'array', value?: infer Value }
             ? Value extends readonly unknown[]
               ? Array<TemplateRuntimeValueFromLiteral<ArrayItem<Value>>>
@@ -181,6 +195,7 @@ export type TemplateField =
   | TemplateBooleanField
   | TemplateImageField
   | TemplateVideoField
+  | TemplateFileField
   | TemplateArrayField
 
 // SDK 在开发态只关心完整 configJson，所以这里保留和模板配置一致的整体结构。

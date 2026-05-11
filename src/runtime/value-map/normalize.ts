@@ -24,6 +24,16 @@ export function cloneValue<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T
 }
 
+// 模板作者写在 configJson 里的资源路径只表示“模板项目内文件”，不表示部署站点根路径。
+// 因此这里只把单斜杠开头的值收敛成 ./ 相对路径，避免 file:// 或容器环境把它解释成磁盘根目录。
+function normalizeTemplateAssetPath(value: string) {
+  if (!value.startsWith('/') || value.startsWith('//')) {
+    return value
+  }
+
+  return `.${value}`
+}
+
 // 当字段没有显式默认值时，SDK 仍然要补一份稳定的空结构。
 // 这样模板层读取时至少能得到可预期的占位形态，而不是在 undefined 上反复做防御判断。
 function getEmptyValueByType(field: TemplateField) {
@@ -32,6 +42,8 @@ function getEmptyValueByType(field: TemplateField) {
       return { url: '' }
     case 'video':
       return { url: '', poster: '' }
+    case 'file':
+      return ''
     case 'array':
       return []
     default:
@@ -62,21 +74,24 @@ function buildArrayFieldValue(field: TemplateField, value: unknown = field?.valu
 }
 
 // configJson 里的 value 只是“配置表达”，真正进运行时前要先按字段类型归一。
-// 例如 image/video 在配置里存的是字符串路径，但模板层始终读取媒体对象。
+// 例如 image/video 在配置里存的是字符串路径，但模板层始终读取媒体对象；
+// file 字段则保持字符串本身，不额外包装运行时对象。
 function normalizeFieldValueByType(field: TemplateField, value: unknown) {
   switch (field?.type) {
     case 'image':
       if (typeof value === 'string') {
-        return { url: value }
+        return { url: normalizeTemplateAssetPath(value) }
       }
 
       return isObjectRecord(value) ? cloneValue(value) : { url: '' }
     case 'video':
       if (typeof value === 'string') {
-        return { url: value, poster: '' }
+        return { url: normalizeTemplateAssetPath(value), poster: '' }
       }
 
       return isObjectRecord(value) ? cloneValue(value) : { url: '', poster: '' }
+    case 'file':
+      return typeof value === 'string' ? normalizeTemplateAssetPath(value) : ''
     case 'array':
       return buildArrayFieldValue(field, value)
     default:

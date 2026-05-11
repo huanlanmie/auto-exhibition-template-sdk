@@ -196,6 +196,8 @@ function renderFieldType(field: Record<string, unknown>, depth = 0) {
     case 'image':
     case 'video':
       return '{ url?: string; alt?: string; poster?: string }'
+    case 'file':
+      return 'string'
     case 'array':
       return renderArrayType(field, depth)
     default:
