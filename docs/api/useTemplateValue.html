@@ -53,7 +53,6 @@
             <h3 class="sidebar-title">SDK</h3>
             <ul class="sidebar-menu">
               <li><a href="useTemplateValue.html" class="sidebar-link active">useTemplateValue</a></li>
-              <li><a href="TemplateSdk.html" class="sidebar-link">TemplateSdk</a></li>
             </ul>
           </div>
           <div class="sidebar-section">
@@ -66,13 +65,6 @@
             <h3 class="sidebar-title">vite</h3>
             <ul class="sidebar-menu">
               <li><a href="templateSdkPlugin.html" class="sidebar-link">templateSdkPlugin</a></li>
-            </ul>
-          </div>
-          <div class="sidebar-section">
-            <h3 class="sidebar-title">工具函数</h3>
-            <ul class="sidebar-menu">
-              <li><a href="validateTemplateConfig.html" class="sidebar-link">validateTemplateConfig</a></li>
-              <li><a href="buildFunctions.html" class="sidebar-link">build* 函数</a></li>
             </ul>
           </div>
         </div>
@@ -153,16 +145,16 @@
                 <td>读取根级 image/video 字段，返回媒体对象</td>
               </tr>
               <tr>
-                <td><code>'timeline'</code></td>
+                <td><code>'models'</code></td>
                 <td>读取根级 array 字段</td>
               </tr>
               <tr>
-                <td><code>'timeline[0]'</code></td>
+                <td><code>'models[0]'</code></td>
                 <td>读取数组第一项</td>
               </tr>
               <tr>
-                <td><code>'timeline[0].phase'</code></td>
-                <td>读取数组第一项的子字段</td>
+                <td><code>'models[0].url'</code></td>
+                <td>读取数组第一项的文件字段</td>
               </tr>
             </tbody>
           </table>
@@ -197,7 +189,7 @@
 <span class="code-keyword">const</span> enabled = useTemplateValue(<span class="code-string">'enabled'</span>, <span class="code-keyword">false</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
+<span class="code-tag">&lt;template&gt;</span>
   <span class="code-tag">&lt;h1&gt;</span>{{ title }}<span class="code-tag">&lt;/h1&gt;</span>
   <span class="code-tag">&lt;p&gt;</span>{{ count }}<span class="code-tag">&lt;/p&gt;</span>
   <span class="code-tag">&lt;p&gt;</span>{{ enabled ? '启用' : '禁用' }}<span class="code-tag">&lt;/p&gt;</span>
@@ -215,7 +207,7 @@
 <span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, <span class="code-keyword">null</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
+<span class="code-tag">&lt;template&gt;</span>
   <span class="code-tag">&lt;img</span>
     <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span>
     <span class="code-attr">:alt</span>=<span class="code-string">"poster?.alt"</span>
@@ -232,7 +224,7 @@
 <span class="code-keyword">const</span> trailer = useTemplateValue(<span class="code-string">'trailer'</span>, <span class="code-keyword">null</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
+<span class="code-tag">&lt;template&gt;</span>
   <span class="code-tag">&lt;video</span>
     <span class="code-attr">:src</span>=<span class="code-string">"trailer?.url"</span>
     <span class="code-attr">:poster</span>=<span class="code-string">"trailer?.poster"</span>
@@ -247,12 +239,12 @@
             <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
 <span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
-<span class="code-keyword">const</span> timeline = useTemplateValue(<span class="code-string">'timeline'</span>, [])
+<span class="code-keyword">const</span> models = useTemplateValue(<span class="code-string">'models'</span>, [])
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
-  <span class="code-tag">&lt;div</span> <span class="code-attr">v-for</span>=<span class="code-string">"(item, index) in timeline"</span> <span class="code-attr">:key</span>=<span class="code-string">"index"</span><span class="code-tag">&gt;</span>
-    <span class="code-tag">&lt;p&gt;</span>{{ item.phase }}<span class="code-tag">&lt;/p&gt;</span>
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">v-for</span>=<span class="code-string">"model in models"</span> <span class="code-attr">:key</span>=<span class="code-string">"model.url"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;p&gt;</span>{{ model.name }}<span class="code-tag">&lt;/p&gt;</span>
   <span class="code-tag">&lt;/div&gt;</span>
 <span class="code-tag">&lt;/template&gt;</span></code></pre>
           </div>
@@ -263,13 +255,13 @@
 <span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-comment">// 读取嵌套数组的特定项</span>
-<span class="code-keyword">const</span> firstPhase = useTemplateValue(<span class="code-string">'timeline[0]'</span>)
-<span class="code-keyword">const</span> secondPhaseText = useTemplateValue(<span class="code-string">'timeline[1].phase'</span>)
+<span class="code-keyword">const</span> firstModel = useTemplateValue(<span class="code-string">'models[0]'</span>, {})
+<span class="code-keyword">const</span> firstModelUrl = useTemplateValue(<span class="code-string">'models[0].url'</span>, <span class="code-string">''</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
-  <span class="code-tag">&lt;p&gt;</span>{{ firstPhase }}<span class="code-tag">&lt;/p&gt;</span>
-  <span class="code-tag">&lt;p&gt;</span>{{ secondPhaseText }}<span class="code-tag">&lt;/p&gt;</span>
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;p&gt;</span>{{ firstModel.name }}<span class="code-tag">&lt;/p&gt;</span>
+  <span class="code-tag">&lt;p&gt;</span>{{ firstModelUrl }}<span class="code-tag">&lt;/p&gt;</span>
 <span class="code-tag">&lt;/template&gt;</span></code></pre>
           </div>
 
@@ -304,8 +296,16 @@
                 <td><code>TemplateMediaObject</code></td>
               </tr>
               <tr>
+                <td><code>file</code></td>
+                <td><code>string</code></td>
+              </tr>
+              <tr>
+                <td><code>object</code></td>
+                <td><code>Record&lt;string, unknown&gt;</code></td>
+              </tr>
+              <tr>
                 <td><code>array</code></td>
-                <td><code>TemplateField[]</code></td>
+                <td><code>Array&lt;unknown&gt;</code></td>
               </tr>
             </tbody>
           </table>

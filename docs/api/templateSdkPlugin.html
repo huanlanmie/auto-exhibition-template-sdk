@@ -53,7 +53,6 @@
             <h3 class="sidebar-title">SDK</h3>
             <ul class="sidebar-menu">
               <li><a href="useTemplateValue.html" class="sidebar-link">useTemplateValue</a></li>
-              <li><a href="TemplateSdk.html" class="sidebar-link">TemplateSdk</a></li>
             </ul>
           </div>
           <div class="sidebar-section">
@@ -68,13 +67,6 @@
               <li><a href="templateSdkPlugin.html" class="sidebar-link active">templateSdkPlugin</a></li>
             </ul>
           </div>
-          <div class="sidebar-section">
-            <h3 class="sidebar-title">工具函数</h3>
-            <ul class="sidebar-menu">
-              <li><a href="validateTemplateConfig.html" class="sidebar-link">validateTemplateConfig</a></li>
-              <li><a href="buildFunctions.html" class="sidebar-link">build* 函数</a></li>
-            </ul>
-          </div>
         </div>
       </aside>
 
@@ -84,7 +76,7 @@
           <h1 class="page-title">templateSdkPlugin</h1>
 
           <p class="intro-lead">
-            templateSdkPlugin 是 Vite 插件，用于在构建时处理模板配置、生成类型声明文件和构建产物。
+            templateSdkPlugin 是 Vite 插件，用于把 configJson 接入模板项目的开发和构建流程。
           </p>
 
           <h2>导入</h2>
@@ -125,12 +117,12 @@
 
           <h2>插件功能</h2>
           <p>
-            templateSdkPlugin 在开发和构建阶段自动执行以下任务：
+            templateSdkPlugin 在开发和构建阶段处理以下任务：
           </p>
           <ul class="feature-list">
             <li><strong>配置校验</strong>：验证 configJson 是否符合规范</li>
-            <li><strong>类型生成</strong>：生成 .auto-exhibition-template-sdk/**/*.d.ts 类型声明文件</li>
-            <li><strong>产物输出</strong>：输出 config.json 和 valueMap.json</li>
+            <li><strong>类型提示</strong>：为 useTemplateValue 提供字段路径和返回值类型</li>
+            <li><strong>模板接入</strong>：让 SDK 在运行时可以读取当前模板配置</li>
           </ul>
 
           <h2>使用示例</h2>
@@ -140,7 +132,7 @@
             <pre><code><span class="code-comment">// vite.config.ts</span>
 <span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
 <span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
-<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
+<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./config'</span>
 <span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
 
 <span class="code-keyword">export default</span> defineConfig({
@@ -156,10 +148,10 @@
             <pre><code><span class="code-comment">// vite.config.ts</span>
 <span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
 <span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
-<span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'./src/template/config.ts'</span>
+<span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
 <span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
 
-<span class="code-keyword">const</span> config = defineConfig({
+<span class="code-keyword">const</span> config = defineTemplateConfig({
   <span class="code-property">meta</span>: {
     <span class="code-property">name</span>: <span class="code-string">'示例模板'</span>,
     <span class="code-property">code</span>: <span class="code-string">'demo'</span>
@@ -179,26 +171,6 @@
 })</code></pre>
           </div>
 
-          <h2>生成的文件</h2>
-          <p>
-            插件会在开发或构建时生成以下文件：
-          </p>
-
-          <h3>类型声明文件</h3>
-          <div class="code-block">
-            <pre><code>.auto-exhibition-template-sdk/
-└── auto-exhibition-template-sdk.d.ts   <span class="code-comment">// SDK 类型声明</span></code></pre>
-          </div>
-
-          <h3>构建产物</h3>
-          <div class="code-block">
-            <pre><code>dist/
-├── config.json                              <span class="code-comment">// 模板配置副本</span>
-└── assets/
-    └── auto-exhibition-template-sdk/
-        └── valueMap.json                     <span class="code-comment">// 运行时值映射</span></code></pre>
-          </div>
-
           <h2>错误处理</h2>
           <p>
             如果 configJson 校验失败，插件会在终端输出详细的错误信息：
@@ -213,10 +185,6 @@
             <div class="prev-page">
               <span class="nav-label">上一页</span>
               <a href="defineTemplateConfig.html" class="nav-link">← defineTemplateConfig</a>
-            </div>
-            <div class="next-page">
-              <span class="nav-label">下一页</span>
-              <a href="validateTemplateConfig.html" class="nav-link">validateTemplateConfig →</a>
             </div>
           </div>
         </div>

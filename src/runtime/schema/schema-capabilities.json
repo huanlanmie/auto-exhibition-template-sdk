@@ -6,6 +6,7 @@
     "image",
     "video",
     "file",
+    "object",
     "array"
   ],
   "supportedArrayOperations": [

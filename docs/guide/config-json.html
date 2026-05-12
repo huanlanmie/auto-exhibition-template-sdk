@@ -57,7 +57,7 @@
               <li><a href="installation.html" class="sidebar-link">安装</a></li>
               <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
               <li><a href="config-json.html" class="sidebar-link active">configJson 结构</a></li>
-              <li><a href="valueMap.html" class="sidebar-link">valueMap 的角色</a></li>
+              <li><a href="valueMap.html" class="sidebar-link">页面取值</a></li>
               <li><a href="advanced.html" class="sidebar-link">进阶用法</a></li>
             </ul>
           </div>
@@ -156,7 +156,7 @@
           </table>
 
           <h2>通用字段对象</h2>
-          <p>所有字段对象至少包含以下结构：</p>
+          <p>字段对象用于描述一个可配置项。根字段和 object 子字段需要 key，数组项模板可以省略 key。</p>
           <div class="code-block">
             <pre><code>{
   <span class="code-property">"key"</span>: <span class="code-string">"title"</span>,
@@ -178,9 +178,9 @@
             <tbody>
               <tr>
                 <td><code>key</code></td>
-                <td>字段唯一标识</td>
+                <td>字段唯一标识；根字段和 object 子字段必填，数组项模板可省略</td>
                 <td><code>string</code></td>
-                <td><strong>是</strong></td>
+                <td>按位置决定</td>
               </tr>
               <tr>
                 <td><code>type</code></td>
@@ -213,7 +213,8 @@
             <div class="tip-content">
               <strong>通用规则：</strong>
               <ul>
-                <li>key 必须是非空字符串</li>
+                <li>根字段和 object.value 子字段的 key 必须是非空字符串</li>
+                <li>array.value 中的数组项模板可以省略 key</li>
                 <li>同一层级内 key 不能重复</li>
                 <li>value 不是必填；有 value 时表示默认值</li>
               </ul>
@@ -221,7 +222,7 @@
           </div>
 
           <h2>支持的字段类型</h2>
-          <p>当前只支持以下类型：</p>
+          <p>当前支持以下类型：</p>
 
           <div class="type-grid">
             <div class="type-item">
@@ -243,6 +244,14 @@
             <div class="type-item">
               <span class="type-badge type-video">video</span>
               <p>视频路径</p>
+            </div>
+            <div class="type-item">
+              <span class="type-badge type-file">file</span>
+              <p>文件路径</p>
+            </div>
+            <div class="type-item">
+              <span class="type-badge type-object">object</span>
+              <p>对象字段</p>
             </div>
             <div class="type-item">
               <span class="type-badge type-array">array</span>
@@ -324,26 +333,59 @@
             </div>
           </div>
 
-          <h2>array 字段</h2>
-          <p>数组字段用于表示一组有序的字段，数组子项继续使用和普通字段一致的字段对象结构。</p>
+          <h2>file 字段</h2>
           <div class="code-block">
             <pre><code>{
-  <span class="code-property">"key"</span>: <span class="code-string">"timeline"</span>,
+  <span class="code-property">"key"</span>: <span class="code-string">"modelFile"</span>,
+  <span class="code-property">"type"</span>: <span class="code-string">"file"</span>,
+  <span class="code-property">"label"</span>: <span class="code-string">"模型文件"</span>,
+  <span class="code-property">"value"</span>: <span class="code-string">"/assets/models/demo.glb"</span>,
+  <span class="code-property">"accept"</span>: [<span class="code-string">".glb"</span>, <span class="code-string">".gltf"</span>]
+}</code></pre>
+          </div>
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>accept 写法：</strong>
+              可填写内置类型 <code>image</code>、<code>video</code>、<code>audio</code>，也可以填写带点号的后缀，例如 <code>.glb</code>、<code>.pdf</code>。
+            </div>
+          </div>
+
+          <h2>object 字段</h2>
+          <p>object.value 是一组带 key 的子字段，页面中读取为普通对象。</p>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"key"</span>: <span class="code-string">"profile"</span>,
+  <span class="code-property">"type"</span>: <span class="code-string">"object"</span>,
+  <span class="code-property">"label"</span>: <span class="code-string">"基础信息"</span>,
+  <span class="code-property">"value"</span>: [
+    { <span class="code-property">"key"</span>: <span class="code-string">"name"</span>, <span class="code-property">"type"</span>: <span class="code-string">"string"</span>, <span class="code-property">"label"</span>: <span class="code-string">"名称"</span>, <span class="code-property">"value"</span>: <span class="code-string">"示例展项"</span> },
+    { <span class="code-property">"key"</span>: <span class="code-string">"level"</span>, <span class="code-property">"type"</span>: <span class="code-string">"number"</span>, <span class="code-property">"label"</span>: <span class="code-string">"等级"</span>, <span class="code-property">"value"</span>: <span class="code-number">1</span> }
+  ]
+}</code></pre>
+          </div>
+
+          <h2>array 字段</h2>
+          <p>array.value 的第一项是新增数组项时使用的结构模板。数组项模板可以省略 key；当一项包含多个字段时，推荐使用匿名 object。</p>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"key"</span>: <span class="code-string">"models"</span>,
   <span class="code-property">"type"</span>: <span class="code-string">"array"</span>,
-  <span class="code-property">"label"</span>: <span class="code-string">"时间轴"</span>,
+  <span class="code-property">"label"</span>: <span class="code-string">"模型列表"</span>,
   <span class="code-property">"operations"</span>: [<span class="code-string">"add"</span>, <span class="code-string">"delete"</span>],
   <span class="code-property">"value"</span>: [
     {
-      <span class="code-property">"key"</span>: <span class="code-string">"phase01"</span>,
-      <span class="code-property">"type"</span>: <span class="code-string">"string"</span>,
-      <span class="code-property">"label"</span>: <span class="code-string">"阶段一"</span>,
-      <span class="code-property">"value"</span>: <span class="code-string">"接入边缘传感节点。"</span>
-    },
-    {
-      <span class="code-property">"key"</span>: <span class="code-string">"phase02"</span>,
-      <span class="code-property">"type"</span>: <span class="code-string">"string"</span>,
-      <span class="code-property">"label"</span>: <span class="code-string">"阶段二"</span>,
-      <span class="code-property">"value"</span>: <span class="code-string">"将采集数据转换为状态向量。"</span>
+      <span class="code-property">"type"</span>: <span class="code-string">"object"</span>,
+      <span class="code-property">"label"</span>: <span class="code-string">"模型项"</span>,
+      <span class="code-property">"value"</span>: [
+        { <span class="code-property">"key"</span>: <span class="code-string">"name"</span>, <span class="code-property">"type"</span>: <span class="code-string">"string"</span>, <span class="code-property">"label"</span>: <span class="code-string">"模型名称"</span>, <span class="code-property">"value"</span>: <span class="code-string">"Meteor Shower"</span> },
+        { <span class="code-property">"key"</span>: <span class="code-string">"url"</span>, <span class="code-property">"type"</span>: <span class="code-string">"file"</span>, <span class="code-property">"label"</span>: <span class="code-string">"模型文件"</span>, <span class="code-property">"value"</span>: <span class="code-string">"/assets/models/demo.glb"</span>, <span class="code-property">"accept"</span>: [<span class="code-string">".glb"</span>, <span class="code-string">".gltf"</span>] }
+      ]
     }
   ]
 }</code></pre>
@@ -381,6 +423,8 @@
               <ul>
                 <li>未填写 operations 时，默认允许 add 和 delete</li>
                 <li>operations: [] 表示不允许任何操作</li>
+                <li>新增数组项只复用第一项结构，不复制第一项内容</li>
+                <li>新增值会按类型置空，例如 string/file 为空字符串、number 为 0、boolean 为 false</li>
               </ul>
             </div>
           </div>
@@ -392,7 +436,7 @@
             </div>
             <div class="next-page">
               <span class="nav-label">下一页</span>
-              <a href="valueMap.html" class="nav-link">valueMap 的角色 →</a>
+              <a href="valueMap.html" class="nav-link">页面取值 →</a>
             </div>
           </div>
         </div>

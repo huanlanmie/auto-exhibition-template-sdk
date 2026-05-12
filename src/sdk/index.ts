@@ -39,6 +39,7 @@ export type {
   TemplateMediaObject,
   TemplateMediaValue,
   TemplateNumberField,
+  TemplateObjectField,
   TemplateSdkOptions,
   TemplateStringField,
   TemplateValidationIssue,

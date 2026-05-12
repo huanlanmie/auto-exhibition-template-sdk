@@ -44,6 +44,8 @@ function getEmptyValueByType(field: TemplateField) {
       return { url: '', poster: '' }
     case 'file':
       return ''
+    case 'object':
+      return buildObjectFieldValue(field)
     case 'array':
       return []
     default:
@@ -51,9 +53,27 @@ function getEmptyValueByType(field: TemplateField) {
   }
 }
 
+// object 字段把自己的 value 字段数组折叠成普通对象。
+// 这样模板侧读取 object.path 时看到的是业务值，而不是 configJson 的字段声明树。
+function buildObjectFieldValue(field: TemplateField, value: unknown = field?.value): Record<string, unknown> {
+  const result: Record<string, unknown> = {}
+
+  normalizeFields(value).forEach((childField) => {
+    const fieldKey = String(childField?.key || '').trim()
+
+    if (!fieldKey) {
+      return
+    }
+
+    result[fieldKey] = resolveDefaultFieldValue(childField)
+  })
+
+  return result
+}
+
 // 数组字段的 value 本质上是字段对象数组。
-// SDK 不在这里再做结构推断，只负责把每一项安全复制成运行时自己的值，
-// 具体是否合法已经由校验阶段在进入这里之前拦住。
+// 这里保留数组子项的字段节点元信息，同时把每个子项的 value 归一成运行时可直接消费的值。
+// 这样旧模板仍可读取 item.key / item.label，新模板也能在 object 子项上读取 item.value.title。
 function buildArrayFieldValue(field: TemplateField, value: unknown = field?.value): unknown[] {
   if (field?.type !== 'array') {
     return []
@@ -69,7 +89,15 @@ function buildArrayFieldValue(field: TemplateField, value: unknown = field?.valu
       return {}
     }
 
-    return cloneValue(itemValue)
+    const nextItem = cloneValue(itemValue) as Record<string, unknown>
+    const nextValue = resolveDefaultFieldValue(nextItem as TemplateField)
+
+    if (typeof nextItem.key !== 'string' || !nextItem.key.trim()) {
+      return nextValue
+    }
+
+    nextItem.value = nextValue
+    return nextItem
   })
 }
 
@@ -92,6 +120,8 @@ function normalizeFieldValueByType(field: TemplateField, value: unknown) {
       return isObjectRecord(value) ? cloneValue(value) : { url: '', poster: '' }
     case 'file':
       return typeof value === 'string' ? normalizeTemplateAssetPath(value) : ''
+    case 'object':
+      return buildObjectFieldValue(field, value)
     case 'array':
       return buildArrayFieldValue(field, value)
     default:

@@ -43,7 +43,7 @@
       <a href="installation.html" class="mobile-nav-item">安装</a>
       <a href="quick-start.html" class="mobile-nav-item">快速开始</a>
       <a href="config-json.html" class="mobile-nav-item">configJson 结构</a>
-      <a href="valueMap.html" class="mobile-nav-item">valueMap 的角色</a>
+      <a href="valueMap.html" class="mobile-nav-item">页面取值</a>
       <a href="advanced.html" class="mobile-nav-item">进阶用法</a>
     </nav>
 
@@ -59,7 +59,7 @@
               <li><a href="installation.html" class="sidebar-link">安装</a></li>
               <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
               <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
-              <li><a href="valueMap.html" class="sidebar-link">valueMap 的角色</a></li>
+              <li><a href="valueMap.html" class="sidebar-link">页面取值</a></li>
               <li><a href="advanced.html" class="sidebar-link active">进阶用法</a></li>
             </ul>
           </div>
@@ -77,7 +77,7 @@
 
           <h2>类型推导</h2>
           <p>
-            SDK 提供了完整的 TypeScript 类型推导支持。通过 <code>InferTemplateValueMap</code> 类型，可以从 configJson 自动推导出运行时 valueMap 的类型。
+              SDK 提供 TypeScript 类型推导支持。通过 <code>InferTemplateValueMap</code> 类型，可以从 configJson 推导页面可读取的字段值类型。
           </p>
 
           <div class="code-block">
@@ -119,38 +119,9 @@
 }</code></pre>
           </div>
 
-          <h2>构建产物导出</h2>
-          <p>
-            SDK 提供了多个构建相关的工具函数，可以用于自定义构建流程。
-          </p>
-
-          <h3>buildTemplateValueMap</h3>
-          <p>根据 configJson 构建 valueMap。</p>
-          <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { buildTemplateValueMap } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
-
-<span class="code-keyword">const</span> valueMap = buildTemplateValueMap(configJson)</code></pre>
-          </div>
-
-          <h3>buildTemplateArtifacts</h3>
-          <p>构建完整的模板产物。</p>
-          <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { buildTemplateArtifacts } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
-
-<span class="code-keyword">const</span> artifacts = buildTemplateArtifacts(configJson)</code></pre>
-          </div>
-
-          <h3>buildTemplateJsonFiles</h3>
-          <p>构建 JSON 文件产物。</p>
-          <div class="code-block">
-            <pre><code><span class="code-keyword">import</span> { buildTemplateJsonFiles } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
-
-<span class="code-keyword">const</span> files = buildTemplateJsonFiles(configJson)</code></pre>
-          </div>
-
           <h2>嵌套数组取值</h2>
           <p>
-            对于嵌套的数组字段，可以使用点路径语法进行读取。
+              对于数组中的 object 字段，可以使用下标和点路径组合读取。
           </p>
 
           <h3>configJson 示例</h3>
@@ -159,14 +130,14 @@
   <span class="code-property">"dataSchema"</span>: {
     <span class="code-property">"fields"</span>: [
       {
-        <span class="code-property">"key"</span>: <span class="code-string">"sections"</span>,
+        <span class="code-property">"key"</span>: <span class="code-string">"models"</span>,
         <span class="code-property">"type"</span>: <span class="code-string">"array"</span>,
         <span class="code-property">"value"</span>: [
           {
-            <span class="code-property">"key"</span>: <span class="code-string">"section1"</span>,
-            <span class="code-property">"type"</span>: <span class="code-string">"array"</span>,
+            <span class="code-property">"type"</span>: <span class="code-string">"object"</span>,
             <span class="code-property">"value"</span>: [
-              { <span class="code-property">"key"</span>: <span class="code-string">"item"</span>, <span class="code-property">"type"</span>: <span class="code-string">"string"</span> }
+              { <span class="code-property">"key"</span>: <span class="code-string">"name"</span>, <span class="code-property">"type"</span>: <span class="code-string">"string"</span> },
+              { <span class="code-property">"key"</span>: <span class="code-string">"url"</span>, <span class="code-property">"type"</span>: <span class="code-string">"file"</span> }
             ]
           }
         ]
@@ -178,28 +149,27 @@
 
           <h3>取值方式</h3>
           <div class="code-block">
-            <pre><code><span class="code-keyword">const</span> sections = useTemplateValue(<span class="code-string">'sections'</span>)
-<span class="code-keyword">const</span> firstSection = useTemplateValue(<span class="code-string">'sections[0]'</span>)
-<span class="code-keyword">const</span> nestedItem = useTemplateValue(<span class="code-string">'sections[0].item'</span>)</code></pre>
+            <pre><code><span class="code-keyword">const</span> models = useTemplateValue(<span class="code-string">'models'</span>, [])
+<span class="code-keyword">const</span> firstModel = useTemplateValue(<span class="code-string">'models[0]'</span>, {})
+<span class="code-keyword">const</span> firstModelUrl = useTemplateValue(<span class="code-string">'models[0].url'</span>, <span class="code-string">''</span>)</code></pre>
           </div>
 
           <h2>媒体对象</h2>
           <p>
-            image 和 video 字段在运行时返回的是媒体对象，而不是字符串路径。
+              image 和 video 字段在页面中读取为媒体对象，而不是字符串路径。
           </p>
 
           <div class="code-block">
             <pre><code>{
-  <span class="code-property">"url"</span>: <span class="code-string">"/assets/poster.png"</span>,   <span class="code-comment">// 媒体 URL</span>
-  <span class="code-property">"alt"</span>: <span class="code-string">"海报图片"</span>,             <span class="code-comment">// 替代文本</span>
-  <span class="code-property">"poster"</span>: <span class="code-string">"/assets/poster-thumb.png"</span> <span class="code-comment">// 视频封面</span>
+  <span class="code-property">"url"</span>: <span class="code-string">"/assets/poster.png"</span>,
+  <span class="code-property">"poster"</span>: <span class="code-string">"/assets/poster-thumb.png"</span>
 }</code></pre>
           </div>
 
           <h3>在模板中使用</h3>
           <div class="code-block">
-            <pre><code><span class="code-tag">&lt;template&gtgt;</span>
-  <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster.url"</span> <span class="code-attr">:alt</span>=<span class="code-string">"poster.alt"</span> <span class="code-tag">/&gt;</span>
+            <pre><code><span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster.url"</span> <span class="code-tag">/&gt;</span>
 
   <span class="code-tag">&lt;video</span> <span class="code-attr">:src</span>=<span class="code-string">"trailer.url"</span> <span class="code-attr">:poster</span>=<span class="code-string">"trailer.poster"</span><span class="code-tag">&gt;</span>
   <span class="code-tag">&lt;/video&gt;</span>
@@ -214,7 +184,7 @@
           <div class="code-block">
             <pre><code><span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
 <span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
-<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
+<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./config'</span>
 <span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
 
 <span class="code-keyword">export default</span> defineConfig({
@@ -241,15 +211,10 @@
 console.log(<span class="code-string">'title value:'</span>, title.value)</code></pre>
           </div>
 
-          <h3>查看生成的类型文件</h3>
-          <p>
-            SDK 会自动生成 <code>.auto-exhibition-template-sdk/**/*.d.ts</code> 文件，可以查看这些文件了解 SDK 生成的类型定义。
-          </p>
-
           <div class="page-navigation">
             <div class="prev-page">
               <span class="nav-label">上一页</span>
-              <a href="valueMap.html" class="nav-link">← valueMap 的角色</a>
+              <a href="valueMap.html" class="nav-link">← 页面取值</a>
             </div>
           </div>
         </div>

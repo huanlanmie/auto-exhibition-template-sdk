@@ -57,7 +57,7 @@
               <li><a href="installation.html" class="sidebar-link">安装</a></li>
               <li><a href="quick-start.html" class="sidebar-link active">快速开始</a></li>
               <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
-              <li><a href="valueMap.html" class="sidebar-link">valueMap 的角色</a></li>
+              <li><a href="valueMap.html" class="sidebar-link">页面取值</a></li>
               <li><a href="advanced.html" class="sidebar-link">进阶用法</a></li>
             </ul>
           </div>
@@ -77,7 +77,7 @@
 
           <h3>第一步：编写 configJson</h3>
           <p>
-            在项目中创建 <code>src/template/config.ts</code> 文件，定义模板的字段结构：
+            在项目中任选位置创建 configJson 文件，定义模板的字段结构。下面以 <code>config.ts</code> 为例：
           </p>
           <div class="code-block">
             <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
@@ -117,7 +117,7 @@
           <div class="code-block">
             <pre><code><span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
 <span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
-<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
+<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./config'</span>
 <span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
 
 <span class="code-keyword">export default</span> defineConfig({
@@ -158,7 +158,7 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
 <span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, <span class="code-keyword">null</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
+<span class="code-tag">&lt;template&gt;</span>
   <span class="code-tag">&lt;section</span> <span class="code-attr">class</span>=<span class="code-string">"hero"</span><span class="code-tag">&gt;</span>
     <span class="code-tag">&lt;h1&gt;</span>{{ title }}<span class="code-tag">&lt;/h1&gt;</span>
     <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span> <span class="code-attr">:alt</span>=<span class="code-string">"poster?.alt"</span> <span class="code-tag">/&gt;</span>
@@ -166,15 +166,15 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
 <span class="code-tag">&lt;/template&gt;</span></code></pre>
           </div>
 
-          <h3>第五步：构建产物</h3>
+          <h3>第五步：构建并上传</h3>
           <p>
-            开发完成后，运行构建命令生成模板产物：
+            开发完成后，运行构建命令：
           </p>
           <div class="code-block">
             <pre><code>pnpm build</code></pre>
           </div>
           <p>
-            构建完成后，<code>dist</code> 目录中会包含 <code>config.json</code> 和 <code>assets/auto-exhibition-template-sdk/valueMap.json</code> 等文件，这些是上传到管理后台的必需文件。
+            构建完成后，将 <code>dist</code> 目录打包上传到后台模板管理。上传的是构建后的目录，不是源码目录。
           </p>
 
           <h2>完整示例</h2>
@@ -190,30 +190,36 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
   },
   <span class="code-property">dataSchema</span>: {
     <span class="code-property">fields</span>: [
-      <span class="code-comment">// string 类型</span>
       { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'标题'</span>, <span class="code-property">value</span>: <span class="code-string">'默认标题'</span> },
-
-      <span class="code-comment">// number 类型</span>
       { <span class="code-property">key</span>: <span class="code-string">'count'</span>, <span class="code-property">type</span>: <span class="code-string">'number'</span>, <span class="code-property">label</span>: <span class="code-string">'数量'</span>, <span class="code-property">value</span>: <span class="code-number">3</span> },
-
-      <span class="code-comment">// boolean 类型</span>
       { <span class="code-property">key</span>: <span class="code-string">'enabled'</span>, <span class="code-property">type</span>: <span class="code-string">'boolean'</span>, <span class="code-property">label</span>: <span class="code-string">'启用状态'</span>, <span class="code-property">value</span>: <span class="code-keyword">true</span> },
-
-      <span class="code-comment">// image 类型</span>
       { <span class="code-property">key</span>: <span class="code-string">'poster'</span>, <span class="code-property">type</span>: <span class="code-string">'image'</span>, <span class="code-property">label</span>: <span class="code-string">'海报'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/poster.png'</span> },
-
-      <span class="code-comment">// video 类型</span>
       { <span class="code-property">key</span>: <span class="code-string">'trailer'</span>, <span class="code-property">type</span>: <span class="code-string">'video'</span>, <span class="code-property">label</span>: <span class="code-string">'视频'</span>, <span class="code-property">value</span>: <span class="code-string">'https://example.com/video.mp4'</span> },
-
-      <span class="code-comment">// array 类型（数组字段）</span>
+      { <span class="code-property">key</span>: <span class="code-string">'modelFile'</span>, <span class="code-property">type</span>: <span class="code-string">'file'</span>, <span class="code-property">label</span>: <span class="code-string">'模型文件'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/model.glb'</span>, <span class="code-property">accept</span>: [<span class="code-string">'.glb'</span>, <span class="code-string">'.gltf'</span>] },
       {
-        <span class="code-property">key</span>: <span class="code-string">'timeline'</span>,
+        <span class="code-property">key</span>: <span class="code-string">'controls'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'object'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'控制项'</span>,
+        <span class="code-property">value</span>: [
+          { <span class="code-property">key</span>: <span class="code-string">'showGrid'</span>, <span class="code-property">type</span>: <span class="code-string">'boolean'</span>, <span class="code-property">label</span>: <span class="code-string">'显示网格'</span>, <span class="code-property">value</span>: <span class="code-keyword">true</span> },
+          { <span class="code-property">key</span>: <span class="code-string">'buttonText'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'按钮文案'</span>, <span class="code-property">value</span>: <span class="code-string">'查看模型'</span> }
+        ]
+      },
+      {
+        <span class="code-property">key</span>: <span class="code-string">'models'</span>,
         <span class="code-property">type</span>: <span class="code-string">'array'</span>,
-        <span class="code-property">label</span>: <span class="code-string">'时间轴'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'模型列表'</span>,
         <span class="code-property">operations</span>: [<span class="code-string">'add'</span>, <span class="code-string">'delete'</span>],
         <span class="code-property">value</span>: [
-          { <span class="code-property">key</span>: <span class="code-string">'phase01'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'阶段一'</span>, <span class="code-property">value</span>: <span class="code-string">'接入边缘传感节点。'</span> },
-          { <span class="code-property">key</span>: <span class="code-string">'phase02'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'阶段二'</span>, <span class="code-property">value</span>: <span class="code-string">'将采集数据转换为状态向量。'</span> }
+          {
+            <span class="code-property">type</span>: <span class="code-string">'object'</span>,
+            <span class="code-property">label</span>: <span class="code-string">'模型项'</span>,
+            <span class="code-property">value</span>: [
+              { <span class="code-property">key</span>: <span class="code-string">'name'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'模型名称'</span>, <span class="code-property">value</span>: <span class="code-string">'Meteor Shower'</span> },
+              { <span class="code-property">key</span>: <span class="code-string">'url'</span>, <span class="code-property">type</span>: <span class="code-string">'file'</span>, <span class="code-property">label</span>: <span class="code-string">'模型文件'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/models/demo.glb'</span>, <span class="code-property">accept</span>: [<span class="code-string">'.glb'</span>, <span class="code-string">'.gltf'</span>] },
+              { <span class="code-property">key</span>: <span class="code-string">'cameraDistance'</span>, <span class="code-property">type</span>: <span class="code-string">'number'</span>, <span class="code-property">label</span>: <span class="code-string">'相机距离'</span>, <span class="code-property">value</span>: <span class="code-number">2.8</span> }
+            ]
+          }
         ]
       }
     ]
@@ -236,9 +242,9 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
             在 configJson 中，媒体字段的值是资源路径字符串（相对路径或绝对 URL）。SDK 在运行时会自动将其转换为媒体对象，提供更丰富的属性（如 url、poster、alt）。
           </p>
 
-          <h3>Q: 如何修改模板的运行时内容？</h3>
+          <h3>Q: 数组字段新增时会复制第一项内容吗？</h3>
           <p>
-            平台侧可以通过修改构建产物中的 <code>valueMap.json</code> 来改变模板的运行时内容，无需修改 configJson 源文件。
+            不会。第一项只作为结构模板，后台新增数组项时会按字段类型生成空值，例如字符串为空字符串、数字为 0、布尔值为 false。
           </p>
 
           <div class="page-navigation">

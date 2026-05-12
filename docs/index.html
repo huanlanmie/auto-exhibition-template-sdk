@@ -54,7 +54,7 @@
               <span class="gradient-text">auto-exhibition-template-sdk</span>
             </h1>
             <p class="hero-description">
-              面向模板项目的前端 SDK，为模板项目提供标准化的配置管理、字段定义和运行时取值能力。
+              面向模板项目的前端 SDK，用一份 configJson 定义可配置内容，并在 Vue 页面中按路径读取字段值。
             </p>
             <div class="hero-actions">
               <a href="./guide/introduction.html" class="btn btn-primary">
@@ -74,11 +74,9 @@
                   <span class="dot dot-yellow"></span>
                   <span class="dot dot-green"></span>
                 </div>
-                <span class="code-filename">template/config.ts</span>
+                <span class="code-filename">configJson.ts</span>
               </div>
               <pre class="code-content"><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
-<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
-
 <span class="code-keyword">const</span> config = defineTemplateConfig({
   <span class="code-property">meta</span>: {
     <span class="code-property">name</span>: <span class="code-string">'示例模板'</span>,
@@ -87,7 +85,20 @@
   <span class="code-property">dataSchema</span>: {
     <span class="code-property">fields</span>: [
       { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">value</span>: <span class="code-string">'默认标题'</span> },
-      { <span class="code-property">key</span>: <span class="code-property">poster</span>, <span class="code-property">type</span>: <span class="code-string">'image'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/poster.png'</span> }
+      { <span class="code-property">key</span>: <span class="code-string">'poster'</span>, <span class="code-property">type</span>: <span class="code-string">'image'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/poster.png'</span> },
+      {
+        <span class="code-property">key</span>: <span class="code-string">'models'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'array'</span>,
+        <span class="code-property">value</span>: [
+          {
+            <span class="code-property">type</span>: <span class="code-string">'object'</span>,
+            <span class="code-property">value</span>: [
+              { <span class="code-property">key</span>: <span class="code-string">'name'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">value</span>: <span class="code-string">'模型 A'</span> },
+              { <span class="code-property">key</span>: <span class="code-string">'url'</span>, <span class="code-property">type</span>: <span class="code-string">'file'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/model.glb'</span> }
+            ]
+          }
+        ]
+      }
     ]
   }
 })
@@ -118,8 +129,8 @@
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                 </svg>
               </div>
-              <h3 class="feature-title">自动构建</h3>
-              <p class="feature-desc">Vite 插件自动处理配置校验、类型生成和构建产物，无需手动维护。</p>
+              <h3 class="feature-title">Vite 接入</h3>
+              <p class="feature-desc">通过 templateSdkPlugin 接入模板配置，让开发和构建流程保持一致。</p>
             </div>
             <div class="feature-card">
               <div class="feature-icon">
@@ -137,8 +148,8 @@
                   <path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>
                 </svg>
               </div>
-              <h3 class="feature-title">数据分离</h3>
-              <p class="feature-desc">配置结构与运行时内容完全分离，平台侧可独立修改运行时数据。</p>
+              <h3 class="feature-title">路径取值</h3>
+              <p class="feature-desc">支持 title、profile.name、models[0].url 等路径，组件里读取清晰直接。</p>
             </div>
             <div class="feature-card">
               <div class="feature-icon">
@@ -147,7 +158,7 @@
                 </svg>
               </div>
               <h3 class="feature-title">灵活扩展</h3>
-              <p class="feature-desc">支持多种字段类型，string、number、boolean、image、video、array 覆盖常见场景。</p>
+              <p class="feature-desc">支持 string、number、boolean、image、video、file、object、array 等常见字段。</p>
             </div>
             <div class="feature-card">
               <div class="feature-icon">
@@ -156,8 +167,8 @@
                   <path d="M3 9h18M9 21V9"/>
                 </svg>
               </div>
-              <h3 class="feature-title">平台无关</h3>
-              <p class="feature-desc">不绑定任何 UI 框架，模板项目可自由选择 Vue、React 或其他技术栈。</p>
+              <h3 class="feature-title">Vue 友好</h3>
+              <p class="feature-desc">提供 Vue 插件和组合式函数，适合在 Vue 模板项目中直接使用。</p>
             </div>
           </div>
         </div>
@@ -230,6 +241,14 @@
             <div class="type-card">
               <span class="type-badge type-video">video</span>
               <p>视频字段</p>
+            </div>
+            <div class="type-card">
+              <span class="type-badge type-file">file</span>
+              <p>通用文件字段</p>
+            </div>
+            <div class="type-card">
+              <span class="type-badge type-object">object</span>
+              <p>对象字段</p>
             </div>
             <div class="type-card">
               <span class="type-badge type-array">array</span>

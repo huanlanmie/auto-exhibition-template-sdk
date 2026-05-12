@@ -53,7 +53,6 @@
             <h3 class="sidebar-title">SDK</h3>
             <ul class="sidebar-menu">
               <li><a href="useTemplateValue.html" class="sidebar-link">useTemplateValue</a></li>
-              <li><a href="TemplateSdk.html" class="sidebar-link">TemplateSdk</a></li>
             </ul>
           </div>
           <div class="sidebar-section">
@@ -68,19 +67,6 @@
               <li><a href="templateSdkPlugin.html" class="sidebar-link">templateSdkPlugin</a></li>
             </ul>
           </div>
-          <div class="sidebar-section">
-            <h3 class="sidebar-title">工具函数</h3>
-            <ul class="sidebar-menu">
-              <li><a href="validateTemplateConfig.html" class="sidebar-link">validateTemplateConfig</a></li>
-              <li><a href="buildFunctions.html" class="sidebar-link">build* 函数</a></li>
-            </ul>
-          </div>
-          <div class="sidebar-section">
-            <h3 class="sidebar-title">类型</h3>
-            <ul class="sidebar-menu">
-              <li><a href="types.html" class="sidebar-link">类型定义</a></li>
-            </ul>
-          </div>
         </div>
       </aside>
 
@@ -90,7 +76,7 @@
           <h1 class="page-title">API</h1>
 
           <p class="intro-lead">
-            auto-exhibition-template-sdk 提供了一套简洁而强大的 API，涵盖了配置定义、构建处理和运行时取值等核心功能。
+            auto-exhibition-template-sdk 提供配置定义、Vite 接入和页面取值所需的 API。
           </p>
 
           <h2>SDK 入口</h2>
@@ -102,7 +88,7 @@
 <span class="code-keyword">import</span> TemplateSdk <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-comment">// 按需导入</span>
-<span class="code-keyword">import</span> { useTemplateValue, validateTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span></code></pre>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span></code></pre>
           </div>
 
           <h2>模块导出</h2>
@@ -131,21 +117,6 @@
               <tr>
                 <td><code>validateTemplateConfig</code></td>
                 <td>配置校验函数</td>
-                <td><code>Function</code></td>
-              </tr>
-              <tr>
-                <td><code>buildTemplateValueMap</code></td>
-                <td>构建 valueMap</td>
-                <td><code>Function</code></td>
-              </tr>
-              <tr>
-                <td><code>buildTemplateArtifacts</code></td>
-                <td>构建完整产物</td>
-                <td><code>Function</code></td>
-              </tr>
-              <tr>
-                <td><code>buildTemplateJsonFiles</code></td>
-                <td>构建 JSON 文件</td>
                 <td><code>Function</code></td>
               </tr>
             </tbody>
@@ -224,7 +195,7 @@
               </div>
               <div class="api-link-content">
                 <h4>templateSdkPlugin</h4>
-                <p>Vite 构建插件</p>
+                <p>在 Vite 中接入 configJson</p>
               </div>
             </a>
           </div>

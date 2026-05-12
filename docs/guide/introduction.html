@@ -57,7 +57,7 @@
               <li><a href="installation.html" class="sidebar-link">安装</a></li>
               <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
               <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
-              <li><a href="valueMap.html" class="sidebar-link">valueMap 的角色</a></li>
+              <li><a href="valueMap.html" class="sidebar-link">页面取值</a></li>
               <li><a href="advanced.html" class="sidebar-link">进阶用法</a></li>
             </ul>
           </div>
@@ -71,7 +71,7 @@
 
           <div class="intro-section">
             <p class="intro-lead">
-              auto-exhibition-template-sdk 是面向模板项目的前端 SDK，为模板项目提供标准化的配置管理、字段定义和运行时取值能力。
+              auto-exhibition-template-sdk 是面向模板项目的前端 SDK，用一份 configJson 定义可配置内容，并在 Vue 页面中按路径读取字段值。
             </p>
           </div>
 
@@ -85,7 +85,7 @@
           <ul class="feature-list">
             <li>使用 TypeScript 类型安全地定义模板字段结构</li>
             <li>在页面组件中通过简洁的 API 读取字段值</li>
-            <li>让平台侧可以独立修改运行时内容而不影响配置结构</li>
+            <li>用 object 和 array 描述复杂内容，如模型列表、展项信息和媒体资源</li>
           </ul>
 
           <h2>核心概念</h2>
@@ -95,9 +95,9 @@
             configJson 是模板项目维护的完整配置对象，包含了模板的元信息和所有字段定义。它是模板作者的"源代码"，由模板项目自己维护。
           </p>
 
-          <h3>valueMap</h3>
+          <h3>字段路径</h3>
           <p>
-            valueMap 是 SDK 根据 configJson 生成的运行时快照。它包含了所有字段的当前值，用于模板项目的运行时读取。平台侧可以独立修改 valueMap 来改变页面展示内容。
+            字段路径用于在页面中读取内容，例如 <code>title</code>、<code>profile.name</code>、<code>models[0].url</code>。根字段和 object 子字段使用 key，数组项按索引读取。
           </p>
 
           <h3>useTemplateValue</h3>
@@ -118,7 +118,7 @@
           <ul class="feature-list">
             <li>手动维护配置数据结构</li>
             <li>使用不同的方式读取配置值</li>
-            <li>难以实现配置结构和运行时内容的分离</li>
+            <li>数组、对象和媒体字段的写法不统一</li>
           </ul>
           <p>
             auto-exhibition-template-sdk 通过统一的配置规范和 API，解决了这些问题：
@@ -126,7 +126,7 @@
           <ul class="feature-list">
             <li><strong>配置规范化</strong>：提供清晰的字段定义规范</li>
             <li><strong>API 统一</strong>：提供一致的取值方式</li>
-            <li><strong>数据分离</strong>：配置结构与运行时内容完全分离</li>
+            <li><strong>复杂字段</strong>：支持 object、array、image、video、file 等常用类型</li>
             <li><strong>类型安全</strong>：基于 TypeScript 提供完整的类型推导</li>
           </ul>
 
