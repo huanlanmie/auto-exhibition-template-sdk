@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>媒体字段示例 - auto-exhibition-template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="auto-exhibition-template-sdk" class="logo-img">
+            <span class="logo-text">auto-exhibition-template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="../guide/introduction.html" class="nav-item">指南</a>
+            <a href="../api/index.html" class="nav-item">API</a>
+            <a href="index.html" class="nav-item active">示例</a>
+            <a href="https://www.npmjs.com/package/auto-exhibition-template-sdk" target="_blank" class="nav-item">npm</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="../guide/introduction.html" class="mobile-nav-item">指南</a>
+      <a href="../api/index.html" class="mobile-nav-item">API</a>
+      <a href="index.html" class="mobile-nav-item">示例</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">示例</h3>
+            <ul class="sidebar-menu">
+              <li><a href="index.html" class="sidebar-link">示例概览</a></li>
+              <li><a href="basic-usage.html" class="sidebar-link">基础使用</a></li>
+              <li><a href="field-types.html" class="sidebar-link">字段类型</a></li>
+              <li><a href="media-fields.html" class="sidebar-link active">媒体字段</a></li>
+              <li><a href="array-fields.html" class="sidebar-link">数组字段</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">媒体字段示例</h1>
+
+          <p class="intro-lead">
+            展示 image、video、file 三种媒体类字段的 configJson 写法和组件取值方式。
+          </p>
+
+          <h2>image 字段</h2>
+          <p>image 字段在 configJson 里只接受字符串路径（相对路径或绝对 URL）。</p>
+
+          <h3>configJson</h3>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
+
+<span class="code-keyword">const</span> configJson = defineTemplateConfig({
+  <span class="code-property">meta</span>: { <span class="code-property">name</span>: <span class="code-string">'媒体示例'</span>, <span class="code-property">code</span>: <span class="code-string">'media-demo'</span> },
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      {
+        <span class="code-property">key</span>: <span class="code-string">'poster'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'image'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'主视觉海报'</span>,
+        <span class="code-property">value</span>: <span class="code-string">'/assets/template/poster-core.svg'</span>
+      }
+    ]
+  },
+  <span class="code-property">functions</span>: {}
+})
+
+<span class="code-keyword">export default</span> configJson</code></pre>
+          </div>
+
+          <h3>组件取值</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, { <span class="code-property">url</span>: <span class="code-string">''</span> })
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span> <span class="code-attr">alt</span>=<span class="code-string">"海报"</span> <span class="code-tag">/&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h2>video 字段</h2>
+          <p>video 字段在 configJson 里只接受字符串路径（相对路径或绝对 URL）。</p>
+
+          <h3>configJson</h3>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">key</span>: <span class="code-string">'trailer'</span>,
+  <span class="code-property">type</span>: <span class="code-string">'video'</span>,
+  <span class="code-property">label</span>: <span class="code-string">'宣传视频'</span>,
+  <span class="code-property">value</span>: <span class="code-string">'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'</span>
+}</code></pre>
+          </div>
+
+          <h3>组件取值</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> trailer = useTemplateValue(<span class="code-string">'trailer'</span>, { <span class="code-property">url</span>: <span class="code-string">''</span>, <span class="code-property">poster</span>: <span class="code-string">''</span> })
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;video</span> <span class="code-attr">:src</span>=<span class="code-string">"trailer?.url"</span> <span class="code-attr">:poster</span>=<span class="code-string">"trailer?.poster"</span> <span class="code-attr">controls</span><span class="code-tag">&gt;&lt;/video&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h2>file 字段</h2>
+          <p>file 字段在 configJson 里只接受字符串路径。可通过 <code>accept</code> 约束允许上传的文件类型。</p>
+
+          <h3>configJson</h3>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">key</span>: <span class="code-string">'guideFile'</span>,
+  <span class="code-property">type</span>: <span class="code-string">'file'</span>,
+  <span class="code-property">label</span>: <span class="code-string">'讲解文档'</span>,
+  <span class="code-property">value</span>: <span class="code-string">'/assets/template/guide.pdf'</span>,
+  <span class="code-property">accept</span>: [<span class="code-string">'image'</span>, <span class="code-string">'.pdf'</span>]
+}</code></pre>
+          </div>
+
+          <h3>accept 可用值</h3>
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>写法</th>
+                <th>说明</th>
+                <th>示例</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>内置类型</td>
+                <td>限制为某类媒体文件</td>
+                <td><code>"image"</code>、<code>"video"</code>、<code>"audio"</code></td>
+              </tr>
+              <tr>
+                <td>具体后缀</td>
+                <td>必须带 <code>.</code> 前缀</td>
+                <td><code>".pdf"</code>、<code>".glb"</code>、<code>".zip"</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>组件取值</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> guideFile = useTemplateValue(<span class="code-string">'guideFile'</span>, <span class="code-string">''</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;a</span> <span class="code-attr">:href</span>=<span class="code-string">"guideFile"</span> <span class="code-attr">target</span>=<span class="code-string">"_blank"</span><span class="code-tag">&gt;</span>\u4e0b\u8f7d\u6587\u6863<span class="code-tag">&lt;/a&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <div class="page-navigation">
+            <div class="prev-page">
+              <span class="nav-label">上一页</span>
+              <a href="field-types.html" class="nav-link">← 字段类型</a>
+            </div>
+            <div class="next-page">
+              <span class="nav-label">下一页</span>
+              <a href="array-fields.html" class="nav-link">数组字段 →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

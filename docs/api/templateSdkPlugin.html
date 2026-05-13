@@ -53,7 +53,6 @@
             <h3 class="sidebar-title">SDK</h3>
             <ul class="sidebar-menu">
               <li><a href="useTemplateValue.html" class="sidebar-link">useTemplateValue</a></li>
-              <li><a href="TemplateSdk.html" class="sidebar-link">TemplateSdk</a></li>
             </ul>
           </div>
           <div class="sidebar-section">
@@ -66,13 +65,6 @@
             <h3 class="sidebar-title">vite</h3>
             <ul class="sidebar-menu">
               <li><a href="templateSdkPlugin.html" class="sidebar-link active">templateSdkPlugin</a></li>
-            </ul>
-          </div>
-          <div class="sidebar-section">
-            <h3 class="sidebar-title">工具函数</h3>
-            <ul class="sidebar-menu">
-              <li><a href="validateTemplateConfig.html" class="sidebar-link">validateTemplateConfig</a></li>
-              <li><a href="buildFunctions.html" class="sidebar-link">build* 函数</a></li>
             </ul>
           </div>
         </div>
@@ -156,10 +148,10 @@
             <pre><code><span class="code-comment">// vite.config.ts</span>
 <span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
 <span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
-<span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'./src/template/config.ts'</span>
+<span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
 <span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
 
-<span class="code-keyword">const</span> config = defineConfig({
+<span class="code-keyword">const</span> configJson = defineTemplateConfig({
   <span class="code-property">meta</span>: {
     <span class="code-property">name</span>: <span class="code-string">'示例模板'</span>,
     <span class="code-property">code</span>: <span class="code-string">'demo'</span>
@@ -168,12 +160,13 @@
     <span class="code-property">fields</span>: [
       { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">value</span>: <span class="code-string">'标题'</span> }
     ]
-  }
+  },
+  <span class="code-property">functions</span>: {}
 })
 
 <span class="code-keyword">export default</span> defineConfig({
   <span class="code-property">plugins</span>: [
-    templateSdkPlugin({ configJson: config }),
+    templateSdkPlugin({ configJson }),
     vue()
   ]
 })</code></pre>
@@ -210,13 +203,9 @@
           </div>
 
           <div class="page-navigation">
-            <div class="prev-page">
+            <div class="next-page">
               <span class="nav-label">上一页</span>
               <a href="defineTemplateConfig.html" class="nav-link">← defineTemplateConfig</a>
-            </div>
-            <div class="next-page">
-              <span class="nav-label">下一页</span>
-              <a href="validateTemplateConfig.html" class="nav-link">validateTemplateConfig →</a>
             </div>
           </div>
         </div>

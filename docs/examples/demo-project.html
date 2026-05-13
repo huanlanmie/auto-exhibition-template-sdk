@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>完整项目示例 - auto-exhibition-template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="auto-exhibition-template-sdk" class="logo-img">
+            <span class="logo-text">auto-exhibition-template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="../guide/introduction.html" class="nav-item">指南</a>
+            <a href="../api/index.html" class="nav-item">API</a>
+            <a href="index.html" class="nav-item active">示例</a>
+            <a href="https://www.npmjs.com/package/auto-exhibition-template-sdk" target="_blank" class="nav-item">npm</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="../guide/introduction.html" class="mobile-nav-item">指南</a>
+      <a href="../api/index.html" class="mobile-nav-item">API</a>
+      <a href="index.html" class="mobile-nav-item">示例</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">示例</h3>
+            <ul class="sidebar-menu">
+              <li><a href="index.html" class="sidebar-link">示例概览</a></li>
+              <li><a href="basic-usage.html" class="sidebar-link">基础使用</a></li>
+              <li><a href="field-types.html" class="sidebar-link">字段类型</a></li>
+              <li><a href="media-fields.html" class="sidebar-link">媒体字段</a></li>
+              <li><a href="array-fields.html" class="sidebar-link">数组字段</a></li>
+              <li><a href="demo-project.html" class="sidebar-link active">完整项目示例</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">完整项目示例</h1>
+
+          <p class="intro-lead">
+            一个覆盖多种字段类型的完整模板项目示例，从 configJson 定义到页面组件取值的完整链路。
+          </p>
+
+          <h2>项目结构</h2>
+          <div class="code-block">
+            <pre><code>src/
+├── template/
+│   └── config.ts          <span class="code-comment">// 模板配置</span>
+├── components/
+│   ├── HeroSection.vue    <span class="code-comment">// 主视觉区域</span>
+│   ├── Timeline.vue       <span class="code-comment">// 时间轴组件</span>
+│   └── Downloads.vue      <span class="code-comment">// 下载区域</span>
+├── App.vue
+├── main.ts
+└── vite.config.ts</code></pre>
+          </div>
+
+          <h2>configJson 配置</h2>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// src/template/config.ts</span>
+<span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
+
+<span class="code-keyword">const</span> configJson = defineTemplateConfig({
+  <span class="code-property">meta</span>: {
+    <span class="code-property">name</span>: <span class="code-string">'星图态势科技舱'</span>,
+    <span class="code-property">code</span>: <span class="code-string">'starmap-tech-cabin'</span>,
+    <span class="code-property">version</span>: <span class="code-string">'1.0.0'</span>
+  },
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      <span class="code-comment">// 主视觉区域</span>
+      { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'主标题'</span>, <span class="code-property">value</span>: <span class="code-string">'星图态势科技舱'</span> },
+      { <span class="code-property">key</span>: <span class="code-string">'subtitle'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'副标题'</span>, <span class="code-property">value</span>: <span class="code-string">'实时态势感知平台'</span> },
+      { <span class="code-property">key</span>: <span class="code-string">'poster'</span>, <span class="code-property">type</span>: <span class="code-string">'image'</span>, <span class="code-property">label</span>: <span class="code-string">'主视觉海报'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/template/poster-core.svg'</span> },
+      { <span class="code-property">key</span>: <span class="code-string">'showBadge'</span>, <span class="code-property">type</span>: <span class="code-string">'boolean'</span>, <span class="code-property">label</span>: <span class="code-string">'显示徽标'</span>, <span class="code-property">value</span>: <span class="code-keyword">true</span> },
+
+      <span class="code-comment">// 时间轴</span>
+      {
+        <span class="code-property">key</span>: <span class="code-string">'timeline'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'array'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'时间轴'</span>,
+        <span class="code-property">operations</span>: [],
+        <span class="code-property">value</span>: [
+          { <span class="code-property">key</span>: <span class="code-string">'phase01'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'阶段一'</span>, <span class="code-property">value</span>: <span class="code-string">'接入边缘传感节点。'</span> },
+          { <span class="code-property">key</span>: <span class="code-string">'phase02'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'阶段二'</span>, <span class="code-property">value</span>: <span class="code-string">'将采集数据转换为状态向量。'</span> },
+          { <span class="code-property">key</span>: <span class="code-string">'phase03'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'阶段三'</span>, <span class="code-property">value</span>: <span class="code-string">'完成全域态势融合推演。'</span> }
+        ]
+      },
+
+      <span class="code-comment">// 下载资源</span>
+      {
+        <span class="code-property">key</span>: <span class="code-string">'guideFile'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'file'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'讲解文档'</span>,
+        <span class="code-property">value</span>: <span class="code-string">'/assets/template/guide.pdf'</span>,
+        <span class="code-property">accept</span>: [<span class="code-string">'image'</span>, <span class="code-string">'.pdf'</span>]
+      }
+    ]
+  },
+  <span class="code-property">functions</span>: {}
+})
+
+<span class="code-keyword">export default</span> configJson</code></pre>
+          </div>
+
+          <h2>vite.config.ts</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
+<span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
+<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
+
+<span class="code-keyword">export default</span> defineConfig({
+  <span class="code-property">plugins</span>: [
+    templateSdkPlugin({ configJson }),
+    vue()
+  ]
+})</code></pre>
+          </div>
+
+          <h2>main.ts</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { createApp } <span class="code-keyword">from</span> <span class="code-string">'vue'</span>
+<span class="code-keyword">import</span> App <span class="code-keyword">from</span> <span class="code-string">'./App.vue'</span>
+<span class="code-keyword">import</span> TemplateSdk <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> app = createApp(App)
+app.use(TemplateSdk)
+app.mount(<span class="code-string">'#app'</span>)</code></pre>
+          </div>
+
+          <h2>HeroSection.vue</h2>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">''</span>)
+<span class="code-keyword">const</span> subtitle = useTemplateValue(<span class="code-string">'subtitle'</span>, <span class="code-string">''</span>)
+<span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, { <span class="code-property">url</span>: <span class="code-string">''</span> })
+<span class="code-keyword">const</span> showBadge = useTemplateValue(<span class="code-string">'showBadge'</span>, <span class="code-keyword">false</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;section</span> <span class="code-attr">class</span>=<span class="code-string">"hero"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span> <span class="code-attr">class</span>=<span class="code-string">"hero-poster"</span> <span class="code-attr">alt</span>=<span class="code-string">""</span> <span class="code-tag">/&gt;</span>
+    <span class="code-tag">&lt;span</span> <span class="code-attr">v-if</span>=<span class="code-string">"showBadge"</span> <span class="code-attr">class</span>=<span class="code-string">"badge"</span><span class="code-tag">&gt;</span>NEW<span class="code-tag">&lt;/span&gt;</span>
+    <span class="code-tag">&lt;h1&gt;</span>{{ title }}<span class="code-tag">&lt;/h1&gt;</span>
+    <span class="code-tag">&lt;p&gt;</span>{{ subtitle }}<span class="code-tag">&lt;/p&gt;</span>
+  <span class="code-tag">&lt;/section&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h2>Timeline.vue</h2>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> timeline = useTemplateValue(<span class="code-string">'timeline'</span>, [])
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;ol</span> <span class="code-attr">class</span>=<span class="code-string">"timeline"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;li</span> <span class="code-attr">v-for</span>=<span class="code-string">"item in timeline"</span> <span class="code-attr">:key</span>=<span class="code-string">"item.key"</span><span class="code-tag">&gt;</span>
+      {{ item.value }}
+    <span class="code-tag">&lt;/li&gt;</span>
+  <span class="code-tag">&lt;/ol&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h2>Downloads.vue</h2>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> guideFile = useTemplateValue(<span class="code-string">'guideFile'</span>, <span class="code-string">''</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">class</span>=<span class="code-string">"downloads"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;a</span> <span class="code-attr">v-if</span>=<span class="code-string">"guideFile"</span> <span class="code-attr">:href</span>=<span class="code-string">"guideFile"</span> <span class="code-attr">target</span>=<span class="code-string">"_blank"</span><span class="code-tag">&gt;</span>
+      下载讲解文档
+    <span class="code-tag">&lt;/a&gt;</span>
+  <span class="code-tag">&lt;/div&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <div class="page-navigation">
+            <div class="prev-page">
+              <span class="nav-label">上一页</span>
+              <a href="array-fields.html" class="nav-link">← 数组字段</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

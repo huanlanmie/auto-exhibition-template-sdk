@@ -53,6 +53,11 @@
             <h3 class="sidebar-title">示例</h3>
             <ul class="sidebar-menu">
               <li><a href="index.html" class="sidebar-link active">示例概览</a></li>
+              <li><a href="basic-usage.html" class="sidebar-link">基础使用</a></li>
+              <li><a href="field-types.html" class="sidebar-link">字段类型</a></li>
+              <li><a href="media-fields.html" class="sidebar-link">媒体字段</a></li>
+              <li><a href="array-fields.html" class="sidebar-link">数组字段</a></li>
+              <li><a href="demo-project.html" class="sidebar-link">完整项目示例</a></li>
             </ul>
           </div>
         </div>
@@ -89,7 +94,7 @@
                 </svg>
               </div>
               <h3>字段类型</h3>
-              <p>展示所有支持的字段类型：string、number、boolean、image、video、array</p>
+              <p>展示所有支持的字段类型：string、number、boolean、image、video、file、array</p>
               <span class="example-tag">配置</span>
             </a>
 
@@ -102,7 +107,7 @@
                 </svg>
               </div>
               <h3>媒体字段</h3>
-              <p>图片和视频字段的使用方法，以及如何访问媒体对象属性</p>
+              <p>image、video、file 三种媒体字段的配置写法和组件取值方式</p>
               <span class="example-tag">媒体</span>
             </a>
 
@@ -155,11 +160,24 @@
             <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
 <span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
-<span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, <span class="code-keyword">null</span>)
+<span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, { <span class="code-property">url</span>: <span class="code-string">''</span> })
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
-  <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span> <span class="code-attr">:alt</span>=<span class="code-string">"poster?.alt"</span> <span class="code-tag">/&gt;</span>
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span> <span class="code-attr">alt</span>=<span class="code-string">"海报"</span> <span class="code-tag">/&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h3>文件下载</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> guideFile = useTemplateValue(<span class="code-string">'guideFile'</span>, <span class="code-string">''</span>)
+<span class="code-tag">&lt;/script&gt;</span>
+
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;a</span> <span class="code-attr">:href</span>=<span class="code-string">"guideFile"</span> <span class="code-attr">target</span>=<span class="code-string">"_blank"</span><span class="code-tag">&gt;</span>下载文档<span class="code-tag">&lt;/a&gt;</span>
 <span class="code-tag">&lt;/template&gt;</span></code></pre>
           </div>
 

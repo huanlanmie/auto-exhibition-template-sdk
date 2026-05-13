@@ -101,6 +101,13 @@
         <span class="code-property">type</span>: <span class="code-string">'image'</span>,
         <span class="code-property">label</span>: <span class="code-string">'主视觉海报'</span>,
         <span class="code-property">value</span>: <span class="code-string">'/assets/template/poster-core.svg'</span>
+      },
+      {
+        <span class="code-property">key</span>: <span class="code-string">'guideFile'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'file'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'讲解文档'</span>,
+        <span class="code-property">value</span>: <span class="code-string">'/assets/template/guide.pdf'</span>,
+        <span class="code-property">accept</span>: [<span class="code-string">'image'</span>, <span class="code-string">'.pdf'</span>]
       }
     ]
   },
@@ -210,6 +217,9 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
 
       <span class="code-comment">// video 类型</span>
       { <span class="code-property">key</span>: <span class="code-string">'trailer'</span>, <span class="code-property">type</span>: <span class="code-string">'video'</span>, <span class="code-property">label</span>: <span class="code-string">'视频'</span>, <span class="code-property">value</span>: <span class="code-string">'https://example.com/video.mp4'</span> },
+
+      <span class="code-comment">// file 类型</span>
+      { <span class="code-property">key</span>: <span class="code-string">'guideFile'</span>, <span class="code-property">type</span>: <span class="code-string">'file'</span>, <span class="code-property">label</span>: <span class="code-string">'附件'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/template/guide.pdf'</span>, <span class="code-property">accept</span>: [<span class="code-string">'audio'</span>, <span class="code-string">'.pdf'</span>, <span class="code-string">'.zip'</span>] },
 
       <span class="code-comment">// array 类型（数组字段）</span>
       {

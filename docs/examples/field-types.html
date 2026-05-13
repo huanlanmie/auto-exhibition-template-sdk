@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>字段类型示例 - auto-exhibition-template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="auto-exhibition-template-sdk" class="logo-img">
+            <span class="logo-text">auto-exhibition-template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="../guide/introduction.html" class="nav-item">指南</a>
+            <a href="../api/index.html" class="nav-item">API</a>
+            <a href="index.html" class="nav-item active">示例</a>
+            <a href="https://www.npmjs.com/package/auto-exhibition-template-sdk" target="_blank" class="nav-item">npm</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.1.1</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="../guide/introduction.html" class="mobile-nav-item">指南</a>
+      <a href="../api/index.html" class="mobile-nav-item">API</a>
+      <a href="index.html" class="mobile-nav-item">示例</a>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="page-wrapper">
+      <!-- 侧边栏 -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">示例</h3>
+            <ul class="sidebar-menu">
+              <li><a href="index.html" class="sidebar-link">示例概览</a></li>
+              <li><a href="basic-usage.html" class="sidebar-link">基础使用</a></li>
+              <li><a href="field-types.html" class="sidebar-link active">字段类型</a></li>
+              <li><a href="media-fields.html" class="sidebar-link">媒体字段</a></li>
+              <li><a href="array-fields.html" class="sidebar-link">数组字段</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区域 -->
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">字段类型示例</h1>
+
+          <p class="intro-lead">
+            展示 SDK 当前支持的所有字段类型：string、number、boolean、image、video、file、array，以及对应的 configJson 写法和取值方式。
+          </p>
+
+          <h2>完整 configJson</h2>
+          <p>以下示例包含了所有支持的字段类型：</p>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
+
+<span class="code-keyword">const</span> configJson = defineTemplateConfig({
+  <span class="code-property">meta</span>: {
+    <span class="code-property">name</span>: <span class="code-string">'字段类型示例'</span>,
+    <span class="code-property">code</span>: <span class="code-string">'field-types-demo'</span>,
+    <span class="code-property">version</span>: <span class="code-string">'1.0.0'</span>
+  },
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      <span class="code-comment">// string 类型</span>
+      { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'标题'</span>, <span class="code-property">value</span>: <span class="code-string">'默认标题'</span> },
+
+      <span class="code-comment">// number 类型</span>
+      { <span class="code-property">key</span>: <span class="code-string">'count'</span>, <span class="code-property">type</span>: <span class="code-string">'number'</span>, <span class="code-property">label</span>: <span class="code-string">'数量'</span>, <span class="code-property">value</span>: <span class="code-number">3</span> },
+
+      <span class="code-comment">// boolean 类型</span>
+      { <span class="code-property">key</span>: <span class="code-string">'enabled'</span>, <span class="code-property">type</span>: <span class="code-string">'boolean'</span>, <span class="code-property">label</span>: <span class="code-string">'是否启用'</span>, <span class="code-property">value</span>: <span class="code-keyword">true</span> },
+
+      <span class="code-comment">// image 类型</span>
+      { <span class="code-property">key</span>: <span class="code-string">'poster'</span>, <span class="code-property">type</span>: <span class="code-string">'image'</span>, <span class="code-property">label</span>: <span class="code-string">'海报'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/poster.png'</span> },
+
+      <span class="code-comment">// video 类型</span>
+      { <span class="code-property">key</span>: <span class="code-string">'trailer'</span>, <span class="code-property">type</span>: <span class="code-string">'video'</span>, <span class="code-property">label</span>: <span class="code-string">'视频'</span>, <span class="code-property">value</span>: <span class="code-string">'https://example.com/video.mp4'</span> },
+
+      <span class="code-comment">// file 类型</span>
+      { <span class="code-property">key</span>: <span class="code-string">'guideFile'</span>, <span class="code-property">type</span>: <span class="code-string">'file'</span>, <span class="code-property">label</span>: <span class="code-string">'附件'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/guide.pdf'</span>, <span class="code-property">accept</span>: [<span class="code-string">'audio'</span>, <span class="code-string">'.pdf'</span>, <span class="code-string">'.zip'</span>] },
+
+      <span class="code-comment">// array 类型</span>
+      {
+        <span class="code-property">key</span>: <span class="code-string">'timeline'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'array'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'时间轴'</span>,
+        <span class="code-property">operations</span>: [<span class="code-string">'add'</span>, <span class="code-string">'delete'</span>],
+        <span class="code-property">value</span>: [
+          { <span class="code-property">key</span>: <span class="code-string">'phase01'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'阶段一'</span>, <span class="code-property">value</span>: <span class="code-string">'接入边缘传感节点。'</span> },
+          { <span class="code-property">key</span>: <span class="code-string">'phase02'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'阶段二'</span>, <span class="code-property">value</span>: <span class="code-string">'将采集数据转换为状态向量。'</span> }
+        ]
+      }
+    ]
+  },
+  <span class="code-property">functions</span>: {}
+})
+
+<span class="code-keyword">export default</span> configJson</code></pre>
+          </div>
+
+          <h2>string 字段</h2>
+          <p>普通文本字段，value 为字符串。</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// configJson</span>
+{ <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'标题'</span>, <span class="code-property">value</span>: <span class="code-string">'默认标题'</span> }
+
+<span class="code-comment">// 组件取值</span>
+<span class="code-keyword">const</span> title = useTemplateValue(<span class="code-string">'title'</span>, <span class="code-string">''</span>)
+<span class="code-comment">// title 是 string 类型</span></code></pre>
+          </div>
+
+          <h2>number 字段</h2>
+          <p>数字字段，value 为数字。</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// configJson</span>
+{ <span class="code-property">key</span>: <span class="code-string">'count'</span>, <span class="code-property">type</span>: <span class="code-string">'number'</span>, <span class="code-property">label</span>: <span class="code-string">'数量'</span>, <span class="code-property">value</span>: <span class="code-number">3</span> }
+
+<span class="code-comment">// 组件取值</span>
+<span class="code-keyword">const</span> count = useTemplateValue(<span class="code-string">'count'</span>, <span class="code-number">0</span>)
+<span class="code-comment">// count 是 number 类型</span></code></pre>
+          </div>
+
+          <h2>boolean 字段</h2>
+          <p>布尔字段，value 为 true 或 false。</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// configJson</span>
+{ <span class="code-property">key</span>: <span class="code-string">'enabled'</span>, <span class="code-property">type</span>: <span class="code-string">'boolean'</span>, <span class="code-property">label</span>: <span class="code-string">'是否启用'</span>, <span class="code-property">value</span>: <span class="code-keyword">true</span> }
+
+<span class="code-comment">// 组件取值</span>
+<span class="code-keyword">const</span> enabled = useTemplateValue(<span class="code-string">'enabled'</span>, <span class="code-keyword">false</span>)
+<span class="code-comment">// enabled 是 boolean 类型</span></code></pre>
+          </div>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;section</span> <span class="code-attr">v-if</span>=<span class="code-string">"enabled"</span><span class="code-tag">&gt;</span>
+    <span class="code-comment">&lt;!-- 仅在 enabled 为 true 时显示 --&gt;</span>
+  <span class="code-tag">&lt;/section&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h2>image 字段</h2>
+          <p>图片字段，configJson 中 value 为字符串路径。</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// configJson</span>
+{ <span class="code-property">key</span>: <span class="code-string">'poster'</span>, <span class="code-property">type</span>: <span class="code-string">'image'</span>, <span class="code-property">label</span>: <span class="code-string">'海报'</span>, <span class="code-property">value</span>: <span class="code-string">'/assets/poster.png'</span> }
+
+<span class="code-comment">// 组件取值</span>
+<span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, { <span class="code-property">url</span>: <span class="code-string">''</span> })</code></pre>
+          </div>
+
+          <h2>video 字段</h2>
+          <p>视频字段，configJson 中 value 为字符串路径或 URL。</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// configJson</span>
+{ <span class="code-property">key</span>: <span class="code-string">'trailer'</span>, <span class="code-property">type</span>: <span class="code-string">'video'</span>, <span class="code-property">label</span>: <span class="code-string">'视频'</span>, <span class="code-property">value</span>: <span class="code-string">'https://example.com/video.mp4'</span> }
+
+<span class="code-comment">// 组件取值</span>
+<span class="code-keyword">const</span> trailer = useTemplateValue(<span class="code-string">'trailer'</span>, { <span class="code-property">url</span>: <span class="code-string">''</span>, <span class="code-property">poster</span>: <span class="code-string">''</span> })</code></pre>
+          </div>
+
+          <h2>file 字段</h2>
+          <p>文件字段，configJson 中 value 为字符串路径。可通过 <code>accept</code> 约束允许上传的文件类型。</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// configJson</span>
+{
+  <span class="code-property">key</span>: <span class="code-string">'guideFile'</span>,
+  <span class="code-property">type</span>: <span class="code-string">'file'</span>,
+  <span class="code-property">label</span>: <span class="code-string">'附件'</span>,
+  <span class="code-property">value</span>: <span class="code-string">'/assets/guide.pdf'</span>,
+  <span class="code-property">accept</span>: [<span class="code-string">'audio'</span>, <span class="code-string">'.pdf'</span>, <span class="code-string">'.zip'</span>]
+}
+
+<span class="code-comment">// 组件取值</span>
+<span class="code-keyword">const</span> guideFile = useTemplateValue(<span class="code-string">'guideFile'</span>, <span class="code-string">''</span>)</code></pre>
+          </div>
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>accept 规则：</strong>
+              内置文件类型当前支持 <code>image</code>、<code>video</code>、<code>audio</code>；具体后缀必须带 <code>.</code> 前缀，例如 <code>.pdf</code>、<code>.glb</code>、<code>.zip</code>。不填写 accept 时不限制文件类型。
+            </div>
+          </div>
+
+          <h2>array 字段</h2>
+          <p>数组字段，value 为字段对象数组，子项结构与普通字段一致。详细用法见<a href="array-fields.html">数组字段示例</a>。</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">// configJson</span>
+{
+  <span class="code-property">key</span>: <span class="code-string">'timeline'</span>,
+  <span class="code-property">type</span>: <span class="code-string">'array'</span>,
+  <span class="code-property">label</span>: <span class="code-string">'时间轴'</span>,
+  <span class="code-property">operations</span>: [<span class="code-string">'add'</span>, <span class="code-string">'delete'</span>],
+  <span class="code-property">value</span>: [
+    { <span class="code-property">key</span>: <span class="code-string">'phase01'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">label</span>: <span class="code-string">'阶段一'</span>, <span class="code-property">value</span>: <span class="code-string">'接入边缘传感节点。'</span> }
+  ]
+}
+
+<span class="code-comment">// 组件取值 — 取整个数组</span>
+<span class="code-keyword">const</span> timeline = useTemplateValue(<span class="code-string">'timeline'</span>, [])
+
+<span class="code-comment">// 组件取值 — 取数组中某一项的字段</span>
+<span class="code-keyword">const</span> phase01 = useTemplateValue(<span class="code-string">'timeline[0].phase01'</span>, <span class="code-string">''</span>)</code></pre>
+          </div>
+
+          <div class="page-navigation">
+            <div class="prev-page">
+              <span class="nav-label">上一页</span>
+              <a href="basic-usage.html" class="nav-link">← 基础使用</a>
+            </div>
+            <div class="next-page">
+              <span class="nav-label">下一页</span>
+              <a href="media-fields.html" class="nav-link">媒体字段 →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

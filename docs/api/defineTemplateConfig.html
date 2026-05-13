@@ -53,7 +53,6 @@
             <h3 class="sidebar-title">SDK</h3>
             <ul class="sidebar-menu">
               <li><a href="useTemplateValue.html" class="sidebar-link">useTemplateValue</a></li>
-              <li><a href="TemplateSdk.html" class="sidebar-link">TemplateSdk</a></li>
             </ul>
           </div>
           <div class="sidebar-section">
@@ -66,13 +65,6 @@
             <h3 class="sidebar-title">vite</h3>
             <ul class="sidebar-menu">
               <li><a href="templateSdkPlugin.html" class="sidebar-link">templateSdkPlugin</a></li>
-            </ul>
-          </div>
-          <div class="sidebar-section">
-            <h3 class="sidebar-title">工具函数</h3>
-            <ul class="sidebar-menu">
-              <li><a href="validateTemplateConfig.html" class="sidebar-link">validateTemplateConfig</a></li>
-              <li><a href="buildFunctions.html" class="sidebar-link">build* 函数</a></li>
             </ul>
           </div>
         </div>
@@ -206,7 +198,14 @@
         <span class="code-property">label</span>: <span class="code-string">'宣传视频'</span>,
         <span class="code-property">value</span>: <span class="code-string">'/assets/trailer.mp4'</span>
       },
-
+      <span class="code-comment">// 文件字段</span>
+      {
+        <span class="code-property">key</span>: <span class="code-string">'guideFile'</span>,
+        <span class="code-property">type</span>: <span class="code-string">'file'</span>,
+        <span class="code-property">label</span>: <span class="code-string">'讲解文档'</span>,
+        <span class="code-property">value</span>: <span class="code-string">'/assets/guide.pdf'</span>,
+        <span class="code-property">accept</span>: [<span class="code-string">'.pdf'</span>]
+      },
       <span class="code-comment">// 数组字段</span>
       {
         <span class="code-property">key</span>: <span class="code-string">'features'</span>,
