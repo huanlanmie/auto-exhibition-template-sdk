@@ -54,9 +54,6 @@
             <ul class="sidebar-menu">
               <li><a href="index.html" class="sidebar-link">示例概览</a></li>
               <li><a href="basic-usage.html" class="sidebar-link active">基础使用</a></li>
-              <li><a href="field-types.html" class="sidebar-link">字段类型</a></li>
-              <li><a href="media-fields.html" class="sidebar-link">媒体字段</a></li>
-              <li><a href="array-fields.html" class="sidebar-link">数组字段</a></li>
             </ul>
           </div>
         </div>
@@ -71,22 +68,22 @@
             这是一个完整的基础使用示例，展示了如何使用 auto-exhibition-template-sdk 从配置到组件取值的完整流程。
           </p>
 
-          <h2>项目结构</h2>
+          <h2>示例项目结构</h2>
+          <p>configJson 文件可以放在项目任意位置，只要 <code>vite.config</code> 能导入即可。下面只是一个示例结构：</p>
           <div class="code-block">
             <pre><code>src/
-├── template/
-│   └── config.ts          <span class="code-comment">// 模板配置</span>
 ├── components/
 │   └── HeroSection.vue    <span class="code-comment">// 使用 SDK 的组件</span>
 ├── App.vue
 ├── main.ts
-└── vite.config.ts</code></pre>
+└── config.ts              <span class="code-comment">// 模板配置示例位置</span>
+vite.config.ts</code></pre>
           </div>
 
           <h2>第一步：定义配置</h2>
-          <p>创建 <code>src/template/config.ts</code> 文件：</p>
+          <p>创建 configJson 文件，文件名和目录可以按项目习惯调整：</p>
           <div class="code-block">
-            <pre><code><span class="code-comment">// src/template/config.ts</span>
+            <pre><code><span class="code-comment">// config.ts</span>
 <span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
 
 <span class="code-keyword">const</span> configJson = defineTemplateConfig({
@@ -123,7 +120,7 @@
             <pre><code><span class="code-comment">// vite.config.ts</span>
 <span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
 <span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
-<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/template/config'</span>
+<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./src/config'</span>
 <span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
 
 <span class="code-keyword">export default</span> defineConfig({
@@ -161,7 +158,7 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
 <span class="code-keyword">const</span> subtitle = useTemplateValue(<span class="code-string">'subtitle'</span>, <span class="code-string">''</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
+<span class="code-tag">&lt;template&gt;</span>
   <span class="code-tag">&lt;section</span> <span class="code-attr">class</span>=<span class="code-string">"hero"</span><span class="code-tag">&gt;</span>
     <span class="code-tag">&lt;h1&gt;</span>{{ title }}<span class="code-tag">&lt;/h1&gt;</span>
     <span class="code-tag">&lt;p</span> <span class="code-attr">class</span>=<span class="code-string">"subtitle"</span><span class="code-tag">&gt;</span>{{ subtitle }}<span class="code-tag">&lt;/p&gt;</span>
@@ -208,7 +205,7 @@ h1 {
             <li>在组件中使用 useTemplateValue 取值</li>
           </ol>
           <p>
-            现在你可以继续探索更复杂的场景，如<a href="field-types.html">字段类型</a>、<a href="media-fields.html">媒体字段</a>和<a href="array-fields.html">数组字段</a>。
+            现在你可以继续阅读<a href="../guide/config-json.html">configJson 结构</a>和<a href="../guide/valueMap.html">页面取值</a>，了解字段类型、媒体字段和数组字段的写法。
           </p>
 
           <div class="page-navigation">
@@ -218,7 +215,7 @@ h1 {
             </div>
             <div class="next-page">
               <span class="nav-label">下一页</span>
-              <a href="field-types.html" class="nav-link">字段类型 →</a>
+              <a href="../guide/config-json.html" class="nav-link">configJson 结构 →</a>
             </div>
           </div>
         </div>

@@ -89,11 +89,11 @@ function validateFieldArrayForBuild(fields: unknown, path: string, issues: Valid
   validateSiblingFieldKeys(fields, path, issues)
 
   fields.forEach((field, index) => {
-    if (!isObjectRecord(field) || field.type !== 'array') {
+    if (!isObjectRecord(field) || (field.type !== 'array' && field.type !== 'object')) {
       return
     }
 
-    // 数组字段里如果继续声明了 value 子字段数组，
+    // 数组和 object 字段里如果继续声明了 value 子字段数组，
     // 构建期同样要沿用“同层 key 不可重复”的规则向下递归。
     if (field.value !== undefined) {
       validateFieldArrayForBuild(field.value, `${path}[${index}].value`, issues)
@@ -144,14 +144,42 @@ ${lines.join('\n')}
 ${indent}}`
 }
 
-function renderArrayType(field: Record<string, unknown>, depth: number) {
+function renderArrayType(field: Record<string, unknown>, depth: number): string {
   if (!Array.isArray(field.value) || !field.value.length) {
     return 'unknown[]'
   }
 
-  // 数组项的声明来自 value 里的字段对象数组，
-  // 所以这里继续递归每一项，再把结果合成数组元素联合类型。
-  return `Array<${renderUnionType(field.value.map((item) => renderValueType(item, depth + 1)))}>`
+  // 数组项的声明来自 value 里的字段对象数组。
+  // 运行时仍保留每个子项的字段节点元信息，但 value 会被归一成对应字段类型的运行时值。
+  return `Array<${renderUnionType(field.value.map((item) => renderArrayItemType(item, depth + 1)))}>`
+}
+
+function renderObjectFieldType(field: Record<string, unknown>, depth: number): string {
+  return renderObjectType(
+    normalizeFields(field.value).map((childField) => ({
+      key: String(childField.key),
+      valueType: renderFieldType(childField, depth + 1),
+    })),
+    depth,
+  )
+}
+
+function renderArrayItemType(item: unknown, depth: number): string {
+  if (!isObjectRecord(item) || typeof item.type !== 'string') {
+    return renderValueType(item, depth)
+  }
+
+  if (typeof item.key !== 'string' || !item.key.trim()) {
+    return renderFieldType(item, depth)
+  }
+
+  return renderObjectType(
+    Object.entries(item).map(([key, nestedValue]) => ({
+      key,
+      valueType: key === 'value' ? renderFieldType(item, depth + 1) : renderValueType(nestedValue, depth + 1),
+    })),
+    depth,
+  )
 }
 
 function renderValueType(value: unknown, depth = 0): string {
@@ -185,7 +213,7 @@ function renderValueType(value: unknown, depth = 0): string {
   }
 }
 
-function renderFieldType(field: Record<string, unknown>, depth = 0) {
+function renderFieldType(field: Record<string, unknown>, depth = 0): string {
   switch (field.type) {
     case 'string':
       return 'string'
@@ -198,6 +226,8 @@ function renderFieldType(field: Record<string, unknown>, depth = 0) {
       return '{ url?: string; alt?: string; poster?: string }'
     case 'file':
       return 'string'
+    case 'object':
+      return renderObjectFieldType(field, depth)
     case 'array':
       return renderArrayType(field, depth)
     default:

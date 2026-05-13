@@ -76,7 +76,7 @@
           <h1 class="page-title">API</h1>
 
           <p class="intro-lead">
-            auto-exhibition-template-sdk 提供了一套简洁而强大的 API，涵盖了配置定义、构建处理和运行时取值等核心功能。
+            auto-exhibition-template-sdk 提供配置定义、Vite 接入和页面取值所需的 API。
           </p>
 
           <h2>SDK 入口</h2>
@@ -84,7 +84,7 @@
             SDK 通过以下方式导入：
           </p>
           <div class="code-block">
-            <pre><code><span class="code-comment">// 默认导入（Vue 插件）</span>
+            <pre><code><span class="code-comment">// 默认导入（包含 Vue 插件和所有导出）</span>
 <span class="code-keyword">import</span> TemplateSdk <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-comment">// 按需导入</span>
@@ -94,7 +94,7 @@
           <h2>模块导出</h2>
 
           <h3>auto-exhibition-template-sdk</h3>
-          <p>SDK 的主入口，模板项目运行时直接使用的 API：</p>
+          <p>SDK 的主入口，导出运行时所需的全部 API：</p>
           <table class="api-table">
             <thead>
               <tr>
@@ -106,12 +106,17 @@
             <tbody>
               <tr>
                 <td><code>TemplateSdk</code></td>
-                <td>Vue 插件，安装到 app 上启用运行时</td>
+                <td>Vue 插件</td>
                 <td><code>Plugin</code></td>
               </tr>
               <tr>
                 <td><code>useTemplateValue</code></td>
                 <td>组合式函数，用于读取字段值</td>
+                <td><code>Function</code></td>
+              </tr>
+              <tr>
+                <td><code>validateTemplateConfig</code></td>
+                <td>配置校验函数</td>
                 <td><code>Function</code></td>
               </tr>
             </tbody>
@@ -190,7 +195,7 @@
               </div>
               <div class="api-link-content">
                 <h4>templateSdkPlugin</h4>
-                <p>Vite 构建插件</p>
+                <p>在 Vite 中接入 configJson</p>
               </div>
             </a>
           </div>

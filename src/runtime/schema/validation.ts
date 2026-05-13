@@ -212,6 +212,9 @@ function validateValueAgainstField(
     case 'file':
       validateScalarFieldValue(value, 'string', path, label, issues)
       return
+    case 'object':
+      validateObjectFieldValue(value, path, label, issues)
+      return
     case 'array':
       validateArrayFieldValue(value, path, label, issues)
       return
@@ -381,12 +384,10 @@ function validateArrayFieldValue(
     return
   }
 
-  validateSiblingFieldKeys(value, path, issues)
-
   const referenceItem = value.find((itemValue) => isObjectRecord(itemValue))
 
   value.forEach((itemValue, itemIndex) => {
-    validateField(itemValue, `${path}[${itemIndex}]`, issues)
+    validateField(itemValue, `${path}[${itemIndex}]`, issues, { requireKey: false })
 
     // 第一份对象结构会被当成这一层数组的参考模板；
     // 后续对象既要自己合法，也要和参考结构保持一致。
@@ -396,21 +397,50 @@ function validateArrayFieldValue(
   })
 }
 
+function validateObjectFieldValue(
+  value: unknown,
+  path: string,
+  label: string,
+  issues: TemplateValidationIssue[],
+) {
+  if (value === undefined) {
+    return
+  }
+
+  if (!Array.isArray(value)) {
+    pushIssue(issues, path, `${label} 必须是字段数组`)
+    return
+  }
+
+  validateFields(value, path, issues)
+}
+
+function validateObjectField(field: Record<string, unknown>, path: string, issues: TemplateValidationIssue[]) {
+  validateObjectFieldValue(field.value, `${path}.value`, '字段 value', issues)
+}
+
 function validateArrayField(field: Record<string, unknown>, path: string, issues: TemplateValidationIssue[]) {
   validateArrayOperations(field.operations, `${path}.operations`, '字段 operations', issues)
   validateArrayFieldValue(field.value, `${path}.value`, '字段 value', issues)
 }
 
-function validateField(field: unknown, path: string, issues: TemplateValidationIssue[]) {
+function validateField(
+  field: unknown,
+  path: string,
+  issues: TemplateValidationIssue[],
+  options: { requireKey?: boolean } = {},
+) {
   if (!isObjectRecord(field)) {
     pushIssue(issues, path, '字段节点必须是对象')
     return
   }
 
+  const requireKey = options.requireKey !== false
+
   const key = field.key
   const type = field.type
 
-  if (typeof key !== 'string' || !key.trim()) {
+  if (requireKey && (typeof key !== 'string' || !key.trim())) {
     pushIssue(issues, `${path}.key`, '字段 key 必须是非空字符串')
   }
 
@@ -441,6 +471,9 @@ function validateField(field: unknown, path: string, issues: TemplateValidationI
     case 'file':
       validateValueAgainstField(field, field.value, `${path}.value`, '字段 value', issues)
       validateFileAccept(field.accept, `${path}.accept`, '字段 accept', issues)
+      break
+    case 'object':
+      validateObjectField(field, path, issues)
       break
     case 'array':
       validateArrayField(field, path, issues)

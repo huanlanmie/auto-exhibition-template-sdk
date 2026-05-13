@@ -16,7 +16,7 @@ export type TemplateFileAcceptToken = TemplateFileAcceptKind | `.${string}`
 
 // 字段类型直接对齐当前 SDK 接受的 configJson 语义。
 // 这里只保留运行时和构建链路已经真正支持的类型，避免 README、校验器和类型系统各说各话。
-export type TemplateFieldType = 'string' | 'number' | 'boolean' | 'image' | 'video' | 'file' | 'array'
+export type TemplateFieldType = 'string' | 'number' | 'boolean' | 'image' | 'video' | 'file' | 'object' | 'array'
 
 export type TemplateFieldSchema = TemplateField[]
 
@@ -52,7 +52,7 @@ type TemplateRuntimeValueFromLiteral<Value> =
 // 所有字段共享同一套基础元信息。
 // path 目前保留给后续与模板分析配置对齐的场景，label 只用于配置表达，不参与运行时取值。
 type TemplateFieldBase = {
-  key: string
+  key?: string
   type: TemplateFieldType
   path?: string
   label?: string
@@ -95,6 +95,16 @@ export type TemplateArrayField = TemplateFieldBase & {
   operations?: TemplateArrayOperation[]
 }
 
+export type TemplateObjectField = TemplateFieldBase & {
+  type: 'object'
+  value?: TemplateField[]
+}
+
+type TemplateArrayItemRuntimeValue<Item> =
+  Item extends { type: TemplateFieldType }
+    ? Simplify<Omit<Item, 'value'> & { value: TemplateFieldRuntimeValue<Item> }>
+    : TemplateRuntimeValueFromLiteral<Item>
+
 // 这组类型把“字段声明”映射成“运行时最终读到的值”。
 // 这里反映的是 SDK 归一化后的结果，而不是 configJson 原始字面量：
 // 例如 image/video 字段在配置里存字符串路径，但运行时统一返回媒体对象；
@@ -110,11 +120,13 @@ type TemplateFieldRuntimeValue<Field> =
           ? TemplateMediaObject
           : Field extends { type: 'file' }
             ? string
-          : Field extends { type: 'array', value?: infer Value }
-            ? Value extends readonly unknown[]
-              ? Array<TemplateRuntimeValueFromLiteral<ArrayItem<Value>>>
-              : unknown[]
-            : unknown
+            : Field extends { type: 'object', value?: infer Value }
+              ? TemplateFieldsRuntimeValue<Value>
+              : Field extends { type: 'array', value?: infer Value }
+                ? Value extends readonly unknown[]
+                  ? Array<TemplateArrayItemRuntimeValue<ArrayItem<Value>>>
+                  : unknown[]
+                : unknown
 
 type TemplateFieldRuntimeRecord<Field> =
   Field extends { key: infer Key extends string }
@@ -196,6 +208,7 @@ export type TemplateField =
   | TemplateImageField
   | TemplateVideoField
   | TemplateFileField
+  | TemplateObjectField
   | TemplateArrayField
 
 // SDK 在开发态只关心完整 configJson，所以这里保留和模板配置一致的整体结构。

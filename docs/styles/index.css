@@ -307,6 +307,16 @@
   color: #8250df;
 }
 
+.type-file {
+  background: #e6fffb;
+  color: #087990;
+}
+
+.type-object {
+  background: #f0f9ff;
+  color: #0369a1;
+}
+
 .type-array {
   background: #fde68a;
   color: #92400e;

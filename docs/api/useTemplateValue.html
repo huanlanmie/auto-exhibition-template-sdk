@@ -142,23 +142,19 @@
               </tr>
               <tr>
                 <td><code>'poster'</code></td>
-                <td>读取根级 image/video 字段，返回 <code>{ url, poster? }</code> 媒体对象</td>
+                <td>读取根级 image/video 字段，返回媒体对象</td>
               </tr>
               <tr>
-                <td><code>'guideFile'</code></td>
-                <td>读取根级 file 字段，返回字符串路径</td>
-              </tr>
-              <tr>
-                <td><code>'timeline'</code></td>
+                <td><code>'models'</code></td>
                 <td>读取根级 array 字段</td>
               </tr>
               <tr>
-                <td><code>'timeline[0]'</code></td>
+                <td><code>'models[0]'</code></td>
                 <td>读取数组第一项</td>
               </tr>
               <tr>
-                <td><code>'timeline[0].phase'</code></td>
-                <td>读取数组第一项的子字段</td>
+                <td><code>'models[0].url'</code></td>
+                <td>读取数组第一项的文件字段</td>
               </tr>
             </tbody>
           </table>
@@ -193,7 +189,7 @@
 <span class="code-keyword">const</span> enabled = useTemplateValue(<span class="code-string">'enabled'</span>, <span class="code-keyword">false</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
+<span class="code-tag">&lt;template&gt;</span>
   <span class="code-tag">&lt;h1&gt;</span>{{ title }}<span class="code-tag">&lt;/h1&gt;</span>
   <span class="code-tag">&lt;p&gt;</span>{{ count }}<span class="code-tag">&lt;/p&gt;</span>
   <span class="code-tag">&lt;p&gt;</span>{{ enabled ? '启用' : '禁用' }}<span class="code-tag">&lt;/p&gt;</span>
@@ -202,49 +198,39 @@
 
           <h3>图片字段</h3>
           <p>
-            image 字段运行时返回 <code>TemplateMediaObject</code>（<code>{ url, alt? }</code>），通过 <code>.url</code> 绑定图片地址。
+            image 字段返回媒体对象，包含 url、alt、poster 等属性。
           </p>
           <div class="code-block">
             <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
 <span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
-<span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, { <span class="code-property">url</span>: <span class="code-string">''</span> })
+<span class="code-keyword">const</span> poster = useTemplateValue(<span class="code-string">'poster'</span>, <span class="code-keyword">null</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
 <span class="code-tag">&lt;template&gt;</span>
-  <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span> <span class="code-attr">alt</span>=<span class="code-string">"海报"</span> <span class="code-tag">/&gt;</span>
+  <span class="code-tag">&lt;img</span>
+    <span class="code-attr">:src</span>=<span class="code-string">"poster?.url"</span>
+    <span class="code-attr">:alt</span>=<span class="code-string">"poster?.alt"</span>
+    <span class="code-attr">class</span>=<span class="code-string">"poster"</span>
+  <span class="code-tag">/&gt;</span>
 <span class="code-tag">&lt;/template&gt;</span></code></pre>
           </div>
 
           <h3>视频字段</h3>
-          <p>
-            video 字段运行时返回 <code>TemplateMediaObject</code>（<code>{ url, poster? }</code>），通过 <code>.url</code> 绑定视频地址。
-          </p>
           <div class="code-block">
             <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
 <span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
-<span class="code-keyword">const</span> trailer = useTemplateValue(<span class="code-string">'trailer'</span>, { <span class="code-property">url</span>: <span class="code-string">''</span>, <span class="code-property">poster</span>: <span class="code-string">''</span> })
+<span class="code-keyword">const</span> trailer = useTemplateValue(<span class="code-string">'trailer'</span>, <span class="code-keyword">null</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
 <span class="code-tag">&lt;template&gt;</span>
-  <span class="code-tag">&lt;video</span> <span class="code-attr">:src</span>=<span class="code-string">"trailer?.url"</span> <span class="code-attr">:poster</span>=<span class="code-string">"trailer?.poster"</span> <span class="code-attr">controls</span><span class="code-tag">&gt;&lt;/video&gt;</span>
-<span class="code-tag">&lt;/template&gt;</span></code></pre>
-          </div>
-
-          <h3>文件字段</h3>
-          <p>
-            file 字段运行时返回字符串路径，可直接绑定 href 或 src。
-          </p>
-          <div class="code-block">
-            <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
-<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
-
-<span class="code-keyword">const</span> guideFile = useTemplateValue(<span class="code-string">'guideFile'</span>, <span class="code-string">''</span>)
-<span class="code-tag">&lt;/script&gt;</span>
-
-<span class="code-tag">&lt;template&gt;</span>
-  <span class="code-tag">&lt;a</span> <span class="code-attr">:href</span>=<span class="code-string">"guideFile"</span> <span class="code-attr">target</span>=<span class="code-string">"_blank"</span><span class="code-tag">&gt;</span>下载文档<span class="code-tag">&lt;/a&gt;</span>
+  <span class="code-tag">&lt;video</span>
+    <span class="code-attr">:src</span>=<span class="code-string">"trailer?.url"</span>
+    <span class="code-attr">:poster</span>=<span class="code-string">"trailer?.poster"</span>
+    <span class="code-attr">controls</span>
+  <span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;/video&gt;</span>
 <span class="code-tag">&lt;/template&gt;</span></code></pre>
           </div>
 
@@ -253,12 +239,12 @@
             <pre><code><span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
 <span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
-<span class="code-keyword">const</span> timeline = useTemplateValue(<span class="code-string">'timeline'</span>, [])
+<span class="code-keyword">const</span> models = useTemplateValue(<span class="code-string">'models'</span>, [])
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
-  <span class="code-tag">&lt;div</span> <span class="code-attr">v-for</span>=<span class="code-string">"(item, index) in timeline"</span> <span class="code-attr">:key</span>=<span class="code-string">"index"</span><span class="code-tag">&gt;</span>
-    <span class="code-tag">&lt;p&gt;</span>{{ item.phase }}<span class="code-tag">&lt;/p&gt;</span>
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">v-for</span>=<span class="code-string">"model in models"</span> <span class="code-attr">:key</span>=<span class="code-string">"model.url"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;p&gt;</span>{{ model.name }}<span class="code-tag">&lt;/p&gt;</span>
   <span class="code-tag">&lt;/div&gt;</span>
 <span class="code-tag">&lt;/template&gt;</span></code></pre>
           </div>
@@ -269,13 +255,13 @@
 <span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-comment">// 读取嵌套数组的特定项</span>
-<span class="code-keyword">const</span> firstPhase = useTemplateValue(<span class="code-string">'timeline[0]'</span>)
-<span class="code-keyword">const</span> secondPhaseText = useTemplateValue(<span class="code-string">'timeline[1].phase'</span>)
+<span class="code-keyword">const</span> firstModel = useTemplateValue(<span class="code-string">'models[0]'</span>, {})
+<span class="code-keyword">const</span> firstModelUrl = useTemplateValue(<span class="code-string">'models[0].url'</span>, <span class="code-string">''</span>)
 <span class="code-tag">&lt;/script&gt;</span>
 
-<span class="code-tag">&lt;template&gtgt;</span>
-  <span class="code-tag">&lt;p&gt;</span>{{ firstPhase }}<span class="code-tag">&lt;/p&gt;</span>
-  <span class="code-tag">&lt;p&gt;</span>{{ secondPhaseText }}<span class="code-tag">&lt;/p&gt;</span>
+<span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;p&gt;</span>{{ firstModel.name }}<span class="code-tag">&lt;/p&gt;</span>
+  <span class="code-tag">&lt;p&gt;</span>{{ firstModelUrl }}<span class="code-tag">&lt;/p&gt;</span>
 <span class="code-tag">&lt;/template&gt;</span></code></pre>
           </div>
 
@@ -286,44 +272,40 @@
               <tr>
                 <th>configJson 类型</th>
                 <th>运行时值类型</th>
-                <th>说明</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td><code>string</code></td>
                 <td><code>string</code></td>
-                <td>原样返回</td>
               </tr>
               <tr>
                 <td><code>number</code></td>
                 <td><code>number</code></td>
-                <td>原样返回</td>
               </tr>
               <tr>
                 <td><code>boolean</code></td>
                 <td><code>boolean</code></td>
-                <td>原样返回</td>
               </tr>
               <tr>
                 <td><code>image</code></td>
-                <td><code>{ url?: string, alt?: string }</code></td>
-                <td>配置里的字符串路径被归一成媒体对象</td>
+                <td><code>TemplateMediaObject</code></td>
               </tr>
               <tr>
                 <td><code>video</code></td>
-                <td><code>{ url?: string, poster?: string }</code></td>
-                <td>配置里的字符串路径被归一成媒体对象</td>
+                <td><code>TemplateMediaObject</code></td>
               </tr>
               <tr>
                 <td><code>file</code></td>
                 <td><code>string</code></td>
-                <td>直接返回字符串路径</td>
+              </tr>
+              <tr>
+                <td><code>object</code></td>
+                <td><code>Record&lt;string, unknown&gt;</code></td>
               </tr>
               <tr>
                 <td><code>array</code></td>
-                <td><code>TemplateField[]</code></td>
-                <td>字段对象数组</td>
+                <td><code>Array&lt;unknown&gt;</code></td>
               </tr>
             </tbody>
           </table>

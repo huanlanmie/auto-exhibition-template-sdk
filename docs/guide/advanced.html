@@ -43,7 +43,7 @@
       <a href="installation.html" class="mobile-nav-item">安装</a>
       <a href="quick-start.html" class="mobile-nav-item">快速开始</a>
       <a href="config-json.html" class="mobile-nav-item">configJson 结构</a>
-      <a href="valueMap.html" class="mobile-nav-item">valueMap 的角色</a>
+      <a href="valueMap.html" class="mobile-nav-item">页面取值</a>
       <a href="advanced.html" class="mobile-nav-item">进阶用法</a>
     </nav>
 
@@ -59,7 +59,7 @@
               <li><a href="installation.html" class="sidebar-link">安装</a></li>
               <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
               <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
-              <li><a href="valueMap.html" class="sidebar-link">valueMap 的角色</a></li>
+              <li><a href="valueMap.html" class="sidebar-link">页面取值</a></li>
               <li><a href="advanced.html" class="sidebar-link active">进阶用法</a></li>
             </ul>
           </div>
@@ -72,12 +72,56 @@
           <h1 class="page-title">进阶用法</h1>
 
           <p class="intro-lead">
-            介绍 SDK 中关于数组字段路径取值和调试工作的进一步说明。
+            深入了解 SDK 的高级功能和使用场景。
           </p>
+
+          <h2>类型推导</h2>
+          <p>
+              SDK 提供 TypeScript 类型推导支持。通过 <code>InferTemplateValueMap</code> 类型，可以从 configJson 推导页面可读取的字段值类型。
+          </p>
+
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/config'</span>
+<span class="code-keyword">import</span> type { InferTemplateValueMap } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> configJson = defineTemplateConfig({
+  <span class="code-property">meta</span>: { <span class="code-property">name</span>: <span class="code-string">'demo'</span> },
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">value</span>: <span class="code-string">'Hello'</span> }
+    ]
+  }
+})
+
+<span class="code-comment">// 自动推导类型</span>
+<span class="code-keyword">type</span> ValueMap = InferTemplateValueMap&lt;<span class="code-keyword">typeof</span> configJson&gt;
+<span class="code-comment">// { title: string }</span></code></pre>
+          </div>
+
+          <h2>配置校验</h2>
+          <p>
+            使用 <code>validateTemplateConfig</code> 函数可以在运行时校验配置是否符合规范。
+          </p>
+
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { validateTemplateConfig } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> issues = validateTemplateConfig({
+  <span class="code-property">dataSchema</span>: {
+    <span class="code-property">fields</span>: [
+      { <span class="code-property">key</span>: <span class="code-string">'title'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span> }
+    ]
+  }
+})
+
+<span class="code-keyword">if</span> (issues.length > <span class="code-number">0</span>) {
+  console.error(<span class="code-string">'配置校验失败'</span>, issues)
+}</code></pre>
+          </div>
 
           <h2>嵌套数组取值</h2>
           <p>
-            对于嵌套的数组字段，可以使用点路径语法进行读取。
+              对于数组中的 object 字段，可以使用下标和点路径组合读取。
           </p>
 
           <h3>configJson 示例</h3>
@@ -86,14 +130,14 @@
   <span class="code-property">"dataSchema"</span>: {
     <span class="code-property">"fields"</span>: [
       {
-        <span class="code-property">"key"</span>: <span class="code-string">"sections"</span>,
+        <span class="code-property">"key"</span>: <span class="code-string">"models"</span>,
         <span class="code-property">"type"</span>: <span class="code-string">"array"</span>,
         <span class="code-property">"value"</span>: [
           {
-            <span class="code-property">"key"</span>: <span class="code-string">"section1"</span>,
-            <span class="code-property">"type"</span>: <span class="code-string">"array"</span>,
+            <span class="code-property">"type"</span>: <span class="code-string">"object"</span>,
             <span class="code-property">"value"</span>: [
-              { <span class="code-property">"key"</span>: <span class="code-string">"item"</span>, <span class="code-property">"type"</span>: <span class="code-string">"string"</span> }
+              { <span class="code-property">"key"</span>: <span class="code-string">"name"</span>, <span class="code-property">"type"</span>: <span class="code-string">"string"</span> },
+              { <span class="code-property">"key"</span>: <span class="code-string">"url"</span>, <span class="code-property">"type"</span>: <span class="code-string">"file"</span> }
             ]
           }
         ]
@@ -105,9 +149,53 @@
 
           <h3>取值方式</h3>
           <div class="code-block">
-            <pre><code><span class="code-keyword">const</span> sections = useTemplateValue(<span class="code-string">'sections'</span>)
-<span class="code-keyword">const</span> firstSection = useTemplateValue(<span class="code-string">'sections[0]'</span>)
-<span class="code-keyword">const</span> nestedItem = useTemplateValue(<span class="code-string">'sections[0].item'</span>)</code></pre>
+            <pre><code><span class="code-keyword">const</span> models = useTemplateValue(<span class="code-string">'models'</span>, [])
+<span class="code-keyword">const</span> firstModel = useTemplateValue(<span class="code-string">'models[0]'</span>, {})
+<span class="code-keyword">const</span> firstModelUrl = useTemplateValue(<span class="code-string">'models[0].url'</span>, <span class="code-string">''</span>)</code></pre>
+          </div>
+
+          <h2>媒体对象</h2>
+          <p>
+              image 和 video 字段在页面中读取为媒体对象，而不是字符串路径。
+          </p>
+
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"url"</span>: <span class="code-string">"/assets/poster.png"</span>,
+  <span class="code-property">"poster"</span>: <span class="code-string">"/assets/poster-thumb.png"</span>
+}</code></pre>
+          </div>
+
+          <h3>在模板中使用</h3>
+          <div class="code-block">
+            <pre><code><span class="code-tag">&lt;template&gt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">:src</span>=<span class="code-string">"poster.url"</span> <span class="code-tag">/&gt;</span>
+
+  <span class="code-tag">&lt;video</span> <span class="code-attr">:src</span>=<span class="code-string">"trailer.url"</span> <span class="code-attr">:poster</span>=<span class="code-string">"trailer.poster"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;/video&gt;</span>
+<span class="code-tag">&lt;/template&gt;</span></code></pre>
+          </div>
+
+          <h2>自定义构建配置</h2>
+          <p>
+            templateSdkPlugin 支持传入额外的构建配置选项。
+          </p>
+
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { defineConfig } <span class="code-keyword">from</span> <span class="code-string">'vite'</span>
+<span class="code-keyword">import</span> vue <span class="code-keyword">from</span> <span class="code-string">'@vitejs/plugin-vue'</span>
+<span class="code-keyword">import</span> configJson <span class="code-keyword">from</span> <span class="code-string">'./config'</span>
+<span class="code-keyword">import</span> { templateSdkPlugin } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk/vite'</span>
+
+<span class="code-keyword">export default</span> defineConfig({
+  <span class="code-property">plugins</span>: [
+    templateSdkPlugin({
+      <span class="code-property">configJson</span>
+      <span class="code-comment">// 可以添加更多配置选项</span>
+    }),
+    vue()
+  ]
+})</code></pre>
           </div>
 
           <h2>调试技巧</h2>
@@ -126,7 +214,7 @@ console.log(<span class="code-string">'title value:'</span>, title.value)</code>
           <div class="page-navigation">
             <div class="prev-page">
               <span class="nav-label">上一页</span>
-              <a href="valueMap.html" class="nav-link">← valueMap 的角色</a>
+              <a href="valueMap.html" class="nav-link">← 页面取值</a>
             </div>
           </div>
         </div>

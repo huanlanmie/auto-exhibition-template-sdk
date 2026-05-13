@@ -239,6 +239,16 @@
   color: #8250df;
 }
 
+.type-badge.type-file {
+  background: #e6fffb;
+  color: #087990;
+}
+
+.type-badge.type-object {
+  background: #f0f9ff;
+  color: #0369a1;
+}
+
 .type-badge.type-array {
   background: #fde68a;
   color: #92400e;
