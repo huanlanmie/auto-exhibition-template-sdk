@@ -27,7 +27,7 @@
           </nav>
         </div>
         <div class="header-right">
-          <span class="version-badge">v0.1.1</span>
+          <span class="version-badge">v0.2.0</span>
         </div>
       </div>
     </header>
@@ -44,6 +44,7 @@
       <a href="quick-start.html" class="mobile-nav-item">快速开始</a>
       <a href="config-json.html" class="mobile-nav-item">configJson 结构</a>
       <a href="valueMap.html" class="mobile-nav-item">页面取值</a>
+      <a href="function-linkage.html" class="mobile-nav-item">函数联动</a>
       <a href="advanced.html" class="mobile-nav-item">进阶用法</a>
     </nav>
 
@@ -60,6 +61,7 @@
               <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
               <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
               <li><a href="valueMap.html" class="sidebar-link">页面取值</a></li>
+              <li><a href="function-linkage.html" class="sidebar-link">函数联动</a></li>
               <li><a href="advanced.html" class="sidebar-link active">进阶用法</a></li>
             </ul>
           </div>
@@ -196,6 +198,45 @@
     vue()
   ]
 })</code></pre>
+          </div>
+
+          <h2>模板函数和 Bridge</h2>
+          <p>
+            模板函数调用建立在本地 Bridge 之上。SDK 默认使用 <code>ws://127.0.0.1:5176</code> 连接客户端 Bridge，Bridge 再把函数调用转给网关或本地其他模板页。
+          </p>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> {
+  registerTemplateFunction,
+  invokeTemplateFunction
+} <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+registerTemplateFunction(<span class="code-string">'showDetail'</span>, <span class="code-keyword">async</span> (args) =&gt; {
+  currentId.value = args.id
+  <span class="code-keyword">return</span> { ok: <span class="code-keyword">true</span> }
+})
+
+<span class="code-keyword">await</span> invokeTemplateFunction(
+  { mode: <span class="code-string">'binding'</span>, sourceFunction: <span class="code-string">'showDetail'</span> },
+  <span class="code-string">'showDetail'</span>,
+  { id: <span class="code-string">'item-01'</span> }
+)</code></pre>
+          </div>
+          <p>
+            需要本地调试时，使用 <code>{ mode: 'local' }</code> 可以在同一设备多个模板页之间调用，不经过网关。
+          </p>
+
+          <h2>硬件扩展</h2>
+          <p>
+            网关侧已经预留 HardwareAdapter 模型。模板函数规则的目标可以是模板 endpoint，也可以是硬件 endpoint。SDK 不直接操作串口、MQTT 或 HTTP 硬件协议，硬件细节应放在网关 adapter 中。
+          </p>
+          <div class="code-block">
+            <pre><code>[
+  {
+    <span class="code-property">"endpointType"</span>: <span class="code-string">"hardware"</span>,
+    <span class="code-property">"hardwareId"</span>: <span class="code-string">"mock-hardware"</span>,
+    <span class="code-property">"functionName"</span>: <span class="code-string">"echo"</span>
+  }
+]</code></pre>
           </div>
 
           <h2>调试技巧</h2>

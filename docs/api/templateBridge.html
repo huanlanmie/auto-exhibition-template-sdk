@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Template Bridge API - auto-exhibition-template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="auto-exhibition-template-sdk" class="logo-img">
+            <span class="logo-text">auto-exhibition-template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="../guide/introduction.html" class="nav-item">指南</a>
+            <a href="index.html" class="nav-item active">API</a>
+            <a href="../examples/index.html" class="nav-item">示例</a>
+            <a href="https://www.npmjs.com/package/auto-exhibition-template-sdk" target="_blank" class="nav-item">npm</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.2.0</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-wrapper">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">SDK</h3>
+            <ul class="sidebar-menu">
+              <li><a href="useTemplateValue.html" class="sidebar-link">useTemplateValue</a></li>
+              <li><a href="templateBridge.html" class="sidebar-link active">Template Bridge</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">config</h3>
+            <ul class="sidebar-menu">
+              <li><a href="defineTemplateConfig.html" class="sidebar-link">defineTemplateConfig</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">vite</h3>
+            <ul class="sidebar-menu">
+              <li><a href="templateSdkPlugin.html" class="sidebar-link">templateSdkPlugin</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">Template Bridge API</h1>
+
+          <p class="intro-lead">
+            Template Bridge API 用于模板函数注册、函数调用、事件发送和事件监听。默认连接本机 Bridge：<code>ws://127.0.0.1:5176</code>。
+          </p>
+
+          <h2>导出 API</h2>
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>API</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>useTemplateBridge()</code></td>
+                <td>获取默认 Bridge 实例。</td>
+              </tr>
+              <tr>
+                <td><code>registerTemplateFunction(name, handler, definition?)</code></td>
+                <td>注册当前模板可被外部调用的函数。</td>
+              </tr>
+              <tr>
+                <td><code>unregisterTemplateFunction(name)</code></td>
+                <td>注销已注册函数。</td>
+              </tr>
+              <tr>
+                <td><code>invokeTemplateFunction(target, functionName, args?, options?)</code></td>
+                <td>调用本地、绑定规则或其他设备上的模板函数。</td>
+              </tr>
+              <tr>
+                <td><code>emitTemplateEvent(channel, payload?, target?)</code></td>
+                <td>兼容旧事件总线，发送模板事件。</td>
+              </tr>
+              <tr>
+                <td><code>onTemplateEvent(channel, handler)</code></td>
+                <td>监听模板事件。</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>注册函数</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { registerTemplateFunction } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> stop = registerTemplateFunction(<span class="code-string">'playVideo'</span>, <span class="code-keyword">async</span> (args, context) =&gt; {
+  console.log(context.messageId, args)
+  <span class="code-keyword">return</span> { ok: <span class="code-keyword">true</span> }
+}, {
+  label: <span class="code-string">'播放视频'</span>,
+  direction: <span class="code-string">'inout'</span>
+})
+
+<span class="code-comment">// 组件卸载或页面释放时可注销</span>
+stop()</code></pre>
+          </div>
+
+          <h2>调用函数</h2>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { invokeTemplateFunction } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+<span class="code-keyword">const</span> result = <span class="code-keyword">await</span> invokeTemplateFunction(
+  { mode: <span class="code-string">'binding'</span>, sourceFunction: <span class="code-string">'playVideo'</span> },
+  <span class="code-string">'playVideo'</span>,
+  { id: <span class="code-string">'intro'</span>, seekTo: <span class="code-number">0</span> },
+  { timeoutMs: <span class="code-number">3000</span> }
+)</code></pre>
+          </div>
+
+          <h2>target.mode</h2>
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>mode</th>
+                <th>用途</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>local</code></td>
+                <td>同一设备内的模板页之间调用，用于本地调试或多模板页面。</td>
+              </tr>
+              <tr>
+                <td><code>binding</code></td>
+                <td>交给网关按后台配置的函数绑定规则展开目标。</td>
+              </tr>
+              <tr>
+                <td><code>unicast</code></td>
+                <td>直接调用指定 <code>clientId</code> 的设备模板。</td>
+              </tr>
+              <tr>
+                <td><code>multicast</code></td>
+                <td>调用一组设备。</td>
+              </tr>
+              <tr>
+                <td><code>broadcast</code></td>
+                <td>广播给所有在线设备。</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>事件兼容</h2>
+          <p>旧模板仍可继续使用事件模型；新项目建议函数调用用于明确动作，事件用于松散通知。</p>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">const</span> off = onTemplateEvent(<span class="code-string">'scene:switch'</span>, event =&gt; {
+  console.log(event.payload)
+})
+
+emitTemplateEvent(<span class="code-string">'scene:switch'</span>, { scene: <span class="code-string">'intro'</span> }, { mode: <span class="code-string">'broadcast'</span> })</code></pre>
+          </div>
+
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>注意：</strong>
+              <code>configJson.functions</code> 只是能力声明，真正可执行的 handler 必须在运行时通过 <code>registerTemplateFunction</code> 注册。
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

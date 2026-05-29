@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>函数联动 - auto-exhibition-template-sdk</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../styles/common.css">
+  <link rel="stylesheet" href="../styles/page.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+</head>
+<body>
+  <div id="app">
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="header-left">
+          <a href="../index.html" class="logo">
+            <img src="../assets/logo.svg" alt="auto-exhibition-template-sdk" class="logo-img">
+            <span class="logo-text">auto-exhibition-template-sdk</span>
+          </a>
+          <nav class="nav">
+            <a href="introduction.html" class="nav-item active">指南</a>
+            <a href="../api/index.html" class="nav-item">API</a>
+            <a href="../examples/index.html" class="nav-item">示例</a>
+            <a href="https://www.npmjs.com/package/auto-exhibition-template-sdk" target="_blank" class="nav-item">npm</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <span class="version-badge">v0.2.0</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-wrapper">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">指南</h3>
+            <ul class="sidebar-menu">
+              <li><a href="introduction.html" class="sidebar-link">介绍</a></li>
+              <li><a href="installation.html" class="sidebar-link">安装</a></li>
+              <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
+              <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
+              <li><a href="valueMap.html" class="sidebar-link">页面取值</a></li>
+              <li><a href="function-linkage.html" class="sidebar-link active">函数联动</a></li>
+              <li><a href="advanced.html" class="sidebar-link">进阶用法</a></li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="content-wrapper">
+          <h1 class="page-title">函数联动</h1>
+
+          <p class="intro-lead">
+            函数联动让模板先声明可被外部调用的能力，再由 SDK、本地 Bridge 和网关完成同设备或跨设备调用。
+          </p>
+
+          <h2>整体流程</h2>
+          <ol class="feature-list">
+            <li>模板在 <code>configJson.functions</code> 中声明函数元数据。</li>
+            <li>构建产物在 <code>valueMap.__templateSdk.functions</code> 中写入函数 manifest。</li>
+            <li>管理后台读取 manifest，配置 A 函数触发 B/N 函数的绑定规则。</li>
+            <li>模板运行时通过 <code>registerTemplateFunction</code> 注册真实 handler。</li>
+            <li>模板通过 <code>invokeTemplateFunction</code> 发起调用。</li>
+            <li>网关按规则把调用转发给目标设备模板或硬件 adapter。</li>
+          </ol>
+
+          <h2>声明函数</h2>
+          <div class="code-block">
+            <pre><code>functions: {
+  playVideo: {
+    label: '播放视频',
+    description: '按视频 ID 播放指定内容',
+    direction: 'inout',
+    params: [
+      { name: 'id', type: 'string', required: true },
+      { name: 'seekTo', type: 'number', defaultValue: 0 }
+    ],
+    transport: {
+      qos: 'at_most_once',
+      timeoutMs: 3000
+    },
+    tags: ['video']
+  }
+}</code></pre>
+          </div>
+
+          <h2>注册运行时 handler</h2>
+          <div class="code-block">
+            <pre><code>import { registerTemplateFunction } from 'auto-exhibition-template-sdk'
+
+const stop = registerTemplateFunction('playVideo', async (args, context) =&gt; {
+  await player.play(args.id, { seekTo: args.seekTo || 0 })
+  return { ok: true, currentId: args.id, messageId: context.messageId }
+})
+
+// 页面卸载时注销
+stop()</code></pre>
+          </div>
+
+          <h2>触发绑定规则</h2>
+          <div class="code-block">
+            <pre><code>import { invokeTemplateFunction } from 'auto-exhibition-template-sdk'
+
+await invokeTemplateFunction(
+  { mode: 'binding', sourceFunction: 'playVideo' },
+  'playVideo',
+  { id: 'intro', seekTo: 0 },
+  { timeoutMs: 3000 }
+)</code></pre>
+          </div>
+
+          <h2>本地调试</h2>
+          <p>同一设备内有多个模板页时，可以使用 <code>mode: 'local'</code> 测试函数调用链路，不经过网关。</p>
+          <div class="code-block">
+            <pre><code>await invokeTemplateFunction(
+  { mode: 'local' },
+  'showDetail',
+  { id: 'item-01' }
+)</code></pre>
+          </div>
+
+          <h2>硬件 endpoint</h2>
+          <p>网关可以把硬件能力注册成 adapter。规则目标可以是模板，也可以是硬件：</p>
+          <div class="code-block">
+            <pre><code>[
+  {
+    "endpointType": "template",
+    "clientId": "SCREEN-B",
+    "functionName": "showDetail"
+  },
+  {
+    "endpointType": "hardware",
+    "hardwareId": "mock-hardware",
+    "functionName": "echo"
+  }
+]</code></pre>
+          </div>
+
+          <h2>参数映射</h2>
+          <p>后台绑定规则可以把来源参数、上下文或固定值映射到目标函数参数。</p>
+          <div class="code-block">
+            <pre><code>{
+  "mappings": [
+    { "targetParam": "id", "source": "args.id" },
+    { "targetParam": "fromClientId", "source": "context.from.clientId" },
+    { "targetParam": "value", "value": 80 }
+  ]
+}</code></pre>
+          </div>
+
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>边界：</strong>
+              SDK 负责模板侧声明、注册和调用；跨设备规则转发、调用日志和硬件协议适配放在管理后台与网关侧实现。
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../scripts/common.js"></script>
+</body>
+</html>

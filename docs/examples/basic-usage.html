@@ -27,7 +27,7 @@
           </nav>
         </div>
         <div class="header-right">
-          <span class="version-badge">v0.1.1</span>
+          <span class="version-badge">v0.2.0</span>
         </div>
       </div>
     </header>
@@ -108,7 +108,16 @@ vite.config.ts</code></pre>
       }
     ]
   },
-  <span class="code-property">functions</span>: {}
+  <span class="code-property">functions</span>: {
+    <span class="code-property">showDetail</span>: {
+      <span class="code-property">label</span>: <span class="code-string">'显示详情'</span>,
+      <span class="code-property">description</span>: <span class="code-string">'接收展项 ID 并切换到详情状态'</span>,
+      <span class="code-property">direction</span>: <span class="code-string">'inout'</span>,
+      <span class="code-property">params</span>: [
+        { <span class="code-property">name</span>: <span class="code-string">'id'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">required</span>: <span class="code-keyword">true</span> }
+      ]
+    }
+  }
 })
 
 <span class="code-keyword">export default</span> configJson</code></pre>
@@ -183,6 +192,20 @@ h1 {
 <span class="code-tag">&lt;/style&gt;</span></code></pre>
           </div>
 
+          <h2>第五步：注册可联动函数</h2>
+          <p>声明在 <code>configJson.functions</code> 中的函数需要在运行时注册 handler，后台和网关才能触发真实动作。</p>
+          <div class="code-block">
+            <pre><code><span class="code-comment">&lt;!-- src/components/HeroSection.vue --&gt;</span>
+<span class="code-tag">&lt;script setup</span><span class="code-tag">&gt;</span>
+<span class="code-keyword">import</span> { registerTemplateFunction } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+registerTemplateFunction(<span class="code-string">'showDetail'</span>, <span class="code-keyword">async</span> (args) =&gt; {
+  console.log(<span class="code-string">'show detail'</span>, args.id)
+  <span class="code-keyword">return</span> { ok: <span class="code-keyword">true</span> }
+})
+<span class="code-tag">&lt;/script&gt;</span></code></pre>
+          </div>
+
           <h2>效果预览</h2>
           <p>
             运行 <code>pnpm dev</code> 后，你将看到：
@@ -203,6 +226,7 @@ h1 {
             <li>配置 Vite 插件</li>
             <li>安装运行时插件</li>
             <li>在组件中使用 useTemplateValue 取值</li>
+            <li>按需注册 registerTemplateFunction 暴露联动能力</li>
           </ol>
           <p>
             现在你可以继续阅读<a href="../guide/config-json.html">configJson 结构</a>和<a href="../guide/valueMap.html">页面取值</a>，了解字段类型、媒体字段和数组字段的写法。

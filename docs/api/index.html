@@ -27,7 +27,7 @@
           </nav>
         </div>
         <div class="header-right">
-          <span class="version-badge">v0.1.1</span>
+          <span class="version-badge">v0.2.0</span>
         </div>
       </div>
     </header>
@@ -53,6 +53,7 @@
             <h3 class="sidebar-title">SDK</h3>
             <ul class="sidebar-menu">
               <li><a href="useTemplateValue.html" class="sidebar-link">useTemplateValue</a></li>
+              <li><a href="templateBridge.html" class="sidebar-link">Template Bridge</a></li>
             </ul>
           </div>
           <div class="sidebar-section">
@@ -76,7 +77,7 @@
           <h1 class="page-title">API</h1>
 
           <p class="intro-lead">
-            auto-exhibition-template-sdk 提供配置定义、Vite 接入和页面取值所需的 API。
+            auto-exhibition-template-sdk 提供配置定义、Vite 接入、页面取值和模板函数通信所需的 API。
           </p>
 
           <h2>SDK 入口</h2>
@@ -88,7 +89,11 @@
 <span class="code-keyword">import</span> TemplateSdk <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
 
 <span class="code-comment">// 按需导入</span>
-<span class="code-keyword">import</span> { useTemplateValue } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span></code></pre>
+<span class="code-keyword">import</span> {
+  useTemplateValue,
+  registerTemplateFunction,
+  invokeTemplateFunction
+} <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span></code></pre>
           </div>
 
           <h2>模块导出</h2>
@@ -117,6 +122,21 @@
               <tr>
                 <td><code>validateTemplateConfig</code></td>
                 <td>配置校验函数</td>
+                <td><code>Function</code></td>
+              </tr>
+              <tr>
+                <td><code>registerTemplateFunction</code></td>
+                <td>注册当前模板暴露给外部调用的函数</td>
+                <td><code>Function</code></td>
+              </tr>
+              <tr>
+                <td><code>invokeTemplateFunction</code></td>
+                <td>通过本地 Bridge 或网关调用模板函数</td>
+                <td><code>Function</code></td>
+              </tr>
+              <tr>
+                <td><code>useTemplateBridge</code></td>
+                <td>获取模板通信 Bridge 实例</td>
                 <td><code>Function</code></td>
               </tr>
             </tbody>
@@ -196,6 +216,19 @@
               <div class="api-link-content">
                 <h4>templateSdkPlugin</h4>
                 <p>在 Vite 中接入 configJson</p>
+              </div>
+            </a>
+            <a href="templateBridge.html" class="api-link">
+              <div class="api-link-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M8 18l-6-6 6-6"/>
+                  <path d="M16 6l6 6-6 6"/>
+                  <path d="M12 4v16"/>
+                </svg>
+              </div>
+              <div class="api-link-content">
+                <h4>Template Bridge</h4>
+                <p>注册函数、调用函数和兼容模板事件</p>
               </div>
             </a>
           </div>

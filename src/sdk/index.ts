@@ -2,12 +2,22 @@ import type { App, Plugin } from 'vue'
 import {
   buildTemplateArtifacts,
   buildTemplateJsonFiles,
+  buildTemplateFunctionManifest,
+  buildTemplateSdkMeta,
   buildTemplateValueMap,
 } from '../runtime/schema/artifacts'
 import { validateTemplateConfig } from '../runtime/schema/validation'
 import { createTemplateContext } from '../runtime/context/createTemplateContext'
 import { TEMPLATE_CONTEXT_KEY } from '../runtime/context/keys'
 import { useTemplateValue } from './useTemplateValue'
+import {
+  emitTemplateEvent,
+  invokeTemplateFunction,
+  onTemplateEvent,
+  registerTemplateFunction,
+  unregisterTemplateFunction,
+  useTemplateBridge,
+} from './useTemplateBridge'
 import type { TemplateSdkOptions } from './types'
 
 // SDK 的公开面保持很薄：
@@ -16,8 +26,18 @@ import type { TemplateSdkOptions } from './types'
 // 这样可以保证“运行时读取的结构”和“构建时产出的结构”永远来自同一份实现。
 export { useTemplateValue }
 export {
+  emitTemplateEvent,
+  invokeTemplateFunction,
+  onTemplateEvent,
+  registerTemplateFunction,
+  unregisterTemplateFunction,
+  useTemplateBridge,
+}
+export {
   buildTemplateArtifacts,
   buildTemplateJsonFiles,
+  buildTemplateFunctionManifest,
+  buildTemplateSdkMeta,
   buildTemplateValueMap,
   validateTemplateConfig,
 }
@@ -27,6 +47,9 @@ export type {
   TemplateBuildArtifacts,
   TemplateConfig,
   TemplateContext,
+  TemplateBridge,
+  TemplateEventHandler,
+  TemplateEventTarget,
   InferTemplateValueMap,
   RegisteredTemplateValueMap,
   TemplateField,
@@ -38,9 +61,25 @@ export type {
   TemplateImageField,
   TemplateMediaObject,
   TemplateMediaValue,
+  TemplateFunctionDefinition,
+  TemplateFunctionDirection,
+  TemplateFunctionHandler,
+  TemplateFunctionInvokeContext,
+  TemplateFunctionInvokeOptions,
+  TemplateFunctionInvokeTarget,
+  TemplateFunctionManifest,
+  TemplateFunctionManifestItem,
+  TemplateFunctionMap,
+  TemplateFunctionParam,
+  TemplateFunctionParamType,
+  TemplateFunctionRegistration,
+  TemplateFunctionResult,
+  TemplateFunctionQos,
+  TemplateFunctionTransport,
   TemplateNumberField,
   TemplateObjectField,
   TemplateSdkOptions,
+  TemplateSdkValueMapMeta,
   TemplateStringField,
   TemplateValidationIssue,
   TemplateValueAtPath,

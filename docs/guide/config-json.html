@@ -27,7 +27,7 @@
           </nav>
         </div>
         <div class="header-right">
-          <span class="version-badge">v0.1.1</span>
+          <span class="version-badge">v0.2.0</span>
         </div>
       </div>
     </header>
@@ -58,6 +58,7 @@
               <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
               <li><a href="config-json.html" class="sidebar-link active">configJson 结构</a></li>
               <li><a href="valueMap.html" class="sidebar-link">页面取值</a></li>
+              <li><a href="function-linkage.html" class="sidebar-link">函数联动</a></li>
               <li><a href="advanced.html" class="sidebar-link">进阶用法</a></li>
             </ul>
           </div>
@@ -106,7 +107,7 @@
               </tr>
               <tr>
                 <td><code>functions</code></td>
-                <td>预留配置对象（当前保留）</td>
+                <td>模板函数能力声明，用于后台展示和跨设备函数绑定</td>
                 <td><code>object</code></td>
               </tr>
             </tbody>
@@ -426,6 +427,75 @@
                 <li>新增数组项只复用第一项结构，不复制第一项内容</li>
                 <li>新增值会按类型置空，例如 string/file 为空字符串、number 为 0、boolean 为 false</li>
               </ul>
+            </div>
+          </div>
+
+          <h2>functions 函数声明</h2>
+          <p>
+            从 <code>0.2.0</code> 开始，<code>functions</code> 不再只是预留对象，而是模板能力清单。后台会读取这些函数，设备关联后可以按规则触发其他模板或硬件函数。
+          </p>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"functions"</span>: {
+    <span class="code-property">"playVideo"</span>: {
+      <span class="code-property">"label"</span>: <span class="code-string">"播放视频"</span>,
+      <span class="code-property">"description"</span>: <span class="code-string">"按视频 ID 播放指定内容"</span>,
+      <span class="code-property">"direction"</span>: <span class="code-string">"inout"</span>,
+      <span class="code-property">"params"</span>: [
+        { <span class="code-property">"name"</span>: <span class="code-string">"id"</span>, <span class="code-property">"type"</span>: <span class="code-string">"string"</span>, <span class="code-property">"required"</span>: <span class="code-keyword">true</span> },
+        { <span class="code-property">"name"</span>: <span class="code-string">"seekTo"</span>, <span class="code-property">"type"</span>: <span class="code-string">"number"</span>, <span class="code-property">"defaultValue"</span>: <span class="code-number">0</span> }
+      ],
+      <span class="code-property">"transport"</span>: {
+        <span class="code-property">"qos"</span>: <span class="code-string">"at_most_once"</span>,
+        <span class="code-property">"timeoutMs"</span>: <span class="code-number">3000</span>
+      },
+      <span class="code-property">"tags"</span>: [<span class="code-string">"video"</span>]
+    }
+  }
+}</code></pre>
+          </div>
+
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>属性</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>label</code></td>
+                <td>后台展示名。</td>
+              </tr>
+              <tr>
+                <td><code>description</code></td>
+                <td>函数说明。</td>
+              </tr>
+              <tr>
+                <td><code>direction</code></td>
+                <td><code>in</code> 可被外部调用，<code>out</code> 作为触发源，<code>inout</code> 两者都支持。</td>
+              </tr>
+              <tr>
+                <td><code>params</code></td>
+                <td>参数定义，类型支持 <code>string</code>、<code>number</code>、<code>boolean</code>、<code>object</code>、<code>array</code>、<code>any</code>。</td>
+              </tr>
+              <tr>
+                <td><code>transport</code></td>
+                <td>调用超时和 QoS 配置，<code>timeoutMs</code> 支持 100 到 30000。</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="tip-box">
+            <div class="tip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="tip-content">
+              <strong>保留字段：</strong>
+              <code>valueMap.__templateSdk</code> 是 SDK 元信息命名空间，业务字段不能使用 <code>__templateSdk</code> 作为 key。
             </div>
           </div>
 

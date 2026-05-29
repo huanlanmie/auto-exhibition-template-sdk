@@ -27,7 +27,7 @@
           </nav>
         </div>
         <div class="header-right">
-          <span class="version-badge">v0.1.1</span>
+          <span class="version-badge">v0.2.0</span>
         </div>
       </div>
     </header>
@@ -59,6 +59,7 @@
               <li><a href="quick-start.html" class="sidebar-link">快速开始</a></li>
               <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
               <li><a href="valueMap.html" class="sidebar-link active">页面取值</a></li>
+              <li><a href="function-linkage.html" class="sidebar-link">函数联动</a></li>
               <li><a href="advanced.html" class="sidebar-link">进阶用法</a></li>
             </ul>
           </div>
@@ -208,6 +209,32 @@
               </ul>
             </div>
           </div>
+
+          <h2>SDK 元信息：__templateSdk</h2>
+          <p>
+            从 <code>0.2.0</code> 开始，构建出的 <code>valueMap.json</code> 会自动包含 <code>__templateSdk</code>。它用于保存 SDK 版本化元信息，目前包含模板函数 manifest。
+          </p>
+          <div class="code-block">
+            <pre><code>{
+  <span class="code-property">"title"</span>: <span class="code-string">"主屏播放"</span>,
+  <span class="code-property">"__templateSdk"</span>: {
+    <span class="code-property">"schemaVersion"</span>: <span class="code-number">1</span>,
+    <span class="code-property">"functions"</span>: {
+      <span class="code-property">"playVideo"</span>: {
+        <span class="code-property">"name"</span>: <span class="code-string">"playVideo"</span>,
+        <span class="code-property">"label"</span>: <span class="code-string">"播放视频"</span>,
+        <span class="code-property">"direction"</span>: <span class="code-string">"inout"</span>,
+        <span class="code-property">"params"</span>: [
+          { <span class="code-property">"name"</span>: <span class="code-string">"id"</span>, <span class="code-property">"type"</span>: <span class="code-string">"string"</span>, <span class="code-property">"required"</span>: <span class="code-keyword">true</span> }
+        ]
+      }
+    }
+  }
+}</code></pre>
+          </div>
+          <p>
+            后台和网关可以读取 <code>valueMap.__templateSdk.functions</code> 来知道当前模板暴露了哪些函数。模板页面一般不需要直接渲染这个字段。
+          </p>
 
           <div class="page-navigation">
             <div class="prev-page">

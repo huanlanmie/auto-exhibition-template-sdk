@@ -27,7 +27,7 @@
           </nav>
         </div>
         <div class="header-right">
-          <span class="version-badge">v0.1.1</span>
+          <span class="version-badge">v0.2.0</span>
         </div>
       </div>
     </header>
@@ -58,6 +58,7 @@
               <li><a href="quick-start.html" class="sidebar-link active">快速开始</a></li>
               <li><a href="config-json.html" class="sidebar-link">configJson 结构</a></li>
               <li><a href="valueMap.html" class="sidebar-link">页面取值</a></li>
+              <li><a href="function-linkage.html" class="sidebar-link">函数联动</a></li>
               <li><a href="advanced.html" class="sidebar-link">进阶用法</a></li>
             </ul>
           </div>
@@ -104,7 +105,16 @@
       }
     ]
   },
-  <span class="code-property">functions</span>: {}
+  <span class="code-property">functions</span>: {
+    <span class="code-property">showDetail</span>: {
+      <span class="code-property">label</span>: <span class="code-string">'显示详情'</span>,
+      <span class="code-property">description</span>: <span class="code-string">'接收展项 ID 并切换到详情状态'</span>,
+      <span class="code-property">direction</span>: <span class="code-string">'inout'</span>,
+      <span class="code-property">params</span>: [
+        { <span class="code-property">name</span>: <span class="code-string">'id'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">required</span>: <span class="code-keyword">true</span> }
+      ]
+    }
+  }
 })
 
 <span class="code-keyword">export default</span> configJson</code></pre>
@@ -177,6 +187,19 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
             构建完成后，将 <code>dist</code> 目录打包上传到后台模板管理。上传的是构建后的目录，不是源码目录。
           </p>
 
+          <h3>可选：注册模板函数</h3>
+          <p>
+            如果模板需要被其他设备或硬件规则触发，需要在运行时注册与 <code>configJson.functions</code> 对应的 handler：
+          </p>
+          <div class="code-block">
+            <pre><code><span class="code-keyword">import</span> { registerTemplateFunction } <span class="code-keyword">from</span> <span class="code-string">'auto-exhibition-template-sdk'</span>
+
+registerTemplateFunction(<span class="code-string">'showDetail'</span>, <span class="code-keyword">async</span> (args) =&gt; {
+  currentId.value = args.id
+  <span class="code-keyword">return</span> { ok: <span class="code-keyword">true</span> }
+})</code></pre>
+          </div>
+
           <h2>完整示例</h2>
           <p>完整的配置示例展示了如何使用所有支持的字段类型：</p>
           <div class="code-block">
@@ -224,7 +247,15 @@ app.mount(<span class="code-string">'#app'</span>)</code></pre>
       }
     ]
   },
-  <span class="code-property">functions</span>: {}
+  <span class="code-property">functions</span>: {
+    <span class="code-property">showDetail</span>: {
+      <span class="code-property">label</span>: <span class="code-string">'显示详情'</span>,
+      <span class="code-property">direction</span>: <span class="code-string">'inout'</span>,
+      <span class="code-property">params</span>: [
+        { <span class="code-property">name</span>: <span class="code-string">'id'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">required</span>: <span class="code-keyword">true</span> }
+      ]
+    }
+  }
 })
 
 <span class="code-keyword">export default</span> configJson</code></pre>

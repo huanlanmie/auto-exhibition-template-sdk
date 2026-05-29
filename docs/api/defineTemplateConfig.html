@@ -27,7 +27,7 @@
           </nav>
         </div>
         <div class="header-right">
-          <span class="version-badge">v0.1.1</span>
+          <span class="version-badge">v0.2.0</span>
         </div>
       </div>
     </header>
@@ -53,6 +53,7 @@
             <h3 class="sidebar-title">SDK</h3>
             <ul class="sidebar-menu">
               <li><a href="useTemplateValue.html" class="sidebar-link">useTemplateValue</a></li>
+              <li><a href="templateBridge.html" class="sidebar-link">Template Bridge</a></li>
             </ul>
           </div>
           <div class="sidebar-section">
@@ -236,7 +237,15 @@
       }
     ]
   },
-  <span class="code-property">functions</span>: {}
+  <span class="code-property">functions</span>: {
+    <span class="code-property">showDetail</span>: {
+      <span class="code-property">label</span>: <span class="code-string">'显示详情'</span>,
+      <span class="code-property">direction</span>: <span class="code-string">'inout'</span>,
+      <span class="code-property">params</span>: [
+        { <span class="code-property">name</span>: <span class="code-string">'id'</span>, <span class="code-property">type</span>: <span class="code-string">'string'</span>, <span class="code-property">required</span>: <span class="code-keyword">true</span> }
+      ]
+    }
+  }
 })
 
 <span class="code-keyword">export default</span> configJson</code></pre>

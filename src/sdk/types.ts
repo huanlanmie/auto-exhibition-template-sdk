@@ -23,6 +23,129 @@ export type TemplateFieldSchema = TemplateField[]
 export type TemplateArrayValueItem = TemplateField
 export type TemplateArrayOperation = 'add' | 'delete'
 
+export type TemplateFunctionDirection = 'in' | 'out' | 'inout'
+export type TemplateFunctionParamType = 'string' | 'number' | 'boolean' | 'object' | 'array' | 'any'
+export type TemplateFunctionQos = 'at_most_once' | 'at_least_once'
+
+export type TemplateFunctionParam = {
+  name: string
+  type: TemplateFunctionParamType
+  label?: string
+  required?: boolean
+  defaultValue?: unknown
+  description?: string
+}
+
+export type TemplateFunctionTransport = {
+  timeoutMs?: number
+  qos?: TemplateFunctionQos
+}
+
+export type TemplateFunctionDefinition = {
+  label?: string
+  description?: string
+  direction?: TemplateFunctionDirection
+  params?: TemplateFunctionParam[]
+  returns?: unknown
+  trigger?: unknown
+  transport?: TemplateFunctionTransport
+  tags?: string[]
+}
+
+export type TemplateFunctionMap = Record<string, TemplateFunctionDefinition>
+
+export type TemplateFunctionManifestItem = TemplateFunctionDefinition & {
+  name: string
+  direction: TemplateFunctionDirection
+  params: TemplateFunctionParam[]
+}
+
+export type TemplateFunctionManifest = Record<string, TemplateFunctionManifestItem>
+
+export type TemplateSdkValueMapMeta = {
+  schemaVersion: 1
+  functions: TemplateFunctionManifest
+}
+
+export type TemplateFunctionInvokeTarget =
+  | { mode: 'local'; templateSessionId?: string }
+  | { mode: 'binding'; sourceFunction?: string }
+  | { mode: 'unicast'; clientId: string; templateSessionId?: string }
+  | { mode: 'multicast'; clientIds?: string[]; group?: string }
+  | { mode: 'broadcast' }
+
+export type TemplateFunctionInvokeOptions = {
+  messageId?: string
+  traceId?: string
+  timeoutMs?: number
+  ttl?: number
+  expectResult?: boolean
+}
+
+export type TemplateFunctionInvokeContext = {
+  messageId: string
+  traceId?: string
+  from?: unknown
+  target?: TemplateFunctionInvokeTarget
+  ts?: number
+}
+
+export type TemplateFunctionHandler = (
+  args: unknown,
+  context: TemplateFunctionInvokeContext,
+) => unknown | Promise<unknown>
+
+export type TemplateFunctionRegistration = {
+  name: string
+  definition?: TemplateFunctionDefinition
+  handler: TemplateFunctionHandler
+}
+
+export type TemplateFunctionResult = {
+  messageId: string
+  functionName: string
+  result?: unknown
+  error?: {
+    code: string
+    message: string
+    details?: unknown
+  }
+}
+
+export type TemplateEventTarget =
+  | { mode: 'unicast'; clientId: string }
+  | { mode: 'multicast'; group?: string; clientIds?: string[] }
+  | { mode: 'broadcast' }
+
+export type TemplateEventHandler = (event: {
+  from?: unknown
+  channel: string
+  payload: unknown
+  messageId?: string
+  ts?: number
+}) => void
+
+export type TemplateBridge = {
+  readonly clientId: string | null
+  readonly connected: boolean
+  connect: () => Promise<void>
+  registerTemplateFunction: (
+    name: string,
+    handler: TemplateFunctionHandler,
+    definition?: TemplateFunctionDefinition,
+  ) => () => void
+  unregisterTemplateFunction: (name: string) => void
+  invokeTemplateFunction: (
+    target: TemplateFunctionInvokeTarget,
+    functionName: string,
+    args?: unknown,
+    options?: TemplateFunctionInvokeOptions,
+  ) => Promise<TemplateFunctionResult>
+  emitTemplateEvent: (channel: string, payload?: unknown, target?: TemplateEventTarget) => string
+  onTemplateEvent: (channel: string, handler: TemplateEventHandler) => () => void
+  close: () => void
+}
+
 // 下面这组工具类型只服务两件事：
 // 1. 从 configJson 的字面量结构推导出运行时 valueMap 形态；
 // 2. 根据 valueMap 反推出 useTemplateValue 可接受的点路径和值类型。
@@ -217,7 +340,7 @@ export type TemplateConfig = {
   dataSchema?: {
     fields?: TemplateField[]
   }
-  functions?: Record<string, unknown>
+  functions?: TemplateFunctionMap
 }
 
 export type TemplateValidationIssue = {
@@ -228,6 +351,7 @@ export type TemplateValidationIssue = {
 export type TemplateBuildArtifacts = {
   configJson: TemplateConfig
   valueMap: Record<string, unknown>
+  functionManifest: TemplateFunctionManifest
 }
 
 // 第一版阶段不再尝试用类型系统拼装重复 key 等复杂诊断。

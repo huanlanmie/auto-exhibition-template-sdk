@@ -26,7 +26,7 @@
           </nav>
         </div>
         <div class="header-right">
-          <span class="version-badge">v0.1.1</span>
+          <span class="version-badge">v0.2.0</span>
         </div>
       </div>
     </header>
@@ -54,7 +54,7 @@
               <span class="gradient-text">auto-exhibition-template-sdk</span>
             </h1>
             <p class="hero-description">
-              面向模板项目的前端 SDK，用一份 configJson 定义可配置内容，并在 Vue 页面中按路径读取字段值。
+              面向模板项目的前端 SDK，用一份 configJson 定义可配置内容，在 Vue 页面中读取字段值，并通过 Template Bridge 支持跨设备函数联动。
             </p>
             <div class="hero-actions">
               <a href="./guide/introduction.html" class="btn btn-primary">
@@ -167,8 +167,8 @@
                   <path d="M3 9h18M9 21V9"/>
                 </svg>
               </div>
-              <h3 class="feature-title">Vue 友好</h3>
-              <p class="feature-desc">提供 Vue 插件和组合式函数，适合在 Vue 模板项目中直接使用。</p>
+              <h3 class="feature-title">函数联动</h3>
+              <p class="feature-desc">声明模板函数并注册运行时 handler，由 Bridge 和网关完成本地或跨设备调用。</p>
             </div>
           </div>
         </div>
@@ -208,6 +208,13 @@
               <div class="step-content">
                 <h3 class="step-title">在组件中取值</h3>
                 <p class="step-desc">使用 useTemplateValue 获取响应式字段值</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <h3 class="step-title">注册模板函数</h3>
+                <p class="step-desc">使用 Template Bridge 与其他模板或硬件能力联动</p>
               </div>
             </div>
           </div>
@@ -268,10 +275,12 @@
             <a href="./guide/introduction.html">介绍</a>
             <a href="./guide/installation.html">安装</a>
             <a href="./guide/quick-start.html">快速开始</a>
+            <a href="./guide/function-linkage.html">函数联动</a>
           </div>
           <div class="footer-column">
             <h4>API</h4>
             <a href="./api/useTemplateValue.html">useTemplateValue</a>
+            <a href="./api/templateBridge.html">Template Bridge</a>
             <a href="./api/defineTemplateConfig.html">defineTemplateConfig</a>
             <a href="./api/templateSdkPlugin.html">templateSdkPlugin</a>
           </div>

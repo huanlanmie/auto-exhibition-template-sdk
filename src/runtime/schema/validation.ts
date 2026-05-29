@@ -5,6 +5,9 @@ import type {
   TemplateConfig,
   TemplateFileAcceptKind,
   TemplateFieldType,
+  TemplateFunctionDirection,
+  TemplateFunctionParamType,
+  TemplateFunctionQos,
   TemplateValidationIssue,
 } from '../../sdk/types'
 
@@ -35,6 +38,12 @@ const SUPPORTED_FILE_ACCEPT_KINDS: TemplateFileAcceptKind[] = Array.isArray(SCHE
   ? SCHEMA_CAPABILITY_CONFIG.fileAccept.builtinKinds.map((item) => item.key)
   : []
 
+const SUPPORTED_FUNCTION_DIRECTIONS: TemplateFunctionDirection[] = ['in', 'out', 'inout']
+const SUPPORTED_FUNCTION_PARAM_TYPES: TemplateFunctionParamType[] = ['string', 'number', 'boolean', 'object', 'array', 'any']
+const SUPPORTED_FUNCTION_QOS: TemplateFunctionQos[] = ['at_most_once', 'at_least_once']
+const FUNCTION_NAME_RE = /^[a-zA-Z_$][\w$.-]{0,63}$/
+const RESERVED_VALUE_MAP_KEYS = new Set(['__templateSdk'])
+
 function pushIssue(issues: TemplateValidationIssue[], path: string, message: string) {
   issues.push({ path, message })
 }
@@ -59,6 +68,160 @@ function validateOptionalRecord(
   if (value !== undefined && !isObjectRecord(value)) {
     pushIssue(issues, path, `${label} 必须是对象`)
   }
+}
+
+function validateOptionalBoolean(
+  value: unknown,
+  path: string,
+  label: string,
+  issues: TemplateValidationIssue[],
+) {
+  if (value !== undefined && typeof value !== 'boolean') {
+    pushIssue(issues, path, `${label} 必须是布尔值`)
+  }
+}
+
+function validateOptionalStringArray(
+  value: unknown,
+  path: string,
+  label: string,
+  issues: TemplateValidationIssue[],
+) {
+  if (value === undefined) {
+    return
+  }
+
+  if (!Array.isArray(value)) {
+    pushIssue(issues, path, `${label} 必须是字符串数组`)
+    return
+  }
+
+  const tokenSet = new Set<string>()
+
+  value.forEach((token, index) => {
+    const tokenPath = `${path}[${index}]`
+    if (typeof token !== 'string' || !token.trim()) {
+      pushIssue(issues, tokenPath, `${label} 项必须是非空字符串`)
+      return
+    }
+
+    if (tokenSet.has(token)) {
+      pushIssue(issues, tokenPath, `${label} 项 ${token} 重复`)
+      return
+    }
+
+    tokenSet.add(token)
+  })
+}
+
+function validateFunctionTransport(
+  value: unknown,
+  path: string,
+  issues: TemplateValidationIssue[],
+) {
+  if (value === undefined) {
+    return
+  }
+
+  if (!isObjectRecord(value)) {
+    pushIssue(issues, path, '函数 transport 必须是对象')
+    return
+  }
+
+  if (value.timeoutMs !== undefined) {
+    if (typeof value.timeoutMs !== 'number' || !Number.isFinite(value.timeoutMs)) {
+      pushIssue(issues, `${path}.timeoutMs`, '函数 transport.timeoutMs 必须是数字')
+    } else if (value.timeoutMs < 100 || value.timeoutMs > 30000) {
+      pushIssue(issues, `${path}.timeoutMs`, '函数 transport.timeoutMs 必须在 100 到 30000 之间')
+    }
+  }
+
+  if (value.qos !== undefined && !SUPPORTED_FUNCTION_QOS.includes(value.qos as TemplateFunctionQos)) {
+    pushIssue(issues, `${path}.qos`, `函数 transport.qos 仅支持：${SUPPORTED_FUNCTION_QOS.join(', ')}`)
+  }
+}
+
+function validateFunctionParams(
+  value: unknown,
+  path: string,
+  issues: TemplateValidationIssue[],
+) {
+  if (value === undefined) {
+    return
+  }
+
+  if (!Array.isArray(value)) {
+    pushIssue(issues, path, '函数 params 必须是数组')
+    return
+  }
+
+  const paramNameSet = new Set<string>()
+
+  value.forEach((param, index) => {
+    const paramPath = `${path}[${index}]`
+
+    if (!isObjectRecord(param)) {
+      pushIssue(issues, paramPath, '函数参数必须是对象')
+      return
+    }
+
+    if (typeof param.name !== 'string' || !param.name.trim()) {
+      pushIssue(issues, `${paramPath}.name`, '函数参数 name 必须是非空字符串')
+    } else {
+      const normalizedName = param.name.trim()
+      if (paramNameSet.has(normalizedName)) {
+        pushIssue(issues, `${paramPath}.name`, `函数参数 name ${normalizedName} 重复`)
+      }
+      paramNameSet.add(normalizedName)
+    }
+
+    if (typeof param.type !== 'string' || !SUPPORTED_FUNCTION_PARAM_TYPES.includes(param.type as TemplateFunctionParamType)) {
+      pushIssue(issues, `${paramPath}.type`, `函数参数 type 仅支持：${SUPPORTED_FUNCTION_PARAM_TYPES.join(', ')}`)
+    }
+
+    validateOptionalString(param.label, `${paramPath}.label`, '函数参数 label', issues)
+    validateOptionalString(param.description, `${paramPath}.description`, '函数参数 description', issues)
+    validateOptionalBoolean(param.required, `${paramPath}.required`, '函数参数 required', issues)
+  })
+}
+
+function validateTemplateFunctions(functions: unknown, path: string, issues: TemplateValidationIssue[]) {
+  if (functions === undefined) {
+    return
+  }
+
+  if (!isObjectRecord(functions)) {
+    pushIssue(issues, path, 'functions 必须是对象')
+    return
+  }
+
+  Object.entries(functions).forEach(([functionName, definition]) => {
+    const functionPath = `${path}.${functionName}`
+
+    if (!FUNCTION_NAME_RE.test(functionName)) {
+      pushIssue(
+        issues,
+        `${functionPath}.name`,
+        '函数名必须以字母、_ 或 $ 开头，只能包含字母、数字、_、$、.、-，且最长 64 个字符',
+      )
+    }
+
+    if (!isObjectRecord(definition)) {
+      pushIssue(issues, functionPath, '函数定义必须是对象')
+      return
+    }
+
+    validateOptionalString(definition.label, `${functionPath}.label`, '函数 label', issues)
+    validateOptionalString(definition.description, `${functionPath}.description`, '函数 description', issues)
+
+    if (definition.direction !== undefined && !SUPPORTED_FUNCTION_DIRECTIONS.includes(definition.direction as TemplateFunctionDirection)) {
+      pushIssue(issues, `${functionPath}.direction`, `函数 direction 仅支持：${SUPPORTED_FUNCTION_DIRECTIONS.join(', ')}`)
+    }
+
+    validateFunctionParams(definition.params, `${functionPath}.params`, issues)
+    validateFunctionTransport(definition.transport, `${functionPath}.transport`, issues)
+    validateOptionalStringArray(definition.tags, `${functionPath}.tags`, '函数 tags', issues)
+  })
 }
 
 function validateArrayOperations(
@@ -444,6 +607,10 @@ function validateField(
     pushIssue(issues, `${path}.key`, '字段 key 必须是非空字符串')
   }
 
+  if (typeof key === 'string' && RESERVED_VALUE_MAP_KEYS.has(key.trim())) {
+    pushIssue(issues, `${path}.key`, `字段 key ${key.trim()} 是 SDK 保留字段，不能在 dataSchema.fields 中使用`)
+  }
+
   if (typeof type !== 'string' || !SUPPORTED_FIELD_TYPES.includes(type as TemplateFieldType)) {
     pushIssue(
       issues,
@@ -505,7 +672,6 @@ export function validateTemplateConfig(configJson: unknown): TemplateConfig {
     pushIssue(issues, 'configJson', '必须是对象')
   } else {
     validateOptionalRecord(configJson.meta, 'configJson.meta', 'meta', issues)
-    validateOptionalRecord(configJson.functions, 'configJson.functions', 'functions', issues)
 
     if (configJson.dataSchema !== undefined && !isObjectRecord(configJson.dataSchema)) {
       pushIssue(issues, 'configJson.dataSchema', 'dataSchema 必须是对象')
@@ -517,6 +683,8 @@ export function validateTemplateConfig(configJson: unknown): TemplateConfig {
     if (fields !== undefined) {
       validateFields(fields, 'configJson.dataSchema.fields', issues)
     }
+
+    validateTemplateFunctions(configJson.functions, 'configJson.functions', issues)
   }
 
   if (issues.length) {
