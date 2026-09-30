@@ -264,5 +264,3 @@ $env:JAVA_HOME = $taskJavaRoot
 P0-01 完成后，P1-01/P1-02 与 P1-05 可以并行，P1-03 在资源契约稳定后开始；P1-04～P1-08 按依赖集成，P1-09 汇总交付。实现者与复核者使用同一契约，不能各自发明 SDK 初始化或资源路径。
 
 P0-01 与 P1-01～P1-09 已实现，四部分构建检查及代码复核完成；功能验收仍待用户手测。数据库与线上配置没有自动应用。详见 [第一阶段交付手册](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/deliveries/2026-09-30-virtual-showroom-stage1-handoff.md)。
-
-

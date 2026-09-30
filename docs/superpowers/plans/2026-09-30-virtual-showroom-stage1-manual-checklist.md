@@ -39,4 +39,3 @@
 | M01～M12 | 未执行 | 阶段交付后记录 | 代码与构建交付，功能验收未执行 | 按用例中的任务 ID 回归 |
 
 实际入口、样本位置、SQL/配置步骤、四部分构建结果和限制见 [第一阶段交付手册](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/deliveries/2026-09-30-virtual-showroom-stage1-handoff.md)。用户反馈优先修复对应任务，再继续阶段完善。
-
