@@ -1,6 +1,6 @@
 import type { TemplateRuntime, TemplateRuntimeOptions } from '../sdk/types'
 import { createTemplateRuntime } from './createTemplateRuntime'
-import { matchesBrowserHostIdentity, validateBrowserHostConfig } from './communication/browserHostTransport'
+import { matchesBrowserHostConfig, validateBrowserHostConfig } from './communication/browserHostTransport'
 
 let defaultRuntime: TemplateRuntime | null = null
 
@@ -8,18 +8,28 @@ export function getDefaultTemplateRuntime(options: TemplateRuntimeOptions = {}):
   if (!defaultRuntime) {
     const injected = typeof window !== 'undefined'
       && Object.prototype.hasOwnProperty.call(window, '__AUTO_EXHIBITION_TEMPLATE_RUNTIME__')
-    defaultRuntime = injected
-      ? createTemplateRuntime({ ...options, mode: 'browser',
-        browserHost: validateBrowserHostConfig(window.__AUTO_EXHIBITION_TEMPLATE_RUNTIME__) })
-      : createTemplateRuntime(options)
+    if (injected) {
+      const host = validateBrowserHostConfig(window.__AUTO_EXHIBITION_TEMPLATE_RUNTIME__)
+      if (options.browserHost !== undefined && !matchesBrowserHostConfig(validateBrowserHostConfig(options.browserHost), host)) {
+        throw new Error('Explicit browser host must match the injected browser host configuration')
+      }
+      defaultRuntime = createTemplateRuntime({ ...options, mode: 'browser', browserHost: host })
+    } else {
+      defaultRuntime = createTemplateRuntime(options)
+    }
   } else {
+    if (typeof window !== 'undefined' && Object.prototype.hasOwnProperty.call(window, '__AUTO_EXHIBITION_TEMPLATE_RUNTIME__')) {
+      const injected = validateBrowserHostConfig(window.__AUTO_EXHIBITION_TEMPLATE_RUNTIME__)
+      if (defaultRuntime.mode !== 'browser' || !matchesBrowserHostConfig(defaultRuntime.browserHost, injected)) {
+        throw new Error('Template runtime was already initialized; its injected browser host cannot change')
+      }
+    }
     if (options.mode !== undefined && options.mode !== defaultRuntime.mode) {
       throw new Error('Template runtime was already initialized; its mode cannot change')
     }
     if (options.browserHost !== undefined) {
       const host = validateBrowserHostConfig(options.browserHost)
-      if (defaultRuntime.mode !== 'browser' || defaultRuntime.browserHost?.hostOrigin !== host.hostOrigin
-        || !matchesBrowserHostIdentity(defaultRuntime.browserHost?.identity, host.identity)) {
+      if (defaultRuntime.mode !== 'browser' || !matchesBrowserHostConfig(defaultRuntime.browserHost, host)) {
         throw new Error('Template runtime was already initialized; its browser host cannot change')
       }
     }
@@ -37,8 +47,7 @@ export function setDefaultTemplateRuntime(runtime: TemplateRuntime): void {
   if (runtime.disposed) throw new Error('Cannot bind a disposed template runtime')
   if (typeof window !== 'undefined' && Object.prototype.hasOwnProperty.call(window, '__AUTO_EXHIBITION_TEMPLATE_RUNTIME__')) {
     const injected = validateBrowserHostConfig(window.__AUTO_EXHIBITION_TEMPLATE_RUNTIME__)
-    if (runtime.mode !== 'browser' || runtime.browserHost?.hostOrigin !== injected.hostOrigin
-      || !matchesBrowserHostIdentity(runtime.browserHost?.identity, injected.identity)) {
+    if (runtime.mode !== 'browser' || !matchesBrowserHostConfig(runtime.browserHost, injected)) {
       throw new Error('Explicit default runtime must match the injected browser host configuration')
     }
   }

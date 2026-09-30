@@ -1,6 +1,6 @@
 import { createMessageId } from './id'
 import { LocalBridgeWebSocketTransport } from './localBridgeTransport'
-import { BrowserHostTransport, browserHostError } from './browserHostTransport'
+import { BrowserHostTransport, validateBrowserLocalTarget } from './browserHostTransport'
 import type { TemplateBridgeMessage, TemplateTransport } from './transport'
 import { getDefaultTemplateRuntime } from '../runtimeRegistry'
 import type {
@@ -277,19 +277,12 @@ export class RuntimeTemplateBridge implements TemplateBridge {
     const messageId = typeof message.messageId === 'string' ? message.messageId : createMessageId('fn')
 
     if (this.transport instanceof BrowserHostTransport) {
-      const target = message.target
-      const localTarget = target && typeof target === 'object' && !Array.isArray(target)
-        ? target as Record<string, unknown> : null
-      const error = !localTarget || typeof localTarget.mode !== 'string'
-        ? browserHostError('TARGET_NOT_ACTIVE', 'No active local function target was supplied')
-        : localTarget.mode !== 'local'
-          ? browserHostError('HARDWARE_UNAVAILABLE', 'Browser runtime supports only local function targets')
-          : localTarget.templateSessionId !== undefined
-            && localTarget.templateSessionId !== this.transport.config.identity.runtimeId
-            ? browserHostError('TARGET_NOT_ACTIVE', 'Requested runtime is not active') : null
-      if (error) {
+      try {
+        validateBrowserLocalTarget(message.target, this.transport.config.identity.runtimeId)
+      } catch (error) {
+        const reason = error as Error & { code: string }
         this.transport.send({ type: 'function_error', messageId, functionName,
-          error: { code: error.code, message: error.message }, ts: Date.now() })
+          error: { code: reason.code, message: reason.message }, ts: Date.now() })
         return
       }
     }

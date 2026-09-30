@@ -402,6 +402,8 @@ export type BrowserHostConfig = {
   protocolVersion: 1
   hostOrigin: string
   identity: BrowserHostIdentity
+  /** Only true enables visitor-local software routing through the authenticated host. */
+  capabilities?: { virtualRouting: boolean }
 }
 
 export type BrowserHostEnvelope<Payload = unknown> = {

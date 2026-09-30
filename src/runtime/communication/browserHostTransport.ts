@@ -12,9 +12,22 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
+function hasOnlyKeys(value: Record<string, unknown>, keys: readonly string[]) {
+  return Object.keys(value).every((key) => keys.includes(key))
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.trim().length > 0
+}
+
 export function matchesBrowserHostIdentity(value: unknown, identity: BrowserHostIdentity) {
   return isRecord(value) && value.visitorSessionId === identity.visitorSessionId
     && value.screenId === identity.screenId && value.runtimeId === identity.runtimeId
+}
+
+export function matchesBrowserHostConfig(value: BrowserHostConfig | undefined, config: BrowserHostConfig) {
+  return value?.hostOrigin === config.hostOrigin && matchesBrowserHostIdentity(value.identity, config.identity)
+    && (value.capabilities?.virtualRouting === true) === (config.capabilities?.virtualRouting === true)
 }
 
 export function validateBrowserHostConfig(value: unknown): BrowserHostConfig {
@@ -32,9 +45,72 @@ export function validateBrowserHostConfig(value: unknown): BrowserHostConfig {
   if (!['http:', 'https:'].includes(origin.protocol) || origin.origin !== value.hostOrigin) {
     throw browserHostError('INVALID_BROWSER_CONFIG', 'hostOrigin must be an exact HTTP(S) origin')
   }
+  if (!hasOnlyKeys(value, ['protocolVersion', 'hostOrigin', 'identity', 'capabilities'])
+    || !hasOnlyKeys(value.identity, ['visitorSessionId', 'screenId', 'runtimeId'])
+    || (value.capabilities !== undefined && (!isRecord(value.capabilities)
+      || !hasOnlyKeys(value.capabilities, ['virtualRouting'])
+      || typeof value.capabilities.virtualRouting !== 'boolean'))) {
+    throw browserHostError('INVALID_BROWSER_CONFIG', 'Unsupported browser host configuration or capabilities')
+  }
   return Object.freeze({ protocolVersion: 1, hostOrigin: value.hostOrigin,
     identity: Object.freeze({ visitorSessionId: String(value.identity.visitorSessionId),
-      screenId: String(value.identity.screenId), runtimeId: String(value.identity.runtimeId) }) })
+      screenId: String(value.identity.screenId), runtimeId: String(value.identity.runtimeId) }),
+    ...(value.capabilities === undefined ? {} : {
+      capabilities: Object.freeze({ virtualRouting: (value.capabilities as Record<string, unknown>).virtualRouting as boolean }),
+    }) })
+}
+
+/** Inbound deliveries always address this receiving runtime, even with virtual routing enabled. */
+export function validateBrowserLocalTarget(target: unknown, runtimeId: string) {
+  if (!isRecord(target) || typeof target.mode !== 'string') {
+    throw browserHostError('TARGET_NOT_ACTIVE', 'No active local function target was supplied')
+  }
+  if (target.mode !== 'local') {
+    throw browserHostError('UNSUPPORTED_TARGET_MODE', 'Host deliveries must use a local function target')
+  }
+  if (!hasOnlyKeys(target, ['mode', 'templateSessionId'])) {
+    throw browserHostError('INVALID_TARGET', 'Invalid local function target shape')
+  }
+  if (target.templateSessionId !== undefined && target.templateSessionId !== runtimeId) {
+    throw browserHostError('TARGET_NOT_ACTIVE', 'Requested runtime is not the active local runtime')
+  }
+}
+
+function validateVirtualTarget(target: unknown, runtimeId: string, event: boolean) {
+  if (!isRecord(target) || typeof target.mode !== 'string') {
+    throw browserHostError('INVALID_TARGET', 'A software routing target with a mode is required')
+  }
+  const invalid = () => { throw browserHostError('INVALID_TARGET', `Invalid ${target.mode} software routing target shape`) }
+  switch (target.mode) {
+    case 'local':
+      if (event) throw browserHostError('UNSUPPORTED_TARGET_MODE', 'Events do not support local targets')
+      validateBrowserLocalTarget(target, runtimeId)
+      return
+    case 'binding':
+      if (event) throw browserHostError('UNSUPPORTED_TARGET_MODE', 'Events do not support binding targets')
+      if (!hasOnlyKeys(target, ['mode', 'sourceFunction'])
+        || (target.sourceFunction !== undefined && !isNonEmptyString(target.sourceFunction))) invalid()
+      return
+    case 'unicast':
+      if (!hasOnlyKeys(target, event ? ['mode', 'clientId'] : ['mode', 'clientId', 'templateSessionId'])
+        || !isNonEmptyString(target.clientId)
+        || (target.templateSessionId !== undefined && !isNonEmptyString(target.templateSessionId))) invalid()
+      return
+    case 'multicast': {
+      const hasClients = target.clientIds !== undefined
+      const hasGroup = target.group !== undefined
+      if (!hasOnlyKeys(target, ['mode', 'clientIds', 'group']) || hasClients === hasGroup
+        || (hasClients && (!Array.isArray(target.clientIds) || target.clientIds.length === 0
+          || !target.clientIds.every(isNonEmptyString)))
+        || (hasGroup && !isNonEmptyString(target.group))) invalid()
+      return
+    }
+    case 'broadcast':
+      if (!hasOnlyKeys(target, ['mode'])) invalid()
+      return
+    default:
+      throw browserHostError('UNSUPPORTED_TARGET_MODE', `Unsupported software routing target mode: ${target.mode}`)
+  }
 }
 
 type StoragePending = {
@@ -57,6 +133,8 @@ export class BrowserHostTransport implements TemplateTransport {
   private readonly messageHandlers = new Set<MessageHandler>()
   private readonly stateHandlers = new Set<StateHandler>()
   private readonly pendingStorage = new Map<string, StoragePending>()
+  private hostVisible = true
+  private listeningForMedia = false
   private queue: TemplateBridgeMessage[] = []
   private readonly handshakeTimeoutMs: number
 
@@ -108,12 +186,19 @@ export class BrowserHostTransport implements TemplateTransport {
       if (!isRecord(target) || typeof target.mode !== 'string') {
         throw browserHostError('TARGET_NOT_ACTIVE', 'No active local function target was supplied')
       }
-      if (target.mode !== 'local') {
-        throw browserHostError('HARDWARE_UNAVAILABLE', 'Browser runtime supports only local function targets')
+      if (this.config.capabilities?.virtualRouting === true) {
+        validateVirtualTarget(target, this.config.identity.runtimeId, false)
+      } else {
+        if (target.mode !== 'local') {
+          throw browserHostError('HARDWARE_UNAVAILABLE', 'Browser runtime supports only local function targets')
+        }
+        if (target.templateSessionId !== undefined && target.templateSessionId !== this.config.identity.runtimeId) {
+          throw browserHostError('TARGET_NOT_ACTIVE', 'Requested runtime is not the active local runtime')
+        }
       }
-      if (target.templateSessionId !== undefined && target.templateSessionId !== this.config.identity.runtimeId) {
-        throw browserHostError('TARGET_NOT_ACTIVE', 'Requested runtime is not the active local runtime')
-      }
+    }
+    if (message.type === 'emit_event' && this.config.capabilities?.virtualRouting === true) {
+      validateVirtualTarget(message.target, this.config.identity.runtimeId, true)
     }
     if (!this.connected) {
       if (this.queue.length >= 100) throw browserHostError('HOST_QUEUE_FULL', 'Browser host message queue is full')
@@ -171,6 +256,18 @@ export class BrowserHostTransport implements TemplateTransport {
       || !matchesBrowserHostIdentity(envelope.identity, this.config.identity)
       || !isRecord(envelope.payload) || typeof envelope.payload.type !== 'string') return
     const message = envelope.payload as TemplateBridgeMessage
+    if (message.type === 'host_visibility') {
+      if (typeof message.visible !== 'boolean') return
+      this.hostVisible = message.visible
+      if (typeof document !== 'undefined') {
+        if (!this.listeningForMedia) {
+          document.addEventListener('play', this.handleMediaPlay, true)
+          this.listeningForMedia = true
+        }
+        if (!this.hostVisible) document.querySelectorAll<HTMLMediaElement>('audio,video').forEach(this.pauseMedia)
+      }
+      return
+    }
     if (message.type === 'storage_result' || message.type === 'storage_error') {
       const requestId = typeof message.requestId === 'string' ? message.requestId : ''
       const pending = this.pendingStorage.get(requestId)
@@ -186,6 +283,14 @@ export class BrowserHostTransport implements TemplateTransport {
       return
     }
     this.messageHandlers.forEach((handler) => handler(message))
+  }
+
+  private readonly pauseMedia = (media: HTMLMediaElement) => {
+    try { media.pause() } catch { /* Media suspension is best effort and must not close the authenticated port. */ }
+  }
+
+  private readonly handleMediaPlay = (event: Event) => {
+    if (!this.hostVisible && event.target instanceof HTMLMediaElement) this.pauseMedia(event.target)
   }
 
   private async storageRequest(type: string, key: string, value?: unknown): Promise<unknown> {
@@ -217,6 +322,10 @@ export class BrowserHostTransport implements TemplateTransport {
     this.destroyed = true
     this.isConnected = false
     this.cleanupHandshake()
+    if (this.listeningForMedia && typeof document !== 'undefined') {
+      document.removeEventListener('play', this.handleMediaPlay, true)
+      this.listeningForMedia = false
+    }
     this.rejectConnection?.(reason)
     this.rejectConnection = null
     this.resolveConnection = null
