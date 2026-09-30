@@ -1,4 +1,5 @@
 import type { Ref } from 'vue'
+import type { TemplateTransport } from '../runtime/communication/transport'
 
 // 媒体类字段在 valueMap 中统一按对象读取，模板侧可以直接绑定 src、poster、alt 等属性。
 export type TemplateMediaObject = {
@@ -388,6 +389,58 @@ export type TemplateValueAtPath<Path extends string> = TemplatePathValue<Registe
 // 标准接入由 Vite 插件提供固定 JSON 产物，运行时自动加载；configJson 只保留给 SDK 自测和非 Vite 场景。
 export type TemplateSdkOptions = {
   configJson?: unknown
+  runtime?: TemplateRuntime
+}
+
+export type BrowserHostIdentity = {
+  visitorSessionId: string
+  screenId: string
+  runtimeId: string
+}
+
+export type BrowserHostConfig = {
+  protocolVersion: 1
+  hostOrigin: string
+  identity: BrowserHostIdentity
+}
+
+export type BrowserHostEnvelope<Payload = unknown> = {
+  protocolVersion: 1
+  identity: BrowserHostIdentity
+  payload: Payload
+}
+
+export type TemplateRuntimeOptions = {
+  mode?: 'local' | 'browser'
+  browserHost?: BrowserHostConfig
+  configJson?: unknown
+  initialValueMap?: Record<string, unknown>
+  valueMap?: Record<string, unknown>
+  transport?: TemplateTransport
+  handshakeTimeoutMs?: number
+}
+
+export type TemplateRuntimeStorage = {
+  get: (key: string) => Promise<unknown>
+  set: (key: string, value: unknown) => Promise<void>
+  remove: (key: string) => Promise<void>
+}
+
+export type TemplateRuntime = {
+  readonly mode: 'local' | 'browser'
+  readonly browserHost?: BrowserHostConfig
+  readonly context: TemplateContext
+  readonly bridge: TemplateBridge
+  readonly ready: Promise<void>
+  readonly disposed: boolean
+  readonly storage?: TemplateRuntimeStorage
+  dispose: () => void
+}
+
+declare global {
+  interface Window {
+    __AUTO_EXHIBITION_TEMPLATE_RUNTIME__?: BrowserHostConfig
+  }
 }
 
 // 所有 SDK 取值方法都通过这一份上下文读取 valueMap。
@@ -396,4 +449,8 @@ export type TemplateContext = {
   valueMap: Ref<Record<string, unknown> | null>
   resolvePath: (path: string, scopeBasePath?: string) => string
   resolveValue: (path: string) => unknown
+  readonly ready: Promise<void>
+  setConfigJson: (configJson: unknown) => void
+  setValueMap: (valueMap: Record<string, unknown> | null) => void
+  dispose: () => void
 }

@@ -1,19 +1,5 @@
-export type TemplateBridgeMessage = Record<string, unknown> & {
-  type: string
-}
-
-type MessageHandler = (message: TemplateBridgeMessage) => void
-type StateHandler = (connected: boolean) => void
-
-export type TemplateTransport = {
-  readonly id: string
-  readonly connected: boolean
-  connect: () => Promise<void>
-  send: (message: TemplateBridgeMessage) => void
-  onMessage: (handler: MessageHandler) => () => void
-  onStateChange: (handler: StateHandler) => () => void
-  close: () => void
-}
+import type { MessageHandler, StateHandler, TemplateBridgeMessage, TemplateTransport } from './transport'
+export type { TemplateBridgeMessage, TemplateTransport } from './transport'
 
 export type LocalBridgeWebSocketTransportOptions = {
   url?: string
@@ -39,6 +25,7 @@ export class LocalBridgeWebSocketTransport implements TemplateTransport {
   private stateHandlers = new Set<StateHandler>()
   private queue: TemplateBridgeMessage[] = []
   private isConnected = false
+  private rejectConnection: ((reason: Error) => void) | null = null
 
   constructor(options: LocalBridgeWebSocketTransportOptions = {}) {
     this.url = options.url || DEFAULT_BRIDGE_URL
@@ -51,6 +38,7 @@ export class LocalBridgeWebSocketTransport implements TemplateTransport {
   }
 
   connect() {
+    if (this.destroyed) return Promise.reject(new Error('Local bridge transport is closed'))
     if (typeof WebSocket === 'undefined') {
       return Promise.reject(new Error('Current runtime does not support WebSocket'))
     }
@@ -63,14 +51,15 @@ export class LocalBridgeWebSocketTransport implements TemplateTransport {
       return this.connectingPromise
     }
 
-    this.destroyed = false
     this.connectingPromise = new Promise((resolve, reject) => {
+      this.rejectConnection = reject
       let socket: WebSocket
 
       try {
         socket = new WebSocket(this.url)
       } catch (error) {
         this.connectingPromise = null
+        this.rejectConnection = null
         this.scheduleReconnect()
         reject(error)
         return
@@ -81,6 +70,7 @@ export class LocalBridgeWebSocketTransport implements TemplateTransport {
       socket.onopen = () => {
         this.isConnected = true
         this.connectingPromise = null
+        this.rejectConnection = null
         this.clearReconnectTimer()
         this.emitState(true)
         this.flushQueue()
@@ -99,6 +89,8 @@ export class LocalBridgeWebSocketTransport implements TemplateTransport {
       socket.onclose = () => {
         this.isConnected = false
         this.connectingPromise = null
+        this.rejectConnection?.(new Error('Local bridge socket closed before connection completed'))
+        this.rejectConnection = null
         this.emitState(false)
         this.scheduleReconnect()
       }
@@ -106,6 +98,7 @@ export class LocalBridgeWebSocketTransport implements TemplateTransport {
       socket.onerror = (event) => {
         if (this.connectingPromise) {
           this.connectingPromise = null
+          this.rejectConnection = null
           reject(event)
         }
       }
@@ -115,6 +108,7 @@ export class LocalBridgeWebSocketTransport implements TemplateTransport {
   }
 
   send(message: TemplateBridgeMessage) {
+    if (this.destroyed) throw new Error('Local bridge transport is closed')
     if (this.socket?.readyState === WebSocket.OPEN) {
       this.socket.send(JSON.stringify(message))
       return
@@ -141,15 +135,26 @@ export class LocalBridgeWebSocketTransport implements TemplateTransport {
   }
 
   close() {
+    if (this.destroyed) return
     this.destroyed = true
     this.clearReconnectTimer()
     this.queue = []
     this.isConnected = false
+    this.rejectConnection?.(new Error('Local bridge transport is closed'))
+    this.rejectConnection = null
+    this.connectingPromise = null
+    this.emitState(false)
 
     if (this.socket) {
+      this.socket.onopen = null
+      this.socket.onmessage = null
+      this.socket.onclose = null
+      this.socket.onerror = null
       this.socket.close()
       this.socket = null
     }
+    this.messageHandlers.clear()
+    this.stateHandlers.clear()
   }
 
   private flushQueue() {

@@ -3,6 +3,11 @@ import { getValueByPath, joinPath, normalizeRootPath } from '../value-map/path'
 import { buildTemplateArtifacts } from '../schema/artifacts'
 import type { TemplateConfig, TemplateContext, TemplateSdkOptions } from '../../sdk/types'
 
+type ContextOptions = Omit<TemplateSdkOptions, 'runtime'> & {
+  valueMap?: Record<string, unknown>
+  allowPreviewMessages?: boolean
+}
+
 // 运行时产物必须按文档入口 index.html 的基址读取。
 // 这里不能写成 /config.json 这类站点绝对路径：
 // 1. 模板被托管在子路径时会错误回到站点根；
@@ -20,8 +25,8 @@ function cloneRuntimeValue<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T
 }
 
-async function fetchJsonFile(url: string) {
-  const response = await fetch(url, { cache: 'no-cache' })
+async function fetchJsonFile(url: string, signal: AbortSignal) {
+  const response = await fetch(url, { cache: 'no-cache', signal })
 
   if (!response.ok) {
     throw new Error(`加载 ${url} 失败：${response.status}`)
@@ -30,10 +35,10 @@ async function fetchJsonFile(url: string) {
   return response.json()
 }
 
-async function loadTemplateArtifactsFromPluginOutput() {
+async function loadTemplateArtifactsFromPluginOutput(signal: AbortSignal) {
   const [configJson, valueMap] = await Promise.all([
-    fetchJsonFile(CONFIG_JSON_URL),
-    fetchJsonFile(VALUE_MAP_URL),
+    fetchJsonFile(CONFIG_JSON_URL, signal),
+    fetchJsonFile(VALUE_MAP_URL, signal),
   ])
 
   return {
@@ -44,9 +49,14 @@ async function loadTemplateArtifactsFromPluginOutput() {
 
 // SDK 安装时会立即创建一份全局模板上下文。
 // 模板项目后续只通过 useTemplateValue 读取，不需要再自己维护 Provider 或中间状态。
-export function createTemplateContext(options: TemplateSdkOptions = {}) {
+export function createTemplateContext(options: ContextOptions = {}) {
   const config = ref<TemplateConfig | null>(null)
   const valueMap = ref<Record<string, unknown> | null>(null)
+  const abortController = new AbortController()
+  let disposed = false
+  let snapshotVersion = 0
+  let configVersion = 0
+  let removePreviewListener = () => {}
 
   function applyArtifacts(artifacts: { configJson: TemplateConfig; valueMap: Record<string, unknown> }) {
     config.value = cloneRuntimeValue(artifacts.configJson)
@@ -54,16 +64,30 @@ export function createTemplateContext(options: TemplateSdkOptions = {}) {
   }
 
   function setValueMap(nextValueMap: Record<string, unknown> | null) {
+    if (disposed) throw new Error('Template context is disposed')
+    snapshotVersion += 1
     valueMap.value = cloneRuntimeValue(nextValueMap || {})
   }
 
+  function setConfigJson(nextConfigJson: unknown) {
+    if (disposed) throw new Error('Template context is disposed')
+    // Validate before altering this context; preserve the existing bridge and transport.
+    const artifacts = buildTemplateArtifacts(nextConfigJson)
+    configVersion += 1
+    snapshotVersion += 1
+    applyArtifacts(artifacts)
+    ready = Promise.resolve()
+    // Explicit non-Vite configuration supersedes any pending artifact-file load.
+    abortController.abort()
+  }
+
   function installPreviewMessageListener() {
-    if (typeof window === 'undefined') {
+    if (typeof window === 'undefined' || options.allowPreviewMessages === false) {
       return
     }
 
-    window.addEventListener('message', (event) => {
-      if (event.origin !== window.location.origin) {
+    const listener = (event: MessageEvent) => {
+      if (disposed || event.origin !== window.location.origin || event.source !== window.parent) {
         return
       }
 
@@ -74,26 +98,52 @@ export function createTemplateContext(options: TemplateSdkOptions = {}) {
       // 预览宿主只需要把最新 valueMap 发进 iframe，
       // 模板运行时收到消息后直接替换当前上下文里的值快照，不再整页重载。
       setValueMap(event.data?.payload?.valueMap || {})
-    })
+    }
+    window.addEventListener('message', listener)
+    removePreviewListener = () => window.removeEventListener('message', listener)
   }
 
   // 运行时优先支持旧式直接传入，方便 SDK 自测和非 Vite 场景；
   // 模板项目标准接入则由 Vite 插件在 dev/build 阶段提供固定 JSON 产物，运行时自动加载。
+  let ready = Promise.resolve()
   if (options?.configJson !== undefined) {
-    applyArtifacts(buildTemplateArtifacts(options.configJson))
-  } else if (typeof window !== 'undefined' && typeof fetch === 'function') {
-    loadTemplateArtifactsFromPluginOutput()
-      .then((artifacts) => applyArtifacts(artifacts))
+    setConfigJson(options.configJson)
+  } else if (options.valueMap === undefined && typeof window !== 'undefined' && typeof fetch === 'function') {
+    const loadVersion = snapshotVersion
+    const loadConfigVersion = configVersion
+    ready = loadTemplateArtifactsFromPluginOutput(abortController.signal)
+      .then((artifacts) => {
+        if (disposed) throw new Error('Template context is disposed')
+        if (configVersion === loadConfigVersion) config.value = cloneRuntimeValue(artifacts.configJson)
+        if (snapshotVersion === loadVersion) valueMap.value = cloneRuntimeValue(artifacts.valueMap)
+      })
       .catch((error) => {
-        console.error('[auto-exhibition-template-sdk] 自动加载模板配置失败', error)
+        // An explicit config remains ready even when the obsolete file request aborts/fails.
+        if (!disposed && configVersion !== loadConfigVersion) return
+        throw error
       })
   }
+  // Expose failures via ready without producing an unhandled rejection for legacy consumers.
+  void ready.catch((error) => {
+    if (!disposed) console.error('[auto-exhibition-template-sdk] 自动加载模板配置失败', error)
+  })
+  if (options.valueMap !== undefined) setValueMap(options.valueMap)
 
   installPreviewMessageListener()
 
   const context: TemplateContext = {
     config,
     valueMap,
+    get ready() { return ready },
+    setConfigJson,
+    setValueMap,
+    dispose() {
+      if (disposed) return
+      disposed = true
+      snapshotVersion += 1
+      removePreviewListener()
+      abortController.abort()
+    },
     resolvePath(path, scopeBasePath = '') {
       const normalizedPath = String(path || '').trim()
 
@@ -117,5 +167,5 @@ export function createTemplateContext(options: TemplateSdkOptions = {}) {
     },
   }
 
-  return { context }
+  return { context, get ready() { return ready }, setConfigJson, setValueMap, dispose: context.dispose }
 }

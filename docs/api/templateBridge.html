@@ -61,8 +61,13 @@
           <h1 class="page-title">Template Bridge API</h1>
 
           <p class="intro-lead">
-            Template Bridge API 用于模板函数注册、函数调用、事件发送和事件监听。默认连接本机 Bridge：<code>ws://127.0.0.1:5176</code>。
+            Template Bridge API 用于模板函数注册、函数调用、事件发送和事件监听。未注入浏览器配置时连接本机 Bridge：<code>ws://127.0.0.1:5176</code>；虚拟展厅通过认证的 MessagePort 连接宿主。
           </p>
+
+          <h2>浏览器 runtime</h2>
+          <p><code>createTemplateRuntime(options)</code> 创建包含 context、bridge、ready、storage 和 dispose 的实例，<code>setDefaultTemplateRuntime(runtime)</code> 必须在动态导入 App 前调用。Vue 插件通过 <code>app.use(TemplateSdk, { runtime })</code> 注入实例，setup 内优先使用它。已编译模板在首次默认访问时自行读取 App 脚本前注入的 <code>window.__AUTO_EXHIBITION_TEMPLATE_RUNTIME__</code>。</p>
+          <p>浏览器握手为 child window ready → parent window init（传入 MessagePort）→ child window ACK，之后业务走带协议版本和 identity 的端口信封。浏览器只执行当前活动 runtime 的 local 函数。配置无效或 runtime 销毁后不会回退到本地 WebSocket。</p>
+          <p><a href="templateRuntime.md">完整 Template Runtime API、宿主协议、隔离存储和 M05/M06 手动核对方法</a></p>
 
           <h2>导出 API</h2>
           <table class="api-table">
@@ -75,7 +80,7 @@
             <tbody>
               <tr>
                 <td><code>useTemplateBridge()</code></td>
-                <td>获取默认 Bridge 实例。</td>
+                <td>setup 内优先获取注入 runtime 的 Bridge，模块顶层获取默认实例。</td>
               </tr>
               <tr>
                 <td><code>registerTemplateFunction(name, handler, definition?)</code></td>

@@ -106,6 +106,47 @@ import TemplateSdk from 'auto-exhibition-template-sdk'
 createApp(App).use(TemplateSdk).mount('#app')
 ```
 
+## 浏览器虚拟展厅 runtime
+
+原本地模板接入继续使用相对路径配置文件和本机 Bridge。虚拟展厅使用独立的浏览器 runtime，经父窗口认证后通过 MessagePort 通信，只执行当前活动模板的本地函数。
+
+平台必须在模板 App 的任何脚本执行前注入经过校验的配置：
+
+```html
+<script>
+window.__AUTO_EXHIBITION_TEMPLATE_RUNTIME__ = {
+  protocolVersion: 1,
+  hostOrigin: 'https://showroom.example.com',
+  identity: { visitorSessionId: 'session-1', screenId: 'screen-1', runtimeId: 'runtime-1' }
+}
+</script>
+<script type="module" src="./assets/app.js"></script>
+```
+
+服务端根据允许的父源和屏幕归属生成上述 JSON，转义 HTML 中的特殊字符。已编译模板内的 SDK 在首次默认 runtime 访问时自行读取配置，平台无需另加载一份 SDK。配置存在但无效时会报错；不会回退到本地模式。
+
+模板源代码需要显式 bootstrap 时，先绑定 runtime，再动态导入 App：
+
+```ts
+import { createApp } from 'vue'
+import TemplateSdk, { createTemplateRuntime, setDefaultTemplateRuntime } from 'auto-exhibition-template-sdk'
+
+const runtime = createTemplateRuntime({
+  mode: 'browser',
+  browserHost: window.__AUTO_EXHIBITION_TEMPLATE_RUNTIME__!,
+  // 可选：configJson、initialValueMap。没有预置快照时加载相对配置文件。
+})
+setDefaultTemplateRuntime(runtime)
+const { default: App } = await import('./App.vue')
+createApp(App).use(TemplateSdk, { runtime }).mount('#app')
+await runtime.ready
+// 离开当前模板时：runtime.dispose()
+```
+
+Vue setup 内优先获取插件注入的 runtime，模块顶层函数调用使用已绑定的默认 runtime。默认实例初始化后不能更换；应将 bootstrap 与 App 保持为同一份 SDK 依赖。
+
+完整握手、存储、错误码和手动核对步骤见 [Template Runtime API](docs/api/templateRuntime.md)。先执行 `pnpm build`，再让模板依赖并构建新的 SDK 产物；旧 ZIP 内已经打包的 SDK 不会自动升级，需重新构建上传或由平台明确走 legacy-bridge 兼容方案。
+
 ## 构建产物
 
 标准模板构建后会包含：

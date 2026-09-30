@@ -1,5 +1,8 @@
 import { createMessageId } from './id'
-import { LocalBridgeWebSocketTransport, type TemplateBridgeMessage, type TemplateTransport } from './localBridgeTransport'
+import { LocalBridgeWebSocketTransport } from './localBridgeTransport'
+import { BrowserHostTransport, browserHostError } from './browserHostTransport'
+import type { TemplateBridgeMessage, TemplateTransport } from './transport'
+import { getDefaultTemplateRuntime } from '../runtimeRegistry'
 import type {
   TemplateBridge,
   TemplateEventHandler,
@@ -42,14 +45,19 @@ export class RuntimeTemplateBridge implements TemplateBridge {
   private readonly pendingCalls = new Map<string, PendingCall>()
   private localClientId: string | null = null
   private isConnected = false
+  private destroyed = false
+  private readonly unsubscribeMessage: () => void
+  private readonly unsubscribeState: () => void
 
   constructor(transport: TemplateTransport = new LocalBridgeWebSocketTransport()) {
     this.transport = transport
-    this.transport.onMessage((message) => this.handleMessage(message))
-    this.transport.onStateChange((connected) => {
+    this.unsubscribeMessage = this.transport.onMessage((message) => this.handleMessage(message))
+    this.unsubscribeState = this.transport.onStateChange((connected) => {
       this.isConnected = connected
       if (connected) {
         this.syncRegisteredFunctions()
+      } else if (this.transport instanceof BrowserHostTransport) {
+        this.rejectPendingCalls(toError('HOST_DISCONNECTED', 'Browser host transport disconnected'))
       }
     })
   }
@@ -59,10 +67,11 @@ export class RuntimeTemplateBridge implements TemplateBridge {
   }
 
   get connected() {
-    return this.isConnected || this.transport.connected
+    return !this.destroyed && (this.isConnected || this.transport.connected)
   }
 
   connect() {
+    if (this.destroyed) return Promise.reject(toError('BRIDGE_CLOSED', 'Template bridge closed'))
     return this.transport.connect()
   }
 
@@ -71,6 +80,7 @@ export class RuntimeTemplateBridge implements TemplateBridge {
     handler: TemplateFunctionHandler,
     definition?: TemplateFunctionDefinition,
   ) {
+    this.assertOpen()
     const functionName = String(name || '').trim()
 
     if (!functionName) {
@@ -88,10 +98,11 @@ export class RuntimeTemplateBridge implements TemplateBridge {
     })
     this.syncRegisteredFunctions()
 
-    return () => this.unregisterTemplateFunction(functionName)
+    return () => { if (!this.destroyed) this.unregisterTemplateFunction(functionName) }
   }
 
   unregisterTemplateFunction(name: string) {
+    this.assertOpen()
     this.functionRegistry.delete(name)
     this.syncRegisteredFunctions()
   }
@@ -106,7 +117,9 @@ export class RuntimeTemplateBridge implements TemplateBridge {
     const timeoutMs = options.timeoutMs ?? DEFAULT_FUNCTION_TIMEOUT_MS
     const expectResult = options.expectResult !== false
 
-    this.transport.send({
+    if (this.destroyed) return Promise.reject(toError('BRIDGE_CLOSED', 'Template bridge closed'))
+    if (this.pendingCalls.has(messageId)) return Promise.reject(toError('DUPLICATE_MESSAGE_ID', `Pending call ${messageId} already exists`))
+    const message: TemplateBridgeMessage = {
       type: 'invoke_function',
       messageId,
       traceId: options.traceId || messageId,
@@ -116,10 +129,13 @@ export class RuntimeTemplateBridge implements TemplateBridge {
       ttl: options.ttl ?? 8,
       expectResult,
       ts: Date.now(),
-    })
+    }
 
     if (!expectResult) {
-      return Promise.resolve({ messageId, functionName })
+      try {
+        this.transport.send(message)
+        return Promise.resolve({ messageId, functionName })
+      } catch (error) { return Promise.reject(error) }
     }
 
     return new Promise<TemplateFunctionResult>((resolve, reject) => {
@@ -134,10 +150,16 @@ export class RuntimeTemplateBridge implements TemplateBridge {
         reject,
         timer,
       })
+      try { this.transport.send(message) } catch (error) {
+        clearTimeout(timer)
+        this.pendingCalls.delete(messageId)
+        reject(error)
+      }
     })
   }
 
   emitTemplateEvent(channel: string, payload?: unknown, target: TemplateEventTarget = { mode: 'broadcast' }) {
+    this.assertOpen()
     const messageId = createMessageId('evt')
     this.transport.send({
       type: 'emit_event',
@@ -151,6 +173,7 @@ export class RuntimeTemplateBridge implements TemplateBridge {
   }
 
   onTemplateEvent(channel: string, handler: TemplateEventHandler) {
+    this.assertOpen()
     if (!this.eventListeners.has(channel)) {
       this.eventListeners.set(channel, new Set())
     }
@@ -162,17 +185,34 @@ export class RuntimeTemplateBridge implements TemplateBridge {
   }
 
   close() {
+    if (this.destroyed) return
+    this.destroyed = true
+    this.isConnected = false
+    this.localClientId = null
+    this.unsubscribeMessage()
+    this.unsubscribeState()
+    this.rejectPendingCalls(toError('BRIDGE_CLOSED', 'Template bridge closed'))
+    this.functionRegistry.clear()
+    this.eventListeners.clear()
+    this.transport.close()
+  }
+
+  private assertOpen() {
+    if (this.destroyed) throw toError('BRIDGE_CLOSED', 'Template bridge closed')
+  }
+
+  private rejectPendingCalls(reason: Error) {
     this.pendingCalls.forEach((pending) => {
       if (pending.timer) {
         clearTimeout(pending.timer)
       }
-      pending.reject(toError('BRIDGE_CLOSED', 'Template bridge closed'))
+      pending.reject(reason)
     })
     this.pendingCalls.clear()
-    this.transport.close()
   }
 
   private syncRegisteredFunctions() {
+    if (this.destroyed) return
     this.transport.send({
       type: 'register_functions',
       functions: Array.from(this.functionRegistry.values()).map((item) => ({
@@ -184,6 +224,7 @@ export class RuntimeTemplateBridge implements TemplateBridge {
   }
 
   private handleMessage(message: TemplateBridgeMessage) {
+    if (this.destroyed) return
     switch (message.type) {
       case 'sdk_ready':
         this.localClientId = typeof message.clientId === 'string' ? message.clientId : null
@@ -196,7 +237,9 @@ export class RuntimeTemplateBridge implements TemplateBridge {
         this.dispatchTemplateEvent(message)
         break
       case 'template_function_call':
-        void this.handleFunctionCall(message)
+        void this.handleFunctionCall(message).catch((error) => {
+          if (!this.destroyed) console.warn('[auto-exhibition-template-sdk] Failed to reply to function call', error)
+        })
         break
       case 'function_result':
         this.resolveFunctionResult(message)
@@ -233,6 +276,24 @@ export class RuntimeTemplateBridge implements TemplateBridge {
     const registration = this.functionRegistry.get(functionName)
     const messageId = typeof message.messageId === 'string' ? message.messageId : createMessageId('fn')
 
+    if (this.transport instanceof BrowserHostTransport) {
+      const target = message.target
+      const localTarget = target && typeof target === 'object' && !Array.isArray(target)
+        ? target as Record<string, unknown> : null
+      const error = !localTarget || typeof localTarget.mode !== 'string'
+        ? browserHostError('TARGET_NOT_ACTIVE', 'No active local function target was supplied')
+        : localTarget.mode !== 'local'
+          ? browserHostError('HARDWARE_UNAVAILABLE', 'Browser runtime supports only local function targets')
+          : localTarget.templateSessionId !== undefined
+            && localTarget.templateSessionId !== this.transport.config.identity.runtimeId
+            ? browserHostError('TARGET_NOT_ACTIVE', 'Requested runtime is not active') : null
+      if (error) {
+        this.transport.send({ type: 'function_error', messageId, functionName,
+          error: { code: error.code, message: error.message }, ts: Date.now() })
+        return
+      }
+    }
+
     if (!registration) {
       this.transport.send({
         type: 'function_error',
@@ -255,7 +316,7 @@ export class RuntimeTemplateBridge implements TemplateBridge {
         target: message.target as TemplateFunctionInvokeTarget | undefined,
         ts: typeof message.ts === 'number' ? message.ts : undefined,
       })
-
+      if (this.destroyed) return
       this.transport.send({
         type: 'function_result',
         messageId,
@@ -264,6 +325,7 @@ export class RuntimeTemplateBridge implements TemplateBridge {
         ts: Date.now(),
       })
     } catch (error) {
+      if (this.destroyed) return
       this.transport.send({
         type: 'function_error',
         messageId,
@@ -322,12 +384,6 @@ export class RuntimeTemplateBridge implements TemplateBridge {
   }
 }
 
-let defaultBridge: RuntimeTemplateBridge | null = null
-
 export function getDefaultTemplateBridge() {
-  if (!defaultBridge) {
-    defaultBridge = new RuntimeTemplateBridge()
-  }
-
-  return defaultBridge
+  return getDefaultTemplateRuntime().bridge
 }

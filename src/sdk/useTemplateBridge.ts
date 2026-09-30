@@ -1,4 +1,6 @@
-import { getDefaultTemplateBridge } from '../runtime/communication/templateBridge'
+import { hasInjectionContext, inject } from 'vue'
+import { getDefaultTemplateRuntime } from '../runtime/runtimeRegistry'
+import { TEMPLATE_RUNTIME_KEY } from '../runtime/context/runtimeKeys'
 import type {
   TemplateBridge,
   TemplateEventHandler,
@@ -10,7 +12,8 @@ import type {
 } from './types'
 
 export function useTemplateBridge(): TemplateBridge {
-  return getDefaultTemplateBridge()
+  const runtime = hasInjectionContext() ? inject(TEMPLATE_RUNTIME_KEY, null) : null
+  return (runtime ?? getDefaultTemplateRuntime()).bridge
 }
 
 export function registerTemplateFunction(
