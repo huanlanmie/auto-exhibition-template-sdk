@@ -1,0 +1,10 @@
+# P2 progress
+
+User explicitly asked to complete the next stage after accepting the 505 case. Existing roadmap defines P2-01..P2-05; whole stage is authorized.
+Ruling: refine existing approved architecture/roadmap into concrete interfaces and execute, without another permission loop. User manual functional testing overrides skills' automated TDD/test gates; builds and static independent review remain.
+Ruling: preserve current saved project paths for user's local UI, branch codex/virtual-showroom-stage2, no reset/worktree relocation. Existing 11 platform modified files remain out of task scope; SDK existing untracked content untouched.
+Spec/plan: docs/superpowers/contracts/virtual-showroom-stage2.md and plans/2026-09-30-virtual-showroom-stage2.md.
+Baseline SDK 2f1b84e; platform 3413afc2. Current published505 room1/revision2/draft6 must remain unchanged.
+Tasks A/B/C/D pending implementation; root owns shared Worker files/dependencies/integration/commits. Agents do not install, stage, commit or run functional conversion/tests.
+Implementation A/B/C/D complete. All independent static reviews Approved after explicit fixes; no unresolved Important/Critical. Fresh root Java package skip-tests exit0, Vue build:prod exit0, Worker syntax/dependency build exit0. No functional parser/conversion/tests/browser QA executed. Only owned showroom/worker restarted; all four Java health UP, Worker ready lists8 canonical formats+2presets, UI served200. Local505 remains ONLINE/draft6/published2/model f9b1dc78-90c9-4565-8b92-d425818244a1 and identical scene/resources digest. All11 preexisting user file SHA256 hashes preserved. Runtime state/SQL readbacks/credentials stay .codex-run private; safe reports/build evidence archived. Final exact-scope staging/commits pending below.
+Exact product scope committed as 752545e8cda4aedf13f23cd69a86d17b65431679 (56 files); no original11 user files or dist.zip staged. SDK stage contains only stage2 contract/plan/roadmap/handoff and archived safe evidence. All authorized P2 work complete; functional manual acceptance remains with the user.

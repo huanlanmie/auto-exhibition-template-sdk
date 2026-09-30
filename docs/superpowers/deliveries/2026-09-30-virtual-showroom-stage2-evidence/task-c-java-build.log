@@ -1,0 +1,179 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by org.fusesource.jansi.internal.JansiLoader in an unnamed module (file:/E:/development/java/maven/apache-maven-3.9.2/lib/jansi-2.4.0.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/E:/development/java/maven/apache-maven-3.9.2/lib/guava-31.1-jre.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] ruoyi                                                              [pom]
+[INFO] ruoyi-common                                                       [pom]
+[INFO] ruoyi-common-core                                                  [jar]
+[INFO] ruoyi-api                                                          [pom]
+[INFO] ruoyi-api-system                                                   [jar]
+[INFO] ruoyi-common-redis                                                 [jar]
+[INFO] ruoyi-common-security                                              [jar]
+[INFO] ruoyi-common-datasource                                            [jar]
+[INFO] ruoyi-common-datascope                                             [jar]
+[INFO] ruoyi-common-log                                                   [jar]
+[INFO] ruoyi-common-swagger                                               [jar]
+[INFO] ruoyi-modules                                                      [pom]
+[INFO] mju-modules-showroom                                               [jar]
+[INFO] 
+[INFO] --------------------------< com.ruoyi:ruoyi >---------------------------
+[INFO] Building ruoyi 3.6.7                                              [1/13]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] -----------------------< com.ruoyi:ruoyi-common >-----------------------
+[INFO] Building ruoyi-common 3.6.7                                       [2/13]
+[INFO]   from ruoyi-common\pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --------------------< com.ruoyi:ruoyi-common-core >---------------------
+[INFO] Building ruoyi-common-core 3.6.7                                  [3/13]
+[INFO]   from ruoyi-common\ruoyi-common-core\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ ruoyi-common-core ---
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ ruoyi-common-core ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] ------------------------< com.ruoyi:ruoyi-api >-------------------------
+[INFO] Building ruoyi-api 3.6.7                                          [4/13]
+[INFO]   from ruoyi-api\pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] ---------------------< com.ruoyi:ruoyi-api-system >---------------------
+[INFO] Building ruoyi-api-system 3.6.7                                   [5/13]
+[INFO]   from ruoyi-api\ruoyi-api-system\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ ruoyi-api-system ---
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ ruoyi-api-system ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --------------------< com.ruoyi:ruoyi-common-redis >--------------------
+[INFO] Building ruoyi-common-redis 3.6.7                                 [6/13]
+[INFO]   from ruoyi-common\ruoyi-common-redis\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ ruoyi-common-redis ---
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ ruoyi-common-redis ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] ------------------< com.ruoyi:ruoyi-common-security >-------------------
+[INFO] Building ruoyi-common-security 3.6.7                              [7/13]
+[INFO]   from ruoyi-common\ruoyi-common-security\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ ruoyi-common-security ---
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ ruoyi-common-security ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] -----------------< com.ruoyi:ruoyi-common-datasource >------------------
+[INFO] Building ruoyi-common-datasource 3.6.7                            [8/13]
+[INFO]   from ruoyi-common\ruoyi-common-datasource\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ ruoyi-common-datasource ---
+[INFO] skip non existing resourceDirectory C:\Users\Administrator\Desktop\mju-smart-show\ruoyi-common\ruoyi-common-datasource\src\main\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ ruoyi-common-datasource ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] ------------------< com.ruoyi:ruoyi-common-datascope >------------------
+[INFO] Building ruoyi-common-datascope 3.6.7                             [9/13]
+[INFO]   from ruoyi-common\ruoyi-common-datascope\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ ruoyi-common-datascope ---
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ ruoyi-common-datascope ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] ---------------------< com.ruoyi:ruoyi-common-log >---------------------
+[INFO] Building ruoyi-common-log 3.6.7                                  [10/13]
+[INFO]   from ruoyi-common\ruoyi-common-log\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ ruoyi-common-log ---
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ ruoyi-common-log ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] -------------------< com.ruoyi:ruoyi-common-swagger >-------------------
+[INFO] Building ruoyi-common-swagger 3.6.7                              [11/13]
+[INFO]   from ruoyi-common\ruoyi-common-swagger\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ ruoyi-common-swagger ---
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ ruoyi-common-swagger ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] ----------------------< com.ruoyi:ruoyi-modules >-----------------------
+[INFO] Building ruoyi-modules 3.6.7                                     [12/13]
+[INFO]   from ruoyi-modules\pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] -------------------< com.ruoyi:mju-modules-showroom >-------------------
+[INFO] Building mju-modules-showroom 3.6.7                              [13/13]
+[INFO]   from ruoyi-modules\mju-showroom\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ mju-modules-showroom ---
+[INFO] Copying 34 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ mju-modules-showroom ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 167 source files with javac [debug release 17] to target\classes
+[INFO] /C:/Users/Administrator/Desktop/mju-smart-show/ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/virtual/VirtualModelMetadataService.java: 某些输入文件使用或覆盖了已过时的 API。
+[INFO] /C:/Users/Administrator/Desktop/mju-smart-show/ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/virtual/VirtualModelMetadataService.java: 有关详细信息, 请使用 -Xlint:deprecation 重新编译。
+[INFO] /C:/Users/Administrator/Desktop/mju-smart-show/ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/controller/VirtualShowroomOperationsController.java: C:\Users\Administrator\Desktop\mju-smart-show\ruoyi-modules\mju-showroom\src\main\java\com\mju\showroom\controller\VirtualShowroomOperationsController.java使用了未经检查或不安全的操作。
+[INFO] /C:/Users/Administrator/Desktop/mju-smart-show/ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/controller/VirtualShowroomOperationsController.java: 有关详细信息, 请使用 -Xlint:unchecked 重新编译。
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for ruoyi 3.6.7:
+[INFO] 
+[INFO] ruoyi .............................................. SUCCESS [  0.001 s]
+[INFO] ruoyi-common ....................................... SUCCESS [  0.000 s]
+[INFO] ruoyi-common-core .................................. SUCCESS [  0.559 s]
+[INFO] ruoyi-api .......................................... SUCCESS [  0.000 s]
+[INFO] ruoyi-api-system ................................... SUCCESS [  0.073 s]
+[INFO] ruoyi-common-redis ................................. SUCCESS [  0.097 s]
+[INFO] ruoyi-common-security .............................. SUCCESS [  0.066 s]
+[INFO] ruoyi-common-datasource ............................ SUCCESS [  0.113 s]
+[INFO] ruoyi-common-datascope ............................. SUCCESS [  0.087 s]
+[INFO] ruoyi-common-log ................................... SUCCESS [  0.076 s]
+[INFO] ruoyi-common-swagger ............................... SUCCESS [  0.063 s]
+[INFO] ruoyi-modules ...................................... SUCCESS [  0.000 s]
+[INFO] mju-modules-showroom ............................... SUCCESS [  3.753 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.182 s
+[INFO] Finished at: 2026-09-30T18:48:56+08:00
+[INFO] ------------------------------------------------------------------------
+[WARNING] 
+[WARNING] Plugin validation issues were detected in 1 plugin(s)
+[WARNING] 
+[WARNING]  * org.apache.maven.plugins:maven-resources-plugin:3.3.0
+[WARNING] 
+[WARNING] For more or less details, use 'maven.plugin.validation' property with one of the values (case insensitive): [BRIEF, DEFAULT, VERBOSE]
+[WARNING] 

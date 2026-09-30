@@ -1,6 +1,6 @@
 # 虚拟展厅分阶段开发任务规划
 
-> 范围修订：此前 P1 完成指线上三维、共享内容实例与单屏交互基础，功能仍待手测。用户现已确认保留访客内软件联动；需先补跨项目内容/身份映射、虚拟联动规则和独立业务状态，再推进更多 CAD 格式。详见 [跨项目架构核对与修订建议](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/specs/2026-09-30-virtual-showroom-cross-project-review.md)。此补充阶段尚未实施。
+> 范围修订：P1 修订版已补跨项目内容/身份映射、虚拟联动规则和访客独立业务状态，完成构建与静态复核，业务效果仍由用户手测。详见 [修订版交付](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/deliveries/2026-09-30-virtual-showroom-stage11-handoff.md)。用户确认505案例后已授权继续P2全部任务，具体接口和实施以 [第二阶段计划](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/plans/2026-09-30-virtual-showroom-stage2.md) 为准。
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -62,7 +62,7 @@
 | --- | --- | --- | --- |
 | P0 基础约定 | 工具链/文件基线、场景/资源/消息契约、手测规则 | 定义能力清单，不开启未实现格式 | 已完成基线与正式契约 |
 | P1 完整业务链路 | 登录建厅编辑、模型导入、模板绑定、公开发布参观、下架/回滚、基础手机适配 | GLB/glTF 2.0、OBJ＋MTL/贴图 | 代码已实现、构建与复核完成，待用户手测 |
-| P2 一期完整格式 | 转换报告、DXF 辅助建模、三维 CAD、质量档和重导复核完善 | FBX 受限、STL、DXF、STEP/IGES | 已列任务，独立转换计划在进入该阶段前细化 |
+| P2 一期完整格式 | 转换报告、DXF 辅助建模、三维 CAD、质量档和重导复核完善 | FBX 受限、STL、DXF、STEP/IGES | 代码、构建、独立静态复核与本机就绪完成；待用户手测 |
 | P3 重点扩展 | BIM 语义与已授权的二维 DWG 直接导入 | IFC2x3/IFC4，IFC4x3 ADD2 条件支持；二维 DWG | 已列任务，授权/部署状态决定启用 |
 | P4 专用与规模扩展 | 大场景分区、复杂模型与实际需要的动画/原生适配 | 三维 DWG、其他原生格式 | 保留后续任务，不计入一期交付 |
 
@@ -90,11 +90,11 @@ P1 是第一个可交给用户手测的完整版本；P1＋P2 构成一期。P3/
 
 ### P2：一期完整格式
 
-- [ ] **P2-01 FBX 受限转换**：新增 Worker `src/converters/fbx.js`，静态节点/材质映射、版本预检、内外贴图与降级报告。消费 `ConversionRequest`，产出 `ConversionResult`；用户手测几何/材质/坐标，动画不作完整保留承诺。
-- [ ] **P2-02 STL 几何转换**：新增 `src/converters/stl.js`，ASCII/Binary、单位校准、法线及默认材质。复用导入向导；用户手测已知尺寸和单位缺失提示。
-- [ ] **P2-03 DXF 辅助建模**：新增 `src/converters/dxf.js` 与 `src/builders/dxfSpaceBuilder.js`，前端新增 `components/DxfCalibration.vue`；图层/块/墙高厚度/门洞/轮廓问题复核。用户手测至少线、多段线、圆弧、块、开口和二维/三维混合文件。
-- [ ] **P2-04 STEP/IGES 三维 CAD**：新增 `src/converters/occt.js`，接入 OCCT 系列解析器、精度/单位与模型树/颜色报告。用户手测毫米/米、装配及失败曲面，必要展示材质由编辑器补齐。
-- [ ] **P2-05 质量档与重导完善**：新增 `src/pipeline/optimize.js`、`scene-core/anchorMatching.js`、`components/ReimportReview.vue`；电脑/手机资源档、锚点可信匹配/歧义/缺失复核、转换预算。用户手测重新导入后屏幕编号与模板关系保持，以及质量档差异。
+- [x] **P2-01 FBX 受限转换**：新增 Worker `src/converters/fbx.js`，静态节点/材质映射、版本预检、内外贴图与降级报告。消费 `ConversionRequest`，产出 `ConversionResult`；用户手测几何/材质/坐标，动画不作完整保留承诺。
+- [x] **P2-02 STL 几何转换**：新增 `src/converters/stl.js`，ASCII/Binary、单位校准、法线及默认材质。复用导入向导；用户手测已知尺寸和单位缺失提示。
+- [x] **P2-03 DXF 辅助建模**：新增 `src/converters/dxf.js` 与 `src/builders/dxfSpaceBuilder.js`，前端新增 `components/DxfCalibration.vue`；图层/块/墙高厚度/门洞/轮廓问题复核。用户手测至少线、多段线、圆弧、块、开口和二维/三维混合文件。
+- [x] **P2-04 STEP/IGES 三维 CAD**：新增 `src/converters/occt.js`，接入 OCCT 系列解析器、精度/单位与模型树/颜色报告。用户手测毫米/米、装配及失败曲面，必要展示材质由编辑器补齐。
+- [x] **P2-05 质量档与重导完善**：新增 `src/pipeline/optimize.js`、`scene-core/anchorMatching.js`、`components/ReimportReview.vue`；电脑/手机资源档、锚点可信匹配/歧义/缺失复核、转换预算。用户手测重新导入后屏幕编号与模板关系保持，以及质量档差异。
 
 五项均依赖 P1 的转换/资源/草稿契约；FBX、STL、DXF、OCCT 解析器可以并行开发，最后统一回到 P2-05 和手测清单。
 
@@ -120,6 +120,6 @@ P0-01 先固定契约。后端草稿/资源、SDK runtime 可并行；模型 Wor
 
 ## 5. 本次规划的完成范围
 
-已完成方案认可记录、仓库/工具链只读核对、21 项任务拆分、P1 详细实施计划及用户手测清单。未新增产品代码、安装产品依赖、执行数据库/网关配置或运行功能测试。
+已完成P0、P1修订版与P2代码、构建/静态复核、独立本机运行配置和手测交付；505案例已填充并由用户认可。所有新格式与业务功能仍由用户手动验收，不把构建或就绪登记作功能测试通过。P3/P4尚未实施。
 
-后续先执行 P0-01 和 P1；P2/P3 转换模块采用独立详细计划，沿用这里已固定的依赖、接口和交付范围，不重新询问来源格式。
+P2实施与证据见第二阶段计划/交付。后续先处理用户手测反馈，再推进P3，沿用已有范围和部署/授权约束，不为尚未部署的格式声明可用。

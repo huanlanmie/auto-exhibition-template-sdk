@@ -1,0 +1,111 @@
+[
+  {
+    "name": "showroom",
+    "url": "http://127.0.0.1:9402/actuator/health",
+    "http": 200,
+    "status": "UP",
+    "formats": null,
+    "providers": null,
+    "qualityPresets": null
+  },
+  {
+    "name": "system",
+    "url": "http://127.0.0.1:19201/actuator/health",
+    "http": 200,
+    "status": "UP",
+    "formats": null,
+    "providers": null,
+    "qualityPresets": null
+  },
+  {
+    "name": "auth",
+    "url": "http://127.0.0.1:19200/actuator/health",
+    "http": 200,
+    "status": "UP",
+    "formats": null,
+    "providers": null,
+    "qualityPresets": null
+  },
+  {
+    "name": "gateway",
+    "url": "http://127.0.0.1:19088/actuator/health",
+    "http": 200,
+    "status": "UP",
+    "formats": null,
+    "providers": null,
+    "qualityPresets": null
+  },
+  {
+    "name": "worker",
+    "url": "http://127.0.0.1:9319/health",
+    "http": 200,
+    "status": "True",
+    "formats": [
+      "glb",
+      "gltf",
+      "obj",
+      "fbx",
+      "stl",
+      "dxf",
+      "step",
+      "iges"
+    ],
+    "providers": {
+      "mesh": {
+        "enabled": true,
+        "version": "0.186.1",
+        "formats": [
+          "glb",
+          "gltf",
+          "obj"
+        ]
+      },
+      "fbx": {
+        "enabled": true,
+        "version": "0.186.1",
+        "formats": [
+          "fbx"
+        ],
+        "boundary": "Static default pose; materials may be approximated"
+      },
+      "stl": {
+        "enabled": true,
+        "version": "0.186.1",
+        "formats": [
+          "stl"
+        ],
+        "boundary": "Explicit source units; no CAD semantics"
+      },
+      "dxf": {
+        "enabled": true,
+        "version": "1.1.2",
+        "formats": [
+          "dxf"
+        ],
+        "boundary": "ASCII planar DXF assisted modeling; layer/unit/opening confirmation required"
+      },
+      "occt": {
+        "enabled": true,
+        "version": "0.0.23",
+        "formats": [
+          "step",
+          "iges"
+        ],
+        "boundary": "Single-file tessellation in meters; source entity IDs unavailable"
+      }
+    },
+    "qualityPresets": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  {
+    "name": "frontend",
+    "url": "http://127.0.0.1:5173/",
+    "http": 200,
+    "status": "served",
+    "formats": null,
+    "providers": null,
+    "qualityPresets": null
+  }
+]
