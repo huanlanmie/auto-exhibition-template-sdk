@@ -1,5 +1,7 @@
 # 虚拟展厅第一阶段交付与手动验收
 
+> 范围澄清：本交付复用云端模板实例，提供线上三维参观及单屏交互基础；尚未完整复现现场跨屏联动、抢答裁决或核验现场实际加载版本。用户已确认保留访客内软件联动，补充设计见 [跨项目架构核对](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/specs/2026-09-30-virtual-showroom-cross-project-review.md)。原有构建和静态复核不代表这些补充能力已经实现。
+
 本阶段实现登录创建展厅、GLB/glTF/OBJ 导入、空间与显示器编辑、既有模板实例绑定、固定版本发布及匿名参观。暂未启用 DXF、DWG、STEP、IGES、FBX、STL、IFC；二维 CAD 建模和更多格式转换按后续阶段推进。
 
 代码位于 SDK 与平台的 `codex/virtual-showroom-stage1` 分支。构建检查与代码复核不替代实际部署、模型转换或浏览器功能验收。按约定，未新增或运行单元、集成、E2E 自动化测试及浏览器 QA。

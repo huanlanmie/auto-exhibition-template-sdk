@@ -1,5 +1,7 @@
 # 虚拟展厅分阶段开发任务规划
 
+> 范围修订：此前 P1 完成指线上三维、共享内容实例与单屏交互基础，功能仍待手测。用户现已确认保留访客内软件联动；需先补跨项目内容/身份映射、虚拟联动规则和独立业务状态，再推进更多 CAD 格式。详见 [跨项目架构核对与修订建议](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/specs/2026-09-30-virtual-showroom-cross-project-review.md)。此补充阶段尚未实施。
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** 在现有展厅平台增加可公开参观、登录编辑、复用线下模板实例的虚拟展厅，并逐阶段补齐主流模型与 CAD 格式。
