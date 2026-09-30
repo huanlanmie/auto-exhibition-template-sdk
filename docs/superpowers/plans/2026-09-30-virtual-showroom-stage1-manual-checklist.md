@@ -1,6 +1,6 @@
 # 虚拟展厅第一阶段手动验收清单
 
-日期：2026-09-30。状态：随任务规划建立，尚未执行；入口、样本与实际构建记录在阶段交付时填写。
+日期：2026-09-30。状态：代码、构建检查及静态复核已交付；M01～M12 均未执行，等待用户手动验收。
 
 关联：[第一阶段实施计划](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/plans/2026-09-30-virtual-showroom-stage1.md)、[总任务表](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/plans/2026-09-30-virtual-showroom-roadmap.md)。
 
@@ -36,6 +36,7 @@
 
 | 用例 | 结果 | 终端/版本 | 实际结果或限制 | 对应修复任务 |
 | --- | --- | --- | --- | --- |
-| M01～M12 | 未执行 | 阶段交付后记录 | 目前仅已规划 | 按用例中的任务 ID 回归 |
+| M01～M12 | 未执行 | 阶段交付后记录 | 代码与构建交付，功能验收未执行 | 按用例中的任务 ID 回归 |
 
-阶段交付时补充实际入口、样本位置、SQL/配置步骤、SDK/Worker/后端/前端构建结果和已知限制。用户反馈优先修复对应任务，再继续阶段完善。
+实际入口、样本位置、SQL/配置步骤、四部分构建结果和限制见 [第一阶段交付手册](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/deliveries/2026-09-30-virtual-showroom-stage1-handoff.md)。用户反馈优先修复对应任务，再继续阶段完善。
+

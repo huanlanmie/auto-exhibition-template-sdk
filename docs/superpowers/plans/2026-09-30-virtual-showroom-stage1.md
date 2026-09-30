@@ -1,6 +1,6 @@
 # 虚拟展厅第一阶段实施计划
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** 交付一个可由用户手动验证的完整版本：登录创建展厅，导入 GLB/glTF/OBJ，编辑空间与虚拟显示器，绑定已有模板实例，发布后匿名参观。
 
@@ -100,7 +100,7 @@
 
 ## 3. 构建检查配置
 
-以下命令供实际实施任务使用，本次规划未执行构建。功能自动化测试不运行。
+以下命令已用于实施阶段的构建检查；结果见交付手册及证据。功能自动化测试不运行。Java 的实际构建使用平台 docs/virtual-showroom 下的项目局部 Maven settings，未修改全局镜像设置。
 
 | 标识 | 工作目录 | 命令/成功条件 |
 | --- | --- | --- |
@@ -128,10 +128,10 @@ $env:JAVA_HOME = $taskJavaRoot
 
 **Interfaces:** 产出本文件第 2 节契约的正式版本；后续任务消费 schema/protocolVersion 1，不另起字段名。
 
-- [ ] 核对各仓库状态、构建工具链与现有 API/Mapper；记录用户原有差异，不覆盖或混入本功能提交。
-- [ ] 把第 2 节契约写入正式文档，固定相对资源基址、错误码、运行初始化顺序和导入状态。
-- [ ] 固定 UI/Worker 使用同一 Three.js 版本及本地解码器目录；依据实现所需能力锁定精确依赖，不使用 `latest` 或混用 demo vendor 修订版。
-- [ ] 记录构建配置与手测前置材料，更新任务状态。此任务完成不代表产品功能完成。
+- [x] 核对各仓库状态、构建工具链与现有 API/Mapper；记录用户原有差异，不覆盖或混入本功能提交。
+- [x] 把第 2 节契约写入正式文档，固定相对资源基址、错误码、运行初始化顺序和导入状态。
+- [x] 固定 UI/Worker 使用同一 Three.js 版本及本地解码器目录；依据实现所需能力锁定精确依赖，不使用 `latest` 或混用 demo vendor 修订版。
+- [x] 记录构建配置与手测前置材料，更新任务状态。此任务完成不代表产品功能完成。
 
 ## Task P1-01：数据、权限和草稿 API
 
@@ -139,12 +139,12 @@ $env:JAVA_HOME = $taskJavaRoot
 
 **Interfaces:** `create(dto):VirtualShowroomDetailVo`、`getDraft(id):VirtualShowroomDetailVo`、`saveDraft(id,dto):VirtualShowroomDetailVo`；详情返回草稿版本与 scene，发布指针独立。
 
-- [ ] 编写五张表的增量脚本，publicCode、展厅/revision、展厅/screenId 唯一；业务表与 sys_menu 脚本分开，不自动在服务器执行。
-- [ ] 实现本人归属查询/新建/详情/删除和精确操作权限；owner 由服务端填写，非 owner 的按 ID 操作拒绝。
-- [ ] 使用 owner＋expectedDraftVersion 条件更新实现草稿保存；0 行返回明确冲突，绑定写入也使用同一版本规则。
-- [ ] 执行 BUILD-JAVA 并记录结果。
-- [ ] 提供 M01/M03/M07 的手测入口与预期。
-- [ ] 提交本任务新增/修改文件。
+- [x] 编写五张表的增量脚本，publicCode、展厅/revision、展厅/screenId 唯一；业务表与 sys_menu 脚本分开，不自动在服务器执行。
+- [x] 实现本人归属查询/新建/详情/删除和精确操作权限；owner 由服务端填写，非 owner 的按 ID 操作拒绝。
+- [x] 使用 owner＋expectedDraftVersion 条件更新实现草稿保存；0 行返回明确冲突，绑定写入也使用同一版本规则。
+- [x] 执行 BUILD-JAVA 并记录结果。
+- [x] 提供 M01/M03/M07 的手测入口与预期。
+- [x] 提交本任务新增/修改文件。
 
 ## Task P1-02：私有资源与模板产物
 
@@ -152,13 +152,13 @@ $env:JAVA_HOME = $taskJavaRoot
 
 **Interfaces:** `storeSource(input):AssetDescriptor`、`openAsset(objectKey):InputStream`、`materialize(instanceId,profile):TemplateArtifactManifest`、`resolveRuntimeResource(manifest,path):ResourceItem`。
 
-- [ ] 实现来源私有存储、流式读取、摘要与清单；原始 CAD/ZIP 不用公开直链，存储策略示例作为交付配置。
-- [ ] 先校验实例/来源归属与模板使用授权，再读取已发布 ZIP；以 ZIP 的 config/valueMap 固定快照，安全展开到独立暂存前缀。
-- [ ] 规范相对 HTML/JS/CSS/媒体路径，保存稳定 template 资源子目录；禁止路径越界与任意远程抓取，输出必需资源清单。
-- [ ] 实现运行源响应头/资源注入入口：限定 sandbox/CSP/父源，不把后台凭据或实体控制地址带入公开模板。
-- [ ] 执行 BUILD-JAVA 并记录结果。
-- [ ] 交付运行源配置示例及 M05/M09 所需信息。
-- [ ] 提交本任务差异。
+- [x] 实现来源私有存储、流式读取、摘要与清单；原始 CAD/ZIP 不用公开直链，存储策略示例作为交付配置。
+- [x] 先校验实例/来源归属与模板使用授权，再读取已发布 ZIP；以 ZIP 的 config/valueMap 固定快照，安全展开到独立暂存前缀。
+- [x] 规范相对 HTML/JS/CSS/媒体路径，保存稳定 template 资源子目录；禁止路径越界与任意远程抓取，输出必需资源清单。
+- [x] 实现运行源响应头/资源注入入口：限定 sandbox/CSP/父源，不把后台凭据或实体控制地址带入公开模板。
+- [x] 执行 BUILD-JAVA 并记录结果。
+- [x] 交付运行源配置示例及 M05/M09 所需信息。
+- [x] 提交本任务差异。
 
 ## Task P1-03：GLB/glTF/OBJ 导入与独立 Worker
 
@@ -166,13 +166,13 @@ $env:JAVA_HOME = $taskJavaRoot
 
 **Interfaces:** Worker 消费 `ConversionRequest` 并流式输出 `ConversionEvent`；Java `createJob(upload,options):ImportJobVo`、`getJob(jobId):ImportJobVo`、`cancelJob(jobId):void`、`getCapabilities():ImportCapabilitiesVo`。
 
-- [ ] 创建 Worker 隔离作业目录与受保护转换接口；读取平台受控 source URL，限制解包目录/大小，输出先进入暂存区。
-- [ ] 实现 GLB/glTF 2.0 与 OBJ/MTL/贴图包解析、单位/朝向确认、材质映射、规范 GLB＋meta＋清单＋报告；缺失必需几何阻断，材质降级明确记录。
-- [ ] 实现 Java 上传/作业状态、有限执行队列、真实阶段进度、取消/失败重试、结果摘要复核；重启丢失作业可重试，不静默标成功。
-- [ ] 为用户交付一个基础房间 GLB 和 OBJ 资源包作为手测材料；提供单位/缺贴图操作示例，不新增自动化测试工程。
-- [ ] 执行 BUILD-WORKER 和 BUILD-JAVA 并分别记录结果。
-- [ ] 交付 M02/M10 的样本、导入入口和报告说明。
-- [ ] 提交本任务差异。
+- [x] 创建 Worker 隔离作业目录与受保护转换接口；读取平台受控 source URL，限制解包目录/大小，输出先进入暂存区。
+- [x] 实现 GLB/glTF 2.0 与 OBJ/MTL/贴图包解析、单位/朝向确认、材质映射、规范 GLB＋meta＋清单＋报告；缺失必需几何阻断，材质降级明确记录。
+- [x] 实现 Java 上传/作业状态、有限执行队列、真实阶段进度、取消/失败重试、结果摘要复核；重启丢失作业可重试，不静默标成功。
+- [x] 为用户交付一个基础房间 GLB 和 OBJ 资源包作为手测材料；提供单位/缺贴图操作示例，不新增自动化测试工程。
+- [x] 执行 BUILD-WORKER 和 BUILD-JAVA 并分别记录结果。
+- [x] 交付 M02/M10 的样本、导入入口和报告说明。
+- [x] 提交本任务差异。
 
 ## Task P1-04：共享内核与登录编辑器
 
@@ -180,13 +180,13 @@ $env:JAVA_HOME = $taskJavaRoot
 
 **Interfaces:** `createSceneRuntime({container,document,resolveAsset,mode}):SceneRuntime`，返回 `applyDocument(document)`、`setMode(editor|viewer)`、`onPick(handler)`、`getCameraState()`、`restoreCameraState(state)`、`setInputEnabled(boolean)`、`dispose()`；编辑 JSON 消费固定 SceneDocument。
 
-- [ ] 实现建筑/展项/导航三层与模型异步加载、拾取/高亮、资源释放；默认不叠加 demo 房间，视图不深度代理 Three 对象。
-- [ ] 实现屏幕/热点新增、数值与 gizmo 变换、复制/删除、命令式撤销重做；复制生成新 objectId，禁用/变换不丢内容绑定。
-- [ ] 实现入口、预设视点和简化碰撞体编辑；第一版单行走层平面漫游，支持经过校准的旋转盒碰撞，不声称自动还原全部建筑导航。
-- [ ] 接入草稿读取/版本保存和对象局部更新；退出提示未保存修改，冲突不覆盖本地修改。
-- [ ] 执行 BUILD-UI 并记录结果。
-- [ ] 交付 M02/M03/M04/M07 的编辑流程。
-- [ ] 提交本任务差异。
+- [x] 实现建筑/展项/导航三层与模型异步加载、拾取/高亮、资源释放；默认不叠加 demo 房间，视图不深度代理 Three 对象。
+- [x] 实现屏幕/热点新增、数值与 gizmo 变换、复制/删除、命令式撤销重做；复制生成新 objectId，禁用/变换不丢内容绑定。
+- [x] 实现入口、预设视点和简化碰撞体编辑；第一版单行走层平面漫游，支持经过校准的旋转盒碰撞，不声称自动还原全部建筑导航。
+- [x] 接入草稿读取/版本保存和对象局部更新；退出提示未保存修改，冲突不覆盖本地修改。
+- [x] 执行 BUILD-UI 并记录结果。
+- [x] 交付 M02/M03/M04/M07 的编辑流程。
+- [x] 提交本任务差异。
 
 ## Task P1-05：SDK 浏览器 runtime、握手与销毁
 
@@ -194,15 +194,15 @@ $env:JAVA_HOME = $taskJavaRoot
 
 **Interfaces:** `createTemplateRuntime(options:TemplateRuntimeOptions):TemplateRuntime`、`setDefaultTemplateRuntime(runtime):void`；runtime 含 `context/bridge/ready/dispose()`；`TemplateSdkOptions.runtime?` 可选。`BrowserHostTransport` 实现现有 TemplateTransport；原 localBridge 文件保留类型转导出兼容。
 
-- [ ] 抽出 transport 类型并建立 runtime registry；本地未配置仍保持原默认，过晚切换已初始化实例明确报错。
-- [ ] 标准浏览器资源在 App 主脚本前注入 `window.__AUTO_EXHIBITION_TEMPLATE_RUNTIME__` 的 BrowserHostConfig；SDK 首次默认 runtime 访问优先读取并校验它，缺失时才走原本地模式，存在但无效时拒绝。使已编译模板中的 SDK 自己创建 runtime，避免另一份 SDK bootstrap 导入导致 registry 副本。
-- [ ] 实现浏览器 ready/init/ack 与 MessagePort，校验父源/source/identity/协议，握手完成才连接；首期禁止真实目标，非活动目标返回规定错误。
-- [ ] context 返回 ready/setValueMap/dispose，移除监听并避免旧异步读取覆盖新快照；浏览器配置更新走已认证通道，本地相对文件加载/同源预览保持兼容。
-- [ ] Bridge 先登记 pending 再发送，发送失败/销毁清理等待项和订阅；销毁后不回退本地 WS。Vue setup 优先取注入 runtime，顶层调用使用显式默认。
-- [ ] 文档给出 bootstrap 先创建并绑定 runtime、再动态导入 App 的顺序；构建 SDK 后消费其新产物，不假设旧 ZIP 会自动升级。
-- [ ] 执行 BUILD-SDK 并记录结果。
-- [ ] 交付 M05/M06 的手动调用及旧本地模式核对方法。
-- [ ] 提交本任务差异。
+- [x] 抽出 transport 类型并建立 runtime registry；本地未配置仍保持原默认，过晚切换已初始化实例明确报错。
+- [x] 标准浏览器资源在 App 主脚本前注入 `window.__AUTO_EXHIBITION_TEMPLATE_RUNTIME__` 的 BrowserHostConfig；SDK 首次默认 runtime 访问优先读取并校验它，缺失时才走原本地模式，存在但无效时拒绝。使已编译模板中的 SDK 自己创建 runtime，避免另一份 SDK bootstrap 导入导致 registry 副本。
+- [x] 实现浏览器 ready/init/ack 与 MessagePort，校验父源/source/identity/协议，握手完成才连接；首期禁止真实目标，非活动目标返回规定错误。
+- [x] context 返回 ready/setValueMap/dispose，移除监听并避免旧异步读取覆盖新快照；浏览器配置更新走已认证通道，本地相对文件加载/同源预览保持兼容。
+- [x] Bridge 先登记 pending 再发送，发送失败/销毁清理等待项和订阅；销毁后不回退本地 WS。Vue setup 优先取注入 runtime，顶层调用使用显式默认。
+- [x] 文档给出 bootstrap 先创建并绑定 runtime、再动态导入 App 的顺序；构建 SDK 后消费其新产物，不假设旧 ZIP 会自动升级。
+- [x] 执行 BUILD-SDK 并记录结果。
+- [x] 交付 M05/M06 的手动调用及旧本地模式核对方法。
+- [x] 提交本任务差异。
 
 ## Task P1-06：显示器绑定、模板宿主与受限旧模板兼容
 
@@ -210,14 +210,14 @@ $env:JAVA_HOME = $taskJavaRoot
 
 **Interfaces:** `open(binding,manifestContext):Promise<void>`、`close():void`、`reload(binding):Promise<void>`；`storage.get/set/remove(identity,key)`；Java `bindScreen(id,screenId,dto)` 返回新草稿版本和绑定摘要。
 
-- [ ] 从已授权发布实例/设备主题来源选择内容，保存 instance/hash/version/profile；直接实例固定，设备来源保留 sourceConfigId；版本更新写草稿，不回写线下。
-- [ ] 实现内容封面/预览与单活动模板容器；首期允许管理员选择对应封面，自动截图作为产品作业可逐步接入，预览必须标记绑定版本。
-- [ ] 创建新的 runtimeId 后加载运行源 iframe，安装 bootstrap/宿主消息；打开暂停漫游，关闭/重载销毁旧 port/frame 并恢复原视角，拒收旧代消息。
-- [ ] 对未升级 SDK 的已发布实例提供受限 loopback WebSocket 兼容桥，在主脚本前安装、只代理模板 Bridge 协议；实际网络受 CSP 约束。该路径只对已人工确认的纯前端模板启用。
-- [ ] 实现访客存储命名空间及硬件/非活动目标拒绝；未适配直接持久存储或内网写接口的模板标为 preview-only，不承诺完整隔离。
-- [ ] 执行 BUILD-UI/BUILD-JAVA 并分别记录结果。
-- [ ] 交付 M04/M05/M06/M11 的手测步骤及待验证的模板兼容性。
-- [ ] 提交本任务差异。
+- [x] 从已授权发布实例/设备主题来源选择内容，保存 instance/hash/version/profile；直接实例固定，设备来源保留 sourceConfigId；版本更新写草稿，不回写线下。
+- [x] 实现内容封面/预览与单活动模板容器；首期允许管理员选择对应封面，自动截图作为产品作业可逐步接入，预览必须标记绑定版本。
+- [x] 创建新的 runtimeId 后加载运行源 iframe，安装 bootstrap/宿主消息；打开暂停漫游，关闭/重载销毁旧 port/frame 并恢复原视角，拒收旧代消息。
+- [x] 对未升级 SDK 的已发布实例提供受限 loopback WebSocket 兼容桥，在主脚本前安装、只代理模板 Bridge 协议；实际网络受 CSP 约束。该路径只对已人工确认的纯前端模板启用。
+- [x] 实现访客存储命名空间及硬件/非活动目标拒绝；未适配直接持久存储或内网写接口的模板标为 preview-only，不承诺完整隔离。
+- [x] 执行 BUILD-UI/BUILD-JAVA 并分别记录结果。
+- [x] 交付 M04/M05/M06/M11 的手测步骤及待验证的模板兼容性。
+- [x] 提交本任务差异。
 
 ## Task P1-07：校验、固定快照、发布与内容更新
 
@@ -225,13 +225,13 @@ $env:JAVA_HOME = $taskJavaRoot
 
 **Interfaces:** `validate(id,expectedDraftVersion):ValidationVo`、`publish(id,dto):PublishVo`、`offline(id):void`、`rollback(id,revisionId):PublishVo`、`getContentUpdates(id):ContentUpdateVo`。
 
-- [ ] 校验固定草稿的资源、单位、入口/碰撞、ID、锚点、模板授权/兼容和预览版本；阻断项不能忽略，提示项需明确处理。
-- [ ] 事务外准备不可变资源/快照，短事务内核对 owner、draftVersion、摘要和幂等 requestId，再插入 revision 并原子切换指针；失败保留旧发布内容。
-- [ ] 实现下架、完整版本回滚与未引用暂存资源清理规则；旧会话资源按租期保留，不随新发布立即删除。
-- [ ] 按 sourceConfigId 比较设备来源新实例，提供逐屏保持/更新；重新生成匹配版本预览并再次发布，直接实例只手动改选。
-- [ ] 执行 BUILD-JAVA/BUILD-UI 并分别记录结果。
-- [ ] 交付 M07/M08 的冲突、失败发布、更新、回滚与下架操作。
-- [ ] 提交本任务差异。
+- [x] 校验固定草稿的资源、单位、入口/碰撞、ID、锚点、模板授权/兼容和预览版本；阻断项不能忽略，提示项需明确处理。
+- [x] 事务外准备不可变资源/快照，短事务内核对 owner、draftVersion、摘要和幂等 requestId，再插入 revision 并原子切换指针；失败保留旧发布内容。
+- [x] 实现下架、完整版本回滚与未引用暂存资源清理规则；旧会话资源按租期保留，不随新发布立即删除。
+- [x] 按 sourceConfigId 比较设备来源新实例，提供逐屏保持/更新；重新生成匹配版本预览并再次发布，直接实例只手动改选。
+- [x] 执行 BUILD-JAVA/BUILD-UI 并分别记录结果。
+- [x] 交付 M07/M08 的冲突、失败发布、更新、回滚与下架操作。
+- [x] 提交本任务差异。
 
 ## Task P1-08：公开接口、资源会话与独立参观页
 
@@ -239,13 +239,13 @@ $env:JAVA_HOME = $taskJavaRoot
 
 **Interfaces:** 公共 GET manifest、`sessions/{sessionKey}/assets/{path...}`、资源会话续签；front `fetchManifest(publicCode)`、`resolveAsset(assetKey,manifestContext)`、`renewSession(manifestContext)`，全部固定进入时 revision。
 
-- [ ] 用公开专用 DTO 返回在线当前版本并创建 Redis 资源会话/只读票据；根据清单解析资源，不接受任意路径/旧 revision 查询；续签保持原版本。
-- [ ] 匿名分支清理用户/内部来源头，公开前缀仅保留访客读取/续签功能；管理前缀仍鉴权，配置示例明确 StripPrefix 与运行源规则。
-- [ ] 新建不引用后台 main/router/permission/store/request 的 showroom entry；独立客户端不携带管理员 token，未开放页面不弹登录。
-- [ ] 接入共享内核、漫游/点击/预设视点、模板容器与展项列表降级；离开页面销毁内核/宿主，固定版本资源不混用。
-- [ ] 执行 BUILD-JAVA/BUILD-UI 并分别记录结果。
-- [ ] 交付 M01/M05/M08/M09 的匿名入口与资源路径说明。
-- [ ] 提交本任务差异。
+- [x] 用公开专用 DTO 返回在线当前版本并创建 Redis 资源会话/只读票据；根据清单解析资源，不接受任意路径/旧 revision 查询；续签保持原版本。
+- [x] 匿名分支清理用户/内部来源头，公开前缀仅保留访客读取/续签功能；管理前缀仍鉴权，配置示例明确 StripPrefix 与运行源规则。
+- [x] 新建不引用后台 main/router/permission/store/request 的 showroom entry；独立客户端不携带管理员 token，未开放页面不弹登录。
+- [x] 接入共享内核、漫游/点击/预设视点、模板容器与展项列表降级；离开页面销毁内核/宿主，固定版本资源不混用。
+- [x] 执行 BUILD-JAVA/BUILD-UI 并分别记录结果。
+- [x] 交付 M01/M05/M08/M09 的匿名入口与资源路径说明。
+- [x] 提交本任务差异。
 
 ## Task P1-09：手机、部署示例与阶段交付
 
@@ -253,14 +253,16 @@ $env:JAVA_HOME = $taskJavaRoot
 
 **Interfaces:** `/v/{publicCode}` 回退到 showroom.html；独立模板运行源；环境配置包括 API、runtime origin、Worker URL/服务密钥、私有资源存储与会话租期，密钥不进入前端 bundle。
 
-- [ ] 完成触控视角/热点视点、模板比例与 iframe 外固定退出控件、安全区域；电脑漫游不因手机输入改动失效。
-- [ ] 提供本地启动、SQL/菜单/白名单/存储/反向代理应用说明；公开路径刷新仍到参观页，后台路径保持后台入口。
-- [ ] 分仓执行 BUILD-SDK/BUILD-WORKER/BUILD-JAVA/BUILD-UI，记录命令、结果和环境限制；不执行功能测试，也不把构建结果当手测通过。
-- [ ] 更新用户手测清单的入口/样本、已知限制和反馈格式；以任务 ID 标记“已实现/构建检查/待用户手测/反馈修复”。
-- [ ] 只提交本功能差异，交付第一阶段说明与可访问入口；用户反馈的问题回到对应任务，不隐藏到下一阶段。
+- [x] 完成触控视角/热点视点、模板比例与 iframe 外固定退出控件、安全区域；电脑漫游不因手机输入改动失效。
+- [x] 提供本地启动、SQL/菜单/白名单/存储/反向代理应用说明；公开路径刷新仍到参观页，后台路径保持后台入口。
+- [x] 分仓执行 BUILD-SDK/BUILD-WORKER/BUILD-JAVA/BUILD-UI，记录命令、结果和环境限制；不执行功能测试，也不把构建结果当手测通过。
+- [x] 更新用户手测清单的入口/样本、已知限制和反馈格式；以任务 ID 标记“已实现/构建检查/待用户手测/反馈修复”。
+- [x] 只提交本功能差异，交付第一阶段说明与可访问入口；用户反馈的问题回到对应任务，不隐藏到下一阶段。
 
 ## 4. 实施与交付顺序
 
 P0-01 完成后，P1-01/P1-02 与 P1-05 可以并行，P1-03 在资源契约稳定后开始；P1-04～P1-08 按依赖集成，P1-09 汇总交付。实现者与复核者使用同一契约，不能各自发明 SDK 初始化或资源路径。
 
-任务实施状态目前全部未开始；本次仅完成可审阅计划和手测清单。执行前由用户审阅此计划并选择当前会话执行或按任务委派子代理的方式。
+P0-01 与 P1-01～P1-09 已实现，四部分构建检查及代码复核完成；功能验收仍待用户手测。数据库与线上配置没有自动应用。详见 [第一阶段交付手册](C:/Users/Administrator/Desktop/auto-exhibition-template-sdk/docs/superpowers/deliveries/2026-09-30-virtual-showroom-stage1-handoff.md)。
+
+
