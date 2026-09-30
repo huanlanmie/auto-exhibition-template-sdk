@@ -1,0 +1,58 @@
+[
+  {
+    "file": "virtual-showroom-worker\\src\\native\\ifcBridge.mjs",
+    "sha256": "7fd12b1bf0dba6bbdf1a9d24ab0fc108b8ebfc8cb857cb41bbdc2f74542b0e90"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\native\\ifcFileReader.js",
+    "sha256": "17066556003a69e8ea79e11446252d37e08793a2d893780e6135c069eaee51da"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\metadata\\ifcMetadata.js",
+    "sha256": "4acdbf8c46b77efbd72c643242b5958267f028c6247aca1e54b2ca2fdbd93a92"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\metadata\\ifcSource.js",
+    "sha256": "a37b995ff1d14af7719fab059139aee00b1fda84b66e454f6912b1ac1ac62599"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\converters\\ifc.js",
+    "sha256": "9a8fdabc3edb6f8f00ff99377e6333b877ddba01a635f347acd2b4d1b77871b9"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\providers\\ifcProvider.js",
+    "sha256": "fe0e627abe8cd26ef2352ae253a9405e615c07fe15cf317ea7f1d24cbe49f663"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\providers\\nativeFailure.js",
+    "sha256": "e10b07a73a34ff3d7d4bcbd0f47bf4364ef1dcfe5dd24b1af80335c463d1016b"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\pipeline\\metadata.js",
+    "sha256": "c15f620f47b7ec0ac16ac4468b742bcf9a7eb6c3f34949ec3272933490c159a1"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\browser\\convert.js",
+    "sha256": "78f47a873371a1e49ee4a83189da264275e9098eee6e92fb4afdb3104d3114d1"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\browser\\runner.js",
+    "sha256": "85f5451bcf4dab92e04d8cd9d1fba9f93ce05e9191ab5c02b45f09ef84f3ee03"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\browser\\errors.js",
+    "sha256": "0d0902e9bc24db72ed26234e52fcc5bf8f635455fd1abce54ded857b21d98ac1"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\api\\analyzeRoute.js",
+    "sha256": "5159d407db791edae1ae0cf319546d6944c6976b70aebb43185aaac8cfdb9719"
+  },
+  {
+    "file": "virtual-showroom-worker\\src\\api\\convertRoute.js",
+    "sha256": "118014fedd2d72aa097b439ad210c3d3dab3f423e37d1b283a10909ae6b92613"
+  },
+  {
+    "file": "virtual-showroom-worker\\scripts\\generate-stage3-samples.js",
+    "sha256": "ab5dad81af303ce865d956186e2b2ef47bdea99b5bf3eae4ea68c0798cc99b30"
+  }
+]

@@ -1,0 +1,218 @@
+{
+  "checkedAt": "2026-09-30T23:33:37.2082493+08:00",
+  "checks": [
+    {
+      "port": 19201,
+      "http": 200,
+      "status": "UP"
+    },
+    {
+      "port": 19200,
+      "http": 200,
+      "status": "UP"
+    },
+    {
+      "port": 9402,
+      "http": 200,
+      "status": "UP"
+    },
+    {
+      "port": 19088,
+      "http": 200,
+      "status": "UP"
+    }
+  ],
+  "frontendHttp": 200,
+  "worker": {
+    "ready": true,
+    "reasons": [],
+    "formats": [
+      "glb",
+      "gltf",
+      "obj",
+      "fbx",
+      "stl",
+      "dxf",
+      "step",
+      "iges",
+      "ifc",
+      "dwg"
+    ],
+    "providers": {
+      "mesh": {
+        "enabled": true,
+        "version": "0.186.1",
+        "formats": [
+          "glb",
+          "gltf",
+          "obj"
+        ],
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "fbx": {
+        "enabled": true,
+        "version": "0.186.1",
+        "formats": [
+          "fbx"
+        ],
+        "boundary": "Static default pose; materials may be approximated",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "stl": {
+        "enabled": true,
+        "version": "0.186.1",
+        "formats": [
+          "stl"
+        ],
+        "boundary": "Explicit source units; no CAD semantics",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "dxf": {
+        "enabled": true,
+        "version": "1.1.2",
+        "formats": [
+          "dxf"
+        ],
+        "boundary": "ASCII planar DXF assisted modeling; layer/unit/opening confirmation required",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "occt": {
+        "enabled": true,
+        "version": "0.0.23",
+        "formats": [
+          "step",
+          "iges"
+        ],
+        "boundary": "Single-file tessellation in meters; source entity IDs unavailable",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "ifc": {
+        "enabled": true,
+        "version": "0.0.78",
+        "formats": [
+          "ifc"
+        ],
+        "boundary": "Selected IFC building geometry, unique GUID placement anchors, local engineering coordinates; properties private, no map projection",
+        "schemas": [
+          {
+            "schema": "IFC2X3",
+            "conditional": false
+          },
+          {
+            "schema": "IFC4",
+            "conditional": false
+          },
+          {
+            "schema": "IFC4X3_ADD2",
+            "conditional": true
+          }
+        ],
+        "sourceIdentity": "unique-project-and-product-GlobalId",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "dwg2d": {
+        "enabled": true,
+        "version": "0.7.14",
+        "formats": [
+          "dwg"
+        ],
+        "boundary": "2D DWG to frozen ASCII DXF and explicit calibration; source completeness unknown, derived handles heuristic",
+        "scope": "2d",
+        "sourceVersions": [
+          "AC1015",
+          "AC1018",
+          "AC1021",
+          "AC1024",
+          "AC1027",
+          "AC1032"
+        ],
+        "sourceIdentity": "derived-handles-heuristic",
+        "license": "GPL-3.0",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      }
+    },
+    "nativeIsolation": {
+      "ready": true,
+      "mode": "windows-job-object",
+      "verification": "manual-required",
+      "memoryMiB": 3072
+    },
+    "containers": [
+      "zip"
+    ],
+    "qualityPresets": [
+      "desktop",
+      "mobile"
+    ],
+    "threeVersion": "0.186.1",
+    "nodeVersion": "v22.22.0",
+    "activeJobs": 0,
+    "maxConcurrent": 1,
+    "runtimeProxy": true
+  },
+  "caseReadOnly": [
+    "id\tname\tstatus\tdraft_version\tpublished_revision_id\tmodel_version\tdraft_digest",
+    "1\t505数字孪生实验室\tONLINE\t6\t2\tf9b1dc78-90c9-4565-8b92-d425818244a1\tb1f0ef97f988fa6bb9fc6adaa8a5fb110422934ad979bdf6accfdf01a946b682"
+  ],
+  "userFiles": [
+    {
+      "path": "docker/copy.sh",
+      "preserved": true
+    },
+    {
+      "path": "ruoyi-gateway/src/main/resources/bootstrap.yml",
+      "preserved": true
+    },
+    {
+      "path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/controller/FunctionLinkageController.java",
+      "preserved": true
+    },
+    {
+      "path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/domain/vo/SyncDataVo.java",
+      "preserved": true
+    },
+    {
+      "path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/mapper/FunctionLinkageMapper.java",
+      "preserved": true
+    },
+    {
+      "path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/IFunctionLinkageService.java",
+      "preserved": true
+    },
+    {
+      "path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/impl/FunctionLinkageServiceImpl.java",
+      "preserved": true
+    },
+    {
+      "path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/impl/TemplateSyncServiceImpl.java",
+      "preserved": true
+    },
+    {
+      "path": "ruoyi-modules/mju-showroom/src/main/resources/mapper/showroom/FunctionLinkageMapper.xml",
+      "preserved": true
+    },
+    {
+      "path": "ruoyi-ui-vue3/src/api/showroom/functionLinkage.js",
+      "preserved": true
+    },
+    {
+      "path": "sql/function-linkage-upgrade.sql",
+      "preserved": true
+    }
+  ],
+  "verification": "Health, configuration readiness and preservation only; no engine initialization, analysis, conversion or functional tests."
+}
