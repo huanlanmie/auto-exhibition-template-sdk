@@ -1,0 +1,198 @@
+[
+  {
+    "Path": "docs/virtual-showroom/stage4-manual.md",
+    "Hash": "D5E0490EB2FB094F148ED6ED07B6281C771FA9DC1AA6BF40EA9525D3F38FE7CC"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/virtual/VirtualAssetStorageService.java",
+    "Hash": "B4EE748C23C233FCF8E73C3FF5F79F29874CDD6F8B52693FB5CE1549296BC0A9"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/virtual/VirtualModelImportService.java",
+    "Hash": "7C99E5A5E98CD2FA24F8917C35852D5780AE4AD24CD21ED2B94EC380BD879A6C"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/virtual/VirtualModelMetadataService.java",
+    "Hash": "BE5DF02EFA9D82621655438E6F35CE094AA377B8DF1782A1FD2CD1F6D36D2C94"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/virtual/VirtualModelStreamingService.java",
+    "Hash": "D680C92BE8416B0832669C95FDD2358F2B5FE518E969B087480ACACDC88F5221"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/virtual/VirtualShowroomValidationService.java",
+    "Hash": "F3404BAD055835D24EEE79EB9FE42DA071D8529B006E5FE8D3CA07F86FD02380"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/api/showroom/virtualShowroom.js",
+    "Hash": "48F9B3DF9DD3F1EDCD90F55D7E4B503D5695B45AC733BF745DFF4B3429CC4372"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/components/Dwg3dImportOptions.vue",
+    "Hash": "7E0F56D98DA1685B207B9ED4185664D852703C79B451935D7BF5ED42248F81AB"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/components/ImportWizard.vue",
+    "Hash": "FA9E3A15D1D20D3FFA1CF10D447F6CC9F4B9CECDD91FC77B57C255657379165E"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/components/SceneCanvas.vue",
+    "Hash": "75DE78B4AA1D2979CB5FA24DCA7A46F0EA3F1B4B8AF786B85E2F4FC5F65C73A1"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/editor.vue",
+    "Hash": "323E49F514024C699FDF48238E45DD1755C01365B1F681575CD1B67F44544A13"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/imports.vue",
+    "Hash": "A1FFB0D2081E52A936DC6A763C02938CA3C61A5200926FFF68460C09FFD35794"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/components/ScenePerformancePanel.vue",
+    "Hash": "972A76E628824C4770CADD73FE8A0BA42F80A5C61A41C3D6633F14AA89134F0A"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/chunkAssetCache.js",
+    "Hash": "1AF319E28270E253052021BB31FF857957A31DBB2E5CFF6DBFEEC9E5A3E84A06"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/dispose.js",
+    "Hash": "C274DA5C46BDF2CF6BE413AAA1A579E63F6E70F31AADBA172D55445A4291FB61"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/modelLoader.js",
+    "Hash": "EF8D2A9BB7B4B76F9159C8ED1AE42A412D9943F30BAEFF4747F58789B1493EEA"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/sceneMetrics.js",
+    "Hash": "E184C0BC076EA123B5E8DB14BC8514B620A8F9348D2D82273C9553B94AC0381E"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/sceneRuntime.js",
+    "Hash": "288FAD4173A7AFF194522726583D67ACAA117D37B4C2B682A55F2D64B674ED77"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/streamingManifest.js",
+    "Hash": "1C3A102DC52F3AC08C5C9FA93B5A63F36B3D989B743974903BD8B4E8F5D55094"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/streamingModel.js",
+    "Hash": "52E1CD9DA90D271C791890AB243CA857F53BA0EB185E3354A67F57B835B1FDAF"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/viewer/publicHttp.js",
+    "Hash": "E65FCA2FAAF063CE16119B3D093DFFC11E04913A8BEFEF6AA751E2B3DF610C13"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/viewer/ShowroomViewer.vue",
+    "Hash": "01DA9681DCA9E72BBC62B830E226B56BB6DF25C5E7CEF94BB99E52B12AB25A9C"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/viewer/ViewerScene.vue",
+    "Hash": "98025EFC46C1C097D39EE2F93D4C080F560738866AA43BA4ABDB70442ECEBFDF"
+  },
+  {
+    "Path": "virtual-showroom-worker/licenses/meshoptimizer-1.1-MIT.txt",
+    "Hash": "5E0301F88CAC599302833380911D585AE9629DC9CEB310FC070D8D8942034E64"
+  },
+  {
+    "Path": "virtual-showroom-worker/licenses/stage4-sources.md",
+    "Hash": "E61791A6FB40898AF70260098A76BBC60E3FAA34A80897D1B5BE8270F5784FC9"
+  },
+  {
+    "Path": "virtual-showroom-worker/package.json",
+    "Hash": "1A83F68E72A33E9F98BDC09AF537CBDA7F2415C5B368CC787CEC1CFEF5AEBB95"
+  },
+  {
+    "Path": "virtual-showroom-worker/README.md",
+    "Hash": "3FD5FD210AA4B4F6FBB9FE3B69136F17613870EA84F3D84C4A453485D99BE79A"
+  },
+  {
+    "Path": "virtual-showroom-worker/samples/stage4/input-info.json",
+    "Hash": "947485B550F6D819F4E73B0F1139DE2FC8918A2F03AA550B255A20172D7B8427"
+  },
+  {
+    "Path": "virtual-showroom-worker/samples/stage4/static-hall-80x60m.glb",
+    "Hash": "D25D73B657682BDED4A6CB16E3D6725A2400900A6ECA7FDC5A9EF8ACC88E9C02"
+  },
+  {
+    "Path": "virtual-showroom-worker/scripts/build.js",
+    "Hash": "7BA083B83F58B55B36A0DB101FD5EB204A3EC71D04E28E0E2B445F0AF857B480"
+  },
+  {
+    "Path": "virtual-showroom-worker/scripts/generate-stage4-samples.js",
+    "Hash": "643464A4DD4E3E40CC7D01218FAA0E3B138ABE10316B87BC8509CEEE691FE7BE"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/api/analyzeRoute.js",
+    "Hash": "57C4CF1CCD60EB7A66E6BF2B299FE6F54CCD0A361D5EE41E44184B6583428D82"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/api/convertRoute.js",
+    "Hash": "32452EFB301B55C391CCA3878B227C8403B67A257364BCC26D7E0BA5533A175F"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/browser/convert.js",
+    "Hash": "128BB8B687076A71A02FF42A892B36BEBFF3C399FBC9CCF3ECB10825AF9E2E9D"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/browser/errors.js",
+    "Hash": "F0279A8BCF8FECF969EAF70B9DA1CD312A111DD7EF1B5F47C78E407F04F50C3D"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/browser/runner.js",
+    "Hash": "C6D152E338E9D0F8E876B4A885F8D5975F65B4B008F354FFEA28A06066EB8A49"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/config.js",
+    "Hash": "98DE504DE9C324BE797001E74FB6D6A7CEAAD05C80D5D019D636125E89033A00"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/converters/dwg3d.js",
+    "Hash": "B23A7B6F2388AC06E564B6277C6C1D44B74CBEF957D4AE26440FE05AF26E4B28"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/formats.js",
+    "Hash": "74F3CFD1C6A39931F285ED7FB47F7F2144BE5F3FCE5CBCFA630428A63E3FE3C9"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/io/jobWorkspace.js",
+    "Hash": "9A4D0051C546EE6C1899354F05CD88341280F2D1E681995977743EDAF1FAD466"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/native/boundedNode.js",
+    "Hash": "620DA7D719025E3592A46D7ED6727BED5E676F58AE66A52D8618973E8CAD4A70"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/native/dwg3dBridge.mjs",
+    "Hash": "6E30C38AA630CA1E3011D0B46367E26BE639AB7AAE2AC437498B8511573F3FB2"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/native/dwg3dTopology.js",
+    "Hash": "DA38AF0E47962B49D92DB5411EF5223BF377006C90616BD6C2A71CC53E308F84"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/pipeline/streaming.js",
+    "Hash": "E62EDDB127D93D8A9F1403AF36FE86B4ECF4B233A1A9A9D7877B87CF6D02F279"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/pipeline/streamingLod.js",
+    "Hash": "301A2B20EEB5B84EFE1FBA67725273E7EA894E8C1E7F0700BE1ED9CDB1502EC6"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/pipeline/streamingOptions.js",
+    "Hash": "9E7B94FCD390E4020B7DE3D98FADA739E124B3C2ACA423C9D4A461EE80A48799"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/protocol.js",
+    "Hash": "A29E15FE4195DA372DB2975DEE9D86A2F5D6CC49BA3D277A8A90CD6320F63A1E"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/providers/dwg3dProvider.js",
+    "Hash": "C53082C73DB28DFEF07D5295E85CBFB3D0124F076C776DA8C48760B004C4466B"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/providers/nativeFailure.js",
+    "Hash": "DD49909C3F1285A8279F9BDFD16D6BFB1CBA48F2D21D55A0CB4596CAE213031B"
+  }
+]

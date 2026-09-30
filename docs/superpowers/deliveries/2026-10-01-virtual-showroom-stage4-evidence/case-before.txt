@@ -1,0 +1,4 @@
+id	name	status	draft_version	published_revision_id	model_version	draft_digest
+1	505数字孪生实验室	ONLINE	6	2	f9b1dc78-90c9-4565-8b92-d425818244a1	b1f0ef97f988fa6bb9fc6adaa8a5fb110422934ad979bdf6accfdf01a946b682
+active_imports
+0
