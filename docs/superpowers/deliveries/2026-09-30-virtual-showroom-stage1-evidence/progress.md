@@ -69,3 +69,5 @@ Task P1-07: complete — validation/provenance/immutable publish/update/offline/
 Task P1-08: complete — anonymous independent viewer/fixed resource sessions/minimal manifest implemented, review clean.
 Task P1-09: complete — mobile controls/safe areas/docs/builds/hand-test materials delivered. M01–M12 not executed.
 Implementation complete. Feature branches retained; no merge/push/live SQL/Nacos/bucket/proxy application. Original 11 modified platform file hashes retained.
+Final packaging: docs committed; SDK/platform committed feature ranges pass whitespace checks. Platform 32de9f25 only removes redundant trailing blank lines; no semantic source change after approved b4788404.
+Scratch cleanup was rejected by automatic execution policy (reason: blocked by policy); no deletion occurred. Private ignored plan scratch retained; reviewed reports and public Maven settings remain preserved in delivery docs. Feature implementation is unaffected.

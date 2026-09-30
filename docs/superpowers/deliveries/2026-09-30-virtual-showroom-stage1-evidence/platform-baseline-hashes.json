@@ -1,0 +1,46 @@
+[
+  {
+    "Path": "docker/copy.sh",
+    "Hash": "C9371C07347E3C510F9A460C0E6EC69B8206373F24F2D042E8D8392D87FB62D8"
+  },
+  {
+    "Path": "ruoyi-gateway/src/main/resources/bootstrap.yml",
+    "Hash": "8AB1588C4D2517A55D5E1F2F4B88FB6D7477AD64CC1710356F4119CE20B62E48"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/controller/FunctionLinkageController.java",
+    "Hash": "0E9DEA9AC7CEE55A13794B83663B71C288DEA335CA6CC414FF700DD7F15A28ED"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/domain/vo/SyncDataVo.java",
+    "Hash": "F3416C0D6C580C4C1F839F59D68A60B2C52E2D467803FB502954E966BC667602"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/mapper/FunctionLinkageMapper.java",
+    "Hash": "155AB553683FC1A99FA6D6F4FE294C9852E2AEF2F0588847FB3429E371DBB350"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/IFunctionLinkageService.java",
+    "Hash": "1BB04EBB0AA5A37515C66458BD55B2BC6454D7BEC2EC9374F8CEC259D211EB55"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/impl/FunctionLinkageServiceImpl.java",
+    "Hash": "1D446B35D15C68EF2539531868844A8353040681B7771323CD117589E66CFF98"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/impl/TemplateSyncServiceImpl.java",
+    "Hash": "6C30824FA0F51B32B822055896C2ECD2155D9CA1F3CB6EF06FAF47698E834851"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/resources/mapper/showroom/FunctionLinkageMapper.xml",
+    "Hash": "ED0705C2106F5727C20A5B5AB5B82CB865DD1DB99C013906FD57D9866906D47B"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/api/showroom/functionLinkage.js",
+    "Hash": "44EDCFEEA89492EAF16EA9EEDFAAB08EB98F5064F8C3B47C3B1B496F87EB53FD"
+  },
+  {
+    "Path": "sql/function-linkage-upgrade.sql",
+    "Hash": "5C2E896CA4BFA0DA811AF009BCB00A4DC0FD4E4AC82C7E1DCF5771DE3423319A"
+  }
+]
