@@ -1,0 +1,97 @@
+{
+  "checkedAt": "2026-09-30T16:15:38.9800144+08:00",
+  "checks": [
+    {
+      "url": "http://127.0.0.1:5173/",
+      "httpStatus": 200
+    },
+    {
+      "url": "http://127.0.0.1:19200/actuator/health",
+      "httpStatus": 200,
+      "health": "UP"
+    },
+    {
+      "url": "http://127.0.0.1:19201/actuator/health",
+      "httpStatus": 200,
+      "health": "UP"
+    },
+    {
+      "url": "http://127.0.0.1:9402/actuator/health",
+      "httpStatus": 200,
+      "health": "UP"
+    },
+    {
+      "url": "http://127.0.0.1:19088/actuator/health",
+      "httpStatus": 200,
+      "health": "UP"
+    },
+    {
+      "url": "http://127.0.0.1:9319/health",
+      "httpStatus": 200,
+      "ready": true
+    }
+  ],
+  "processes": [
+    {
+      "name": "mysql",
+      "pid": 70372,
+      "executable": "E:\\development\\sql\\phpstudy\\phpstudy_pro\\Extensions\\MySQL8.0.12\\bin\\mysqld.exe",
+      "startTicks": 639263502413056988,
+      "port": 13306
+    },
+    {
+      "name": "redis",
+      "pid": 41656,
+      "executable": "E:\\development\\sql\\phpstudy\\phpstudy_pro\\Extensions\\redis3.0.504\\redis-server.exe",
+      "startTicks": 639263502435600668,
+      "port": 16379
+    },
+    {
+      "name": "worker",
+      "pid": 54724,
+      "executable": "E:\\development\\nvm\\nodejs\\node.exe",
+      "startTicks": 639263511763956712,
+      "port": 9319
+    },
+    {
+      "name": "frontend",
+      "pid": 56688,
+      "executable": "E:\\development\\nvm\\nodejs\\node.exe",
+      "startTicks": 639263512819440618,
+      "port": 5173
+    },
+    {
+      "name": "ruoyi-system",
+      "pid": 14476,
+      "executable": "E:\\development\\java\\idea\\IntelliJ IDEA 2026.1.1\\jbr\\bin\\java.exe",
+      "startTicks": 639263514961126509,
+      "port": 19201
+    },
+    {
+      "name": "ruoyi-auth",
+      "pid": 25448,
+      "executable": "E:\\development\\java\\idea\\IntelliJ IDEA 2026.1.1\\jbr\\bin\\java.exe",
+      "startTicks": 639263514964738834,
+      "port": 19200
+    },
+    {
+      "name": "ruoyi-gateway",
+      "pid": 64188,
+      "executable": "E:\\development\\java\\idea\\IntelliJ IDEA 2026.1.1\\jbr\\bin\\java.exe",
+      "startTicks": 639263514971358694,
+      "port": 19088
+    },
+    {
+      "name": "mju-showroom",
+      "pid": 18220,
+      "executable": "E:\\development\\java\\idea\\IntelliJ IDEA 2026.1.1\\jbr\\bin\\java.exe",
+      "startTicks": 639263525882713431,
+      "port": 9402
+    }
+  ],
+  "unchangedUserFiles": 11,
+  "automatedFunctionalTesting": false,
+  "browserBusinessQA": false,
+  "platformCommit": "3413afc2",
+  "sdkCommit": "7095036"
+}

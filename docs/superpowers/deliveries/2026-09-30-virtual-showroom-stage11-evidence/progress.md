@@ -1,0 +1,17 @@
+# SDD ledger — plan: docs/superpowers/plans/2026-09-30-virtual-showroom-stage11.md
+SDK base 30c2815f8eadf2e6a421e21a956067c93e8f5dd2; platform base 32de9f25f630ded16fd67b8c5d3b8ff4b7acf8c8.
+User explicitly approved revised plan implementation and local startup. Manual functional testing only; builds/readiness permitted.
+Ruling: continue existing feature checkouts and preserve user edits — previously agreed manual paths — no worktree or branch reset.
+Ruling: execute revised plan directly after writing its explicit interfaces — user said start according to revised plan — no repeated permission question.
+Ruling: local trial must isolate or disable startup job recovery and avoid field discovery registration — shared running backend exists — extra local overrides required.
+Ruling: additional agent spawning hit the thread limit, so existing backend/SDK agents perform independent cross-reviews, never approving their own source — preserve review independence without starting user chats.
+Task 1: implemented; independent review found 4 Important and 1 Minor, all fixed; legacy media follow-up independently approved. Maven final package passed with tests skipped.
+Task 2: implemented; independent review approved including later native hidden-media follow-up; pnpm build passed. runtimeRegistry scope expanded for capability equality, documented in SDK report.
+Task 3: final source implemented, build passed (2181 modules, 14.57s); independent spec/quality review approved after quiz denial/timeout, parallel TTL and multicast fixes. Native SDK media increment also independently approved.
+Task 4: source configs read only, local showroom/system snapshots merged in isolated DB, Redis isolated, Nacos registration disabled; all 8 processes running and initial frontend/health HTTP checks succeeded. Source snapshot imports only missing tables, preserving partial local data from initial split-DB preparation.
+Startup fixes: override classpath bootstrap configuration for local runs, correct packaged jar names, fix Vite configureServer return value, configure JBR PipeImpl TCP fallback for this Windows runner. Final showroom package requires stopping owned backend to release Windows jar lock; only that owned process was restarted.
+Startup static review: approved; BOM handling, tracked secrets ignore, unavailable Unix-path guard and explicit local import TCP profile added from Minor suggestions. MySQL stop uses graceful shutdown to include its supervisor child.
+Preservation evidence: 11 existing modified platform files SHA256 match initial baseline, no offline client/gateway edits.
+Final integration: draft update exception for previously enabled interactive screens with exactly unchanged bindings allows staged source repair while retaining graph; newly enabled/new/changed bindings remain strict and publication validates all enabled interactive bindings. Independently reviewed and final Java package rebuilt; owned showroom restarted to PID 18220.
+Task 4 complete: final HTTP 200 for frontend and all four Java health endpoints (UP), Worker health 200/ready=true. Eight owned processes retained; 11 existing user-modified files still match initial SHA256. Browser tab opening queued via Codex panel; clickable URL in handoff. No functional test/browser QA claims.
+Commits: SDK 7095036; platform 3413afc2. Only owned paths committed; no push/PR/deployment. Final evidence archived in docs/superpowers/deliveries/2026-09-30-virtual-showroom-stage11-evidence.
