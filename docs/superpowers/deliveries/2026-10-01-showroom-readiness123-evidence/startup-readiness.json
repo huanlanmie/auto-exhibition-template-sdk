@@ -1,0 +1,223 @@
+{
+  "checkedAt": "2026-10-01T23:38:24.4162931+08:00",
+  "startupMode": "localhost",
+  "java": [
+    {
+      "port": 19201,
+      "http": 200,
+      "status": "UP"
+    },
+    {
+      "port": 19200,
+      "http": 200,
+      "status": "UP"
+    },
+    {
+      "port": 9402,
+      "http": 200,
+      "status": "UP"
+    },
+    {
+      "port": 19088,
+      "http": 200,
+      "status": "UP"
+    }
+  ],
+  "frontendHttp": 200,
+  "worker": {
+    "ready": true,
+    "reasons": [],
+    "formats": [
+      "glb",
+      "gltf",
+      "obj",
+      "fbx",
+      "stl",
+      "dxf",
+      "step",
+      "iges",
+      "ifc",
+      "dwg",
+      "dwg3d"
+    ],
+    "providers": {
+      "mesh": {
+        "enabled": true,
+        "version": "0.186.1",
+        "formats": [
+          "glb",
+          "gltf",
+          "obj"
+        ],
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "fbx": {
+        "enabled": true,
+        "version": "0.186.1",
+        "formats": [
+          "fbx"
+        ],
+        "boundary": "Static default pose; materials may be approximated",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "stl": {
+        "enabled": true,
+        "version": "0.186.1",
+        "formats": [
+          "stl"
+        ],
+        "boundary": "Explicit source units; no CAD semantics",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "dxf": {
+        "enabled": true,
+        "version": "1.1.2",
+        "formats": [
+          "dxf"
+        ],
+        "boundary": "ASCII planar DXF assisted modeling; layer/unit/opening confirmation required",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "occt": {
+        "enabled": true,
+        "version": "0.0.23",
+        "formats": [
+          "step",
+          "iges"
+        ],
+        "boundary": "Single-file tessellation in meters; source entity IDs unavailable",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "ifc": {
+        "enabled": true,
+        "version": "0.0.78",
+        "formats": [
+          "ifc"
+        ],
+        "boundary": "Selected IFC building geometry, unique GUID placement anchors, local engineering coordinates; properties private, no map projection",
+        "schemas": [
+          {
+            "schema": "IFC2X3",
+            "conditional": false
+          },
+          {
+            "schema": "IFC4",
+            "conditional": false
+          },
+          {
+            "schema": "IFC4X3_ADD2",
+            "conditional": true
+          }
+        ],
+        "sourceIdentity": "unique-project-and-product-GlobalId",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "dwg2d": {
+        "enabled": true,
+        "version": "0.7.14",
+        "formats": [
+          "dwg"
+        ],
+        "boundary": "2D DWG to frozen ASCII DXF and explicit calibration; source completeness unknown, derived handles heuristic",
+        "scope": "2d",
+        "sourceVersions": [
+          "AC1015",
+          "AC1018",
+          "AC1021",
+          "AC1024",
+          "AC1027",
+          "AC1032"
+        ],
+        "sourceIdentity": "derived-handles-heuristic",
+        "license": "GPL-3.0",
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "dwg3d": {
+        "enabled": true,
+        "version": "0.7.14",
+        "formats": [
+          "dwg3d"
+        ],
+        "scope": "mesh3d",
+        "boundary": "Original 3DFACE, polyface and unsmoothed polygon mesh; ACIS solids, MESH, dynamic blocks, proxies and xrefs unsupported",
+        "supportedEntities": [
+          "3DFACE",
+          "POLYLINE_PFACE",
+          "POLYLINE_MESH"
+        ],
+        "sourceIdentity": "original-handles-heuristic",
+        "license": "GPL-3.0",
+        "sourceVersions": [
+          "AC1015",
+          "AC1018",
+          "AC1021",
+          "AC1024",
+          "AC1027",
+          "AC1032"
+        ],
+        "status": "enabled",
+        "verification": "manual-required",
+        "disabledReason": null
+      },
+      "dwg3dSolid": {
+        "enabled": false,
+        "version": null,
+        "formats": [],
+        "scope": "solid3d",
+        "boundary": "ACIS solids and proprietary surfaces require a separately deployed and appropriately licensed native provider",
+        "disabledReason": {
+          "code": "SOLID_PROVIDER_NOT_DEPLOYED",
+          "message": "Export a supported STEP/GLB from the source CAD application; a solid DWG converter is not deployed"
+        },
+        "status": "needs-deployment",
+        "verification": "manual-required"
+      }
+    },
+    "features": {
+      "streaming": {
+        "enabled": true,
+        "version": "1",
+        "verification": "manual-required",
+        "maxChunks": 64,
+        "maxChunkBytes": 33554432,
+        "maxAggregateBytes": 104857600,
+        "boundary": "Explicit static coarse/high partitioning with bounded error LOD; existing source and aggregate limits still apply"
+      }
+    },
+    "nativeIsolation": {
+      "ready": true,
+      "mode": "windows-job-object",
+      "verification": "manual-required",
+      "memoryMiB": 3072
+    },
+    "containers": [
+      "zip"
+    ],
+    "qualityPresets": [
+      "desktop",
+      "mobile"
+    ],
+    "threeVersion": "0.186.1",
+    "nodeVersion": "v22.22.0",
+    "activeJobs": 0,
+    "maxConcurrent": 1,
+    "runtimeProxy": true
+  },
+  "lanFrontendReadinessHttp": 200,
+  "lanDeviceVerified": false,
+  "ownedRecordsFlat": true
+}

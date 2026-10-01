@@ -1,0 +1,6 @@
+
+> virtual-showroom-worker@1.0.0 build
+> node scripts/build.js
+
+BUILD-NATIVE passed: launcher C# compiled only; no job/model process launched.
+BUILD-WORKER passed: JavaScript syntax and pinned dependencies resolved. No conversion or browser QA executed.

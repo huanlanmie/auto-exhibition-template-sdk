@@ -1,0 +1,7 @@
+ruoyi-system already running (PID 70700)
+ruoyi-auth already running (PID 64224)
+mju-showroom started (PID 76856, port 9402)
+ruoyi-gateway already running (PID 46536)
+worker already running (PID 16852)
+frontend already running (PID 24604)
+Management URL: http://localhost:5173/showroom/virtualShowroom/index

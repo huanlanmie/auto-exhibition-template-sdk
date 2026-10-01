@@ -1,0 +1,15 @@
+
+> auto-exhibition-template-sdk@0.2.0 build
+> vite build && tsc -p tsconfig.build.json
+
+vite v8.0.8 building client environment for production...
+[2K
+transforming...✓ 21 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/config/index.js                0.11 kB │ gzip: 0.11 kB
+dist/vite/index.js                  5.85 kB │ gzip: 2.27 kB
+dist/chunks/artifacts-CLjkRtUU.js  13.24 kB │ gzip: 3.93 kB
+dist/sdk/index.js                  31.03 kB │ gzip: 8.12 kB
+
+✓ built in 107ms

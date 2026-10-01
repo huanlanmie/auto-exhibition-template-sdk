@@ -127,3 +127,5 @@ P2实施与证据见第二阶段计划/交付。P3实施与证据见第三阶段
 P3交付：docs/superpowers/deliveries/2026-09-30-virtual-showroom-stage3-handoff.md。新增provider的enabled只表示当前部署文件/配置就绪，verification仍为manual-required，不表示已手测通过；DWG始终partial，三维DWG不在P3范围。
 
 P4交付：docs/superpowers/deliveries/2026-10-01-virtual-showroom-stage4-handoff.md。静态分区默认关闭，64×32MiB/合计100MiB默认预算保持；全局高精目录一次。dwg3d是独立显式mode，auto .dwg保持二维；完整ACIS实体provider未部署。新功能enabled只是就绪，不表示手测通过。
+
+2026-10-01用户选定的1/2/3完善交付：docs/superpowers/deliveries/2026-10-01-showroom-readiness123-handoff.md。导入单位/图层/报告、真实模板副本和软件联动、画布生命周期/画质/性能记录的代码与构建已完成，本机服务已运行；真实图纸、模板业务和手机效果继续由用户手测。P4-03动画/额外原生格式仍为条件任务，不因本轮完善而标记完成。

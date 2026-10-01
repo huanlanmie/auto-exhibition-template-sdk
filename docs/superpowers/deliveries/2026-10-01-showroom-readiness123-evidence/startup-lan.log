@@ -1,0 +1,11 @@
+ruoyi-system started (PID 70700, port 19201)
+ruoyi-auth started (PID 64224, port 19200)
+mju-showroom started (PID 53772, port 9402)
+ruoyi-gateway started (PID 46536, port 19088)
+worker started (PID 16852, port 9319)
+frontend started (PID 24604, port 5173)
+lan-frontend started (PID 74140, port 9443)
+lan-runtime started (PID 54020, port 9444)
+LAN HTTPS preview: https://192.168.1.9:9443/showroom/virtualShowroom/index
+Trust the private preview certificate on the test device before template/model verification. No trust root or firewall rule was installed.
+Management URL: http://localhost:5173/showroom/virtualShowroom/index

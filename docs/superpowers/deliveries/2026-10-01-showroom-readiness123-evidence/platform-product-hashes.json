@@ -1,0 +1,146 @@
+[
+  {
+    "Path": "docs/virtual-showroom/readiness123-manual.md",
+    "Hash": "FA7AB86C9095CB29A6DD5AC90CDE101310A6BDEF0B9D1DF2610D9BE53D662347"
+  },
+  {
+    "Path": "docs/virtual-showroom/stage11-startup.md",
+    "Hash": "96F83C085534DC165846CDCF51F71D1F3C721064062B74AFEA98CAB32248AEC9"
+  },
+  {
+    "Path": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/virtual/VirtualInteractionService.java",
+    "Hash": "8E9705AAF43DC648A1806299DA5D55FE5E5101718034D4B8DD58C9B602769B30"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/public/readiness-materials/catalog.json",
+    "Hash": "9791FEE9044FFC676B35476EC3530F17C98B1C578675EF8C351C2CEF1628748F"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/public/readiness-materials/models/box-mm-binary.stl",
+    "Hash": "6BC9CB9B405CB375C36704B2428B31489EDDEB22E3A06F7F17A6005922704CCD"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/public/readiness-materials/models/lab-ifc4-mm.ifc",
+    "Hash": "5A3F338EDB62A88DE20F52559814AC0DB5623B6302783C6BA26A907305AEEE1F"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/public/readiness-materials/models/lab-plan-mm.dxf",
+    "Hash": "0AAB0D97F67FE25837AEBBA87BC8AB279B34305820BCC45F727899D6CE7033B3"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/public/readiness-materials/models/static-hall-80x60m.glb",
+    "Hash": "D25D73B657682BDED4A6CB16E3D6725A2400900A6ECA7FDC5A9EF8ACC88E9C02"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/public/readiness-materials/templates/ebook.zip",
+    "Hash": "98972CD6A4331897D952660BFFDAA6AD2BE9532FBB94296FCDA8CCDF7B028CB1"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/public/readiness-materials/templates/quiz-buzzer.zip",
+    "Hash": "B2FC9F57F45E05C340E1D656CD6A41459F57CB4C04DEA4D9D9D89E00AEA22BE2"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/public/readiness-materials/templates/tbutton.zip",
+    "Hash": "82BAB18A98FBA88F98D3812ECD585049EB4AEB2ABCA62B34278E359D515D0E8F"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/utils/auth.js",
+    "Hash": "6DA598B9E36CE25A159BF9306AA6831DF2357689096D4D169C5E119425D5C098"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/login.vue",
+    "Hash": "694EAE7245F71EC0978440D14879C5B3BF1E8F80E36908779B044CFFE65DC7D1"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/components/DxfCalibration.vue",
+    "Hash": "A6CE1A48C9A5F9792085052792115A087B1FB916E648D385FA81215660A88BEC"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/components/ImportReport.vue",
+    "Hash": "2B3FEDF542B613D0D371F999FFE1F584F0DE8BF733DEC0184D6508665F9ABDEF"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/components/ImportWizard.vue",
+    "Hash": "B23B6B3AC5CCE706228DEE1CD29A29D1CCFD8B1CF2F5BAA3BFFFD8042283F4A1"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/components/InteractionEditor.vue",
+    "Hash": "D86D218AE5D7E712FDFFDA147B53453EC45B81D0EB3D8327645E453C77E7E0EC"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/components/ReadinessGuide.vue",
+    "Hash": "214BD1BF0B5057857093ACEC44CFA81FDEE437DC680A8885F61D4923AE76AC02"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/components/SceneCanvas.vue",
+    "Hash": "A2EC826E929144F52971A653F5231B48B2C84AE3CF59242946E3BB1B8A1B80A9"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/editor.vue",
+    "Hash": "925B66BF1D986C0C919E55F1F252521008F9C47EF3FEE6329D8605B06192E26D"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/index.vue",
+    "Hash": "90293DB140FAEB01C282AFE24EE5FDF7A7A4B341F1366BBF1269F3BC87172996"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/components/ScenePerformancePanel.vue",
+    "Hash": "E5A8926061FA77F17DB6FB13170E7A581A43C148D80B6D045CB5496CCB459E2E"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/sceneMetrics.js",
+    "Hash": "1857C8ED656D14A1141DCAAEB274B71C05D49879125F192AD69C81A8D689DD58"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/sceneRuntime.js",
+    "Hash": "120F03BC1F7881CE2BC7AB6B3E3D011DDFD2516ED4224F4E0071D2A32F762CA5"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/screenObjects.js",
+    "Hash": "A936248D90905735A7274988007C1A7A8D116CDD4042EBA0DDF62FD7D063B5CA"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/scene-core/streamingModel.js",
+    "Hash": "4638EE6B491C6C49FA93A0995B48F12984F2763EBE164FA1DB6B34ED10EE74B7"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/template-host/quizAdapter.js",
+    "Hash": "32EF382C906D2DF0B5C3FD58554A0E7631FA1F28113C765AA23EE2C9574CAA28"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/viewer/ShowroomViewer.vue",
+    "Hash": "9BF73E6CF849DC3AC601472BA3D3F1091A8F2DFB31F2248C6DFD00591CDB0E82"
+  },
+  {
+    "Path": "ruoyi-ui-vue3/src/virtual-showroom/viewer/ViewerScene.vue",
+    "Hash": "0EFAC5BE53759B50B40D7347578E412D9CDB7B407863A768D62A7222AF222A53"
+  },
+  {
+    "Path": "scripts/virtual-showroom/lan-preview.mjs",
+    "Hash": "B71784AAB13D6867960030769005ED430052C1E0F12C6E01D8011A9A4FB7E5A2"
+  },
+  {
+    "Path": "scripts/virtual-showroom/prepare-lan-preview.ps1",
+    "Hash": "15583DA40555AD8A107BDFCF3DDA9B781DFED1FF6AE0E455611EBB9652AB1CE3"
+  },
+  {
+    "Path": "scripts/virtual-showroom/prepare-readiness-models.mjs",
+    "Hash": "9D6C73BE3870C727743DB69546B61157550C06D3E4151F6C9D4D3E1D67A9B8A5"
+  },
+  {
+    "Path": "scripts/virtual-showroom/prepare-readiness-templates.mjs",
+    "Hash": "C5DE3149EB88EE9B576C407B197F2BBBC4F65615FD9945431A19ECBBCA7E952F"
+  },
+  {
+    "Path": "scripts/virtual-showroom/start-local.ps1",
+    "Hash": "A14E9DF0B16E0814EF564691BC1B17E54352C27C6E65985E7955F6CA25DBAEF8"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/cad/dxfAnalysis.js",
+    "Hash": "9E7532972CF60462474D8A14A45261085E6B76766075835CBF928687EBFD10F5"
+  },
+  {
+    "Path": "virtual-showroom-worker/src/pipeline/streamingLod.js",
+    "Hash": "FFF1062CC26C94863C8AF7826E929D176D604A98AF2187F10255B92407120928"
+  }
+]

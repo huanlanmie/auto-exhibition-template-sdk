@@ -1,0 +1,722 @@
+[
+  {
+    "Scope": "tbutton",
+    "Path": ".auto-exhibition-template-sdk/auto-exhibition-template-sdk.generated.d.ts",
+    "Hash": "ae5c1f9ebc2929771112aa1b597ac300c0a35ea40c9c3b8b96148a658b472165",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "dist/assets/auto-exhibition-template-sdk/valueMap.json",
+    "Hash": "fbc641221a1127497b095620b3b9d96c833872bb9ed0b9a9e76fd5783edec9e5",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "dist/assets/index-BrgAX67U.css",
+    "Hash": "819ecc6def6231d93b79f1d9783f01ac6d3df2486c20284ae9d03eee32dc67fd",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "dist/assets/index-D_QeclZj.js",
+    "Hash": "3df96dad138efb29f53420ece30c0b57ce1ce0fdccd45e95767bb7257f3c5daf",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "dist/config.json",
+    "Hash": "be696589b687c7bb19bf0e1a5561b6139f0aca33a3511c83a5bd74ce2e604d37",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "dist/index.html",
+    "Hash": "873f91d18db2232e383443d153377c5d9c8c4695091c19ba849efe0ea1cd7d60",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "index.html",
+    "Hash": "0742e2287cd71e8434e9ae52f432d524b5a3043a7eb2160b6263810df3d183c3",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "package-lock.json",
+    "Hash": "320bbee4064c82d7d6dcaadafac7ebe234c5568f663bf48378ccee92a3c277c3",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "package.json",
+    "Hash": "8c54b40a427db07d85b1b844115522f3ead812afdb77ff1ca4c42c096ba5a480",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "src/App.vue",
+    "Hash": "39d712c04f4b76caff244d08f79011fa907e22425691f5c4065311b25748ed95",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "src/App.vue.js",
+    "Hash": "ccd8787442f92a73c164a00fbd9492bfc007248b3d0cd02700a23852f2ff7ad1",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "src/main.js",
+    "Hash": "592313e7e0e2c5374c031e55ec26b36db9b447a9fe5ae4458b5a91644eb1e407",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "src/main.ts",
+    "Hash": "5e6d951fff9f3b46fd0fabe04dca19ea2f395a104ed98d2015e2926ed992bdb8",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "src/styles.css",
+    "Hash": "069c9dfded37d86405d2ae41f3b5fe403ef427fa908ba00e4da9c381fcfcc4c5",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "src/template-value-map.d.ts",
+    "Hash": "0c7a02ad32815939e3936e53048037d7494632d8e49f2a1cb1cbe80c487c348f",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "src/template.config.js",
+    "Hash": "b2d92b8afbc5876d0fa8f29cf04e381b0dfff40e14b990f376d8ee4c390667de",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "src/template.config.ts",
+    "Hash": "bd7c4e23cebf76de450da14f87431a826d863959fa8b5f6214aacb1d5cfec714",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "tsconfig.app.json",
+    "Hash": "310aea45a52d57643f7aed75a91458f6c678c5fa38fd23519e81b7a2ed5f3f3f",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "tsconfig.json",
+    "Hash": "770b4140bbb581e2dfd9ea9946ffc9c75a1d86ba7d2db5f77c83e37cbdf9d808",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "tsconfig.node.json",
+    "Hash": "e4270818ccd55462243085ac6a25d7c4d65c3b2f35b7a9960b139a3cb7bdee57",
+    "Preserved": true
+  },
+  {
+    "Scope": "tbutton",
+    "Path": "vite.config.ts",
+    "Hash": "f7f3e22f4e120d643fa0a8d1353333f92c463a4d0b97394e4c21ecd18bde123e",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": ".auto-exhibition-template-sdk/auto-exhibition-template-sdk.generated.d.ts",
+    "Hash": "ffb93df64a9e312900c074a8577c518e9c01adb3f460c7d5b3785205cd94a9e7",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "Ebook.zip",
+    "Hash": "ba6b91aabcdfeb7f3bb937f82eca8c090e7c9fbdc4ea889a8b14b4e7ebb8f82f",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "PRD-电子翻书项目-v1.0.md",
+    "Hash": "f85353c34ef78a8bd299cc34a45ecde7c674fa7f1338a0da6a722f3d16eeaad5",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "architecture-design.md",
+    "Hash": "d8c0c418628c2d21f7effcf722e2023cea36c644c0e1ef36c52fbcfaa72229c6",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "dist/assets/auto-exhibition-template-sdk/valueMap.json",
+    "Hash": "d578d9039d163b69a96b901f2500917b4f14493a239c4bd677cdd036e589210e",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "dist/assets/index-Pgp0HT7y.css",
+    "Hash": "29f9e22b38274636dad9512565d1a545763f0ed225d69a0d6489f54f9572dde8",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "dist/assets/index-sMSW_rHR.js",
+    "Hash": "f53e1038f19112dbe69ce2d9d692a7a43679b6ed75adaaa5da535d9a12013dca",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "dist/assets/index-sMSW_rHR.js.map",
+    "Hash": "e656b35e9f7aa7a20cb53f824a6a0bbac071052923522b37574c651078f7ecd8",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "dist/config.json",
+    "Hash": "62622d9cf5a7ca4b8694cce5a97f8bb740d78ac55642fa48f6ff19be58897b12",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "dist/index.html",
+    "Hash": "d1db3c620e9d99567ec11d382235baf2e0e576ba08a58adeab4fd3443486f0ee",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "env.d.ts",
+    "Hash": "bb0f462db861c8ee99292aea8142a8ac24c82d6e8ed998f19385c67c2b408111",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "index.html",
+    "Hash": "abba76a2600e9f347f33d159be5814c73eab0379df9ed4ed04ddd7f86ded5e38",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "package-lock.json",
+    "Hash": "393bf742fecfe448b2a848a130d93d398af34291fe87ae93977aa8cf82b6b326",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "package.json",
+    "Hash": "baf151456de7122a8f620e306045ec6499499a886f7a27f73abad3f9b4674a0a",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/App.vue",
+    "Hash": "a5519555df82c76bb3f47fb76e6756415a13c3cb3f39d6104e561c22ddd66053",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/components/BookContainer.vue",
+    "Hash": "d86b7cbd3cae1dc571bba0937c4399019cfd3c6d9713a1fc698b6ee077501684",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/components/BookCover.vue",
+    "Hash": "4815b960dbbeb7a1f0ad7443ddf871c035fd2bfa8fdbf1b61d5ffdea9994918a",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/components/BookPage.vue",
+    "Hash": "d9c6aca3d9d5abe59fe3eafdb7d1152b269021367cb9e26d2ede5d196b163d39",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/components/PageIndicator.vue",
+    "Hash": "60ff9621537dd68aa0dd67b795d1409e4017db10fdaa1648a798141ab0f4e677",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/components/WelcomePage.vue",
+    "Hash": "c4d6926d097d929987231264a3dfaf661e5a0990206c41313b49fb31e4d5d406",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/composables/useBackfaceContent.ts",
+    "Hash": "dbd203a6b3bcde46b65d4d8f733efd53f9ed844433bf5eb04278733e5c24415d",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/composables/useBookState.ts",
+    "Hash": "3dc05eb6f1ac22af8a045af79b38287073267a5b179a92ce72c459587eb4adb6",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/composables/useDragInteraction.ts",
+    "Hash": "93ba5af562c752a95040cb1df70e0adfa653697a2edd3b35643bd7f17b002cef",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/composables/useFlipAnimation.ts",
+    "Hash": "a5768c2943196b3246fbf559183a4ac728026f41e2d7bc4cd5c5eedb4659e848",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/composables/useWelcomeFlow.ts",
+    "Hash": "bf88d9f5b21ea0088aad73fcc443888e72d13c800043cc3106671a457d532ddd",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/config.ts",
+    "Hash": "6cdf79ec5d65f7e97b1a295888ed27761346967a42dd46836996c1a5bad929e7",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/main.ts",
+    "Hash": "bf021947156080bda16a5d9f376d5df7ec7757f171aec5fb692dd327001119c2",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/styles/book-3d.css",
+    "Hash": "8f0b10d6658b39a678de68fcca40cd7600f6eec66ca102675ade17facb1317e1",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/styles/globals.css",
+    "Hash": "362514fdf2e73a4e45db6a7bd1e1d2d7c24dfd39328f9f9cfd15002dcc3a0676",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/styles/variables.css",
+    "Hash": "92640ef279af0d523d81350ff761f76e5582e4976c3cd1db16d0332e6ad62457",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/styles/welcome.css",
+    "Hash": "16652254f0584e252385e814c3cbcbe5df61f5db1a0243dcd853802c1afe0d58",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/types/book.ts",
+    "Hash": "3f4f3533f4037f7833e1477aa52a6868981f98814aa37acff9c1a3e720209be0",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/types/index.ts",
+    "Hash": "f849c8b24073f712861071d4cd1bdf11ced1eeacfa37bf0e53ebae7e56bf4827",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "src/types/sdk.ts",
+    "Hash": "920534d842ef7b6e7f80e0192482635bdcaf02e6b74ff6a8adaeba746df66529",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "tests/manual/manual-test-checklist.md",
+    "Hash": "e9f60f6312c4af4d888d599e8c52f906bf2d5b392fe2ae64542f5f495422b33f",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "tests/unit/BookContainer.test.ts",
+    "Hash": "875c6e605d6b41a1f5e40c920b86feda6ec939cf9f5eabfb2de56441059d0402",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "tests/unit/BookPage.test.ts",
+    "Hash": "3729645f874a3c36a54aafdf35ebe3e969011b2fb712cfff84b89ec891d02d76",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "tests/unit/PageIndicator.test.ts",
+    "Hash": "e6e4cf1c7b306c0306dbbd55c2d0c06f65f2b390ccdc1e2ec23080140bd5d3f3",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "tests/unit/useBookState.test.ts",
+    "Hash": "00aee6015d8ecd79569bcd871c5023b93db5ccb6b8bdbd01ca7dad450bb239f6",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "tests/unit/useDragInteraction.test.ts",
+    "Hash": "4656b9d8c982192d6b0b160947160916e6a27bceec15c29b367266f99e2c9a90",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "tests/unit/useFlipAnimation.test.ts",
+    "Hash": "9c9630b0cbae6c4a435ac37a317771ad94eac935ba464e91d4e47527a534811c",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "tsconfig.json",
+    "Hash": "f2b86ba5a6198a17a9b6ae3274ee97614c10e6117f5bbaefaf06a22e21c752cf",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "tsconfig.node.json",
+    "Hash": "98010fdfc338450fdf113c8f7c56107799d85ebc7cb3a4b7cbf988750e904684",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "vite.config.ts",
+    "Hash": "3d597d15e28523bbbf76e906ed004914a1cc23e1dfc98b705b6a5941f55ce88e",
+    "Preserved": true
+  },
+  {
+    "Scope": "ebook",
+    "Path": "vitest.config.ts",
+    "Hash": "7a8a796c3f51486833de4f8846f3c4e19e5f9904e5a39bb074771202c69d5ada",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": ".auto-exhibition-template-sdk/auto-exhibition-template-sdk.generated.d.ts",
+    "Hash": "d9b1e93f9ca6bb47c0bab680e59ccda22ff0496a6da70e05540283fb99af52e7",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "dev-server.err.log",
+    "Hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "dev-server.out.log",
+    "Hash": "d60bfbc404d1d2201b7bfbb1d540603ef55da81576ecfdfd77d5dd2432f30eff",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "dist/assets/auto-exhibition-template-sdk/valueMap.json",
+    "Hash": "d4e8504b964bd4a750cba46f3e29eecda8ec1a07cb6e2b8e6d5c7277e8594a2d",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "dist/assets/index-CRnbGyFh.css",
+    "Hash": "0d212fa9494cd751a22599d21ddfa4692c04581e4ce35caeb63bcb4997efaf58",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "dist/assets/index-N0FJlz_5.js",
+    "Hash": "1ff495fb45433cfdaa2d006600c9d4b7b0d78fa566745b2f6c2bd74d6f705254",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "dist/assets/questions/default.txt",
+    "Hash": "67fd22d20a231cbef963af3cd73298d73abd72e2f858318f4aceeee518738e00",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "dist/config.json",
+    "Hash": "b261502506c86d09217aea5e87a90354ace16fe2df07af0f8cd53b0cfeb6858c",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "dist/index.html",
+    "Hash": "562e4cf84c8e3c1eeae200a0eca9a678ac19b85eed94121c8f790253bc788642",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "index.html",
+    "Hash": "31edcd8c763b8519e15fca7ba0ae256b6cb778a9dcc0817a63af5bdadd040bfc",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "package-lock.json",
+    "Hash": "c880134f7b0beb9fba64d51fb1fd83713fe8e7c2f2fa3e37a34dcd1c03a4936f",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "package.json",
+    "Hash": "10d165ad61441af932e1831d3af54d95343221e13b88fe5b2aec9b2ac0cacad9",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "public/assets/questions/default.txt",
+    "Hash": "67fd22d20a231cbef963af3cd73298d73abd72e2f858318f4aceeee518738e00",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "quiz-buzzer.zip",
+    "Hash": "2c3fc43e66d17658241b1ce323ef8bd30b2506a8acc3acd42c1117929a3d26ec",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "src/App.vue",
+    "Hash": "cb3c7df1b9b2c9a7c970745ad170c7f3d4a35eb4cdab289fccd03477e724ae2a",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "src/main.ts",
+    "Hash": "5e6d951fff9f3b46fd0fabe04dca19ea2f395a104ed98d2015e2926ed992bdb8",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "src/styles.css",
+    "Hash": "e4f1319b096314069c06bd608bcbf8f226d4f1083f12058fdf26c5c0da414c8c",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "src/template-value-map.d.ts",
+    "Hash": "0c7a02ad32815939e3936e53048037d7494632d8e49f2a1cb1cbe80c487c348f",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "src/template.config.ts",
+    "Hash": "e811ef4faa8cb961c7a38ba292fc350b85550c9ba33abc0a35ab7a051f300106",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "tsconfig.app.json",
+    "Hash": "310aea45a52d57643f7aed75a91458f6c678c5fa38fd23519e81b7a2ed5f3f3f",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "tsconfig.json",
+    "Hash": "770b4140bbb581e2dfd9ea9946ffc9c75a1d86ba7d2db5f77c83e37cbdf9d808",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "tsconfig.node.json",
+    "Hash": "e4270818ccd55462243085ac6a25d7c4d65c3b2f35b7a9960b139a3cb7bdee57",
+    "Preserved": true
+  },
+  {
+    "Scope": "quiz-buzzer",
+    "Path": "vite.config.ts",
+    "Hash": "f7f3e22f4e120d643fa0a8d1353333f92c463a4d0b97394e4c21ecd18bde123e",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "index.js",
+    "Hash": "497ee602b1af47152b927bbcdd079dccae4005d87abb9c61552470119b13cce9",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "config/index.js",
+    "Hash": "28a0a2bbfb562f45704027b6bc8c7fe442b846532952c07573371445bbc29023",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "vite/index.js",
+    "Hash": "702fd4803941003f53dad08520b1a867a9607e38531d3f3ba369826f3c82399a",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/chunks/artifacts-CLjkRtUU.js",
+    "Hash": "689232d1733dbe1ffc30535f76d97062df35b02e1f6032b4fc03864f13d129aa",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/config/index.d.ts",
+    "Hash": "7bfe37e87b199443c69b531d1f42482d9d00d83c598354d68024552c2f0c7036",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/config/index.js",
+    "Hash": "954728c77cdb174efbb2da61b8404c0172dda327f4b29d9811d206ec9e6e8ed0",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/communication/browserHostTransport.d.ts",
+    "Hash": "28661847caf40f26b0f2e946c957d91ed0c2b3e839da716e051ae713e72b2499",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/communication/id.d.ts",
+    "Hash": "e9f54d2e63893536d3f219899a746eafd7fa02440fcbc6d57c7452ab21ebcc0a",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/communication/localBridgeTransport.d.ts",
+    "Hash": "8383ebe5607f763fea383a7d6c742f77ee671991e4174a3506e4aab7ec02ca64",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/communication/templateBridge.d.ts",
+    "Hash": "3a1f186f5e4c8cc49d838e0dff1a790d658073bb61ff79e82fd30d45829403f0",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/communication/transport.d.ts",
+    "Hash": "213fa91d0e3291a09a861a6f8741cb3e5ef2022258aa1f80f0a90e88cb69896f",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/context/createTemplateContext.d.ts",
+    "Hash": "145164dcde8a643823405112ca0675ece41e985f517cef23f0bb7173e5b7455a",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/context/keys.d.ts",
+    "Hash": "c1c198314dee965c63690b9b5fea0878eaec325e505b9753374a81241f87c545",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/context/runtimeKeys.d.ts",
+    "Hash": "55e35f0c8579223d540e11d6684eb4045621959c234869c61261b09174da7ade",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/context/useTemplateContext.d.ts",
+    "Hash": "2ada255302a8e2493649acea73ff06f05ce82776e8c9e349023952e85d1ae282",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/createTemplateRuntime.d.ts",
+    "Hash": "8ba720fec00864f7aaad6c4f0dc60648df0e4f77806087aa97343215e844f0d7",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/runtimeRegistry.d.ts",
+    "Hash": "99ceb846196c78e4d98587b3a4e96620688bc28df92977e6cca22ba800f87d63",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/schema/artifacts.d.ts",
+    "Hash": "f9672c9a9bbd8d89275aed350bce8ceff8a8700d44bb807ca7a4698fa2d807a8",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/schema/validation.d.ts",
+    "Hash": "d0149aeac67cad707d4152d67ea369d77fcd729c25534258b65372b3dd45dcf7",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/value-map/normalize.d.ts",
+    "Hash": "c4fa82800c009a695f2b8693f4320bbaaa48c06827626d47d911a576baa4b2cc",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/runtime/value-map/path.d.ts",
+    "Hash": "9f5a8bfac664c744edbb155ed89332e9e7d5209220a41016606e124122171845",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/sdk/index.d.ts",
+    "Hash": "db7bddcb9d2005d0d77b0b0ccf45c33112986026e875755d5f6e3d25eb8bd6f3",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/sdk/index.js",
+    "Hash": "6ab7eeb3aac89f419671dec805b42f2752a5664d23c8df413a0665d9a31756d2",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/sdk/types.d.ts",
+    "Hash": "a173adc2b07a4ed679f712ba2e9b4f39bed96ec0ae187f72d5e73f8ae1cd222c",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/sdk/useTemplateBridge.d.ts",
+    "Hash": "7b5b473982c46bbf62391cd99b97d843a1fff8405f6e148302d17becd99c1e57",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/sdk/useTemplateValue.d.ts",
+    "Hash": "1d3d2b371fc62162af0e79d912ba1f7d5347d69b777190c3969cf95dbfc307d6",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/vite/index.d.ts",
+    "Hash": "762e53632bf279dfebd1e33f5639360e68c57e0faeec4403a77029b1d0b8b3b3",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "dist/vite/index.js",
+    "Hash": "e60d7cb5837a48785083cb93c0bc49d6932522fcfb8c4a98a8037070f7b85ee7",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "src/runtime/communication/browserHostTransport.ts",
+    "Hash": "9154884a6a99879182f10f1a4c3fbd6d58625d9949fe4af0796616e73d41c7eb",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "src/runtime/createTemplateRuntime.ts",
+    "Hash": "706b92da48a0438b1fd77a24c64f08c7b9b4873ac65dc32dbcbe5c42e88c0c73",
+    "Preserved": true
+  },
+  {
+    "Scope": "SDK-build-input",
+    "Path": "src/runtime/runtimeRegistry.ts",
+    "Hash": "c1e6c84c90d6f6410c68944447ddb798f7b3704ff755dad84a55145823ed8e58",
+    "Preserved": true
+  }
+]

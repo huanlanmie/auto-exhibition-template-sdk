@@ -1,0 +1,18 @@
+[
+  {
+    "file": "ruoyi-modules/mju-showroom/src/main/java/com/mju/showroom/service/virtual/VirtualInteractionService.java",
+    "sha256": "8E9705AAF43DC648A1806299DA5D55FE5E5101718034D4B8DD58C9B602769B30"
+  },
+  {
+    "file": "ruoyi-ui-vue3/src/views/showroom/virtualShowroom/components/InteractionEditor.vue",
+    "sha256": "D86D218AE5D7E712FDFFDA147B53453EC45B81D0EB3D8327645E453C77E7E0EC"
+  },
+  {
+    "file": "ruoyi-ui-vue3/src/virtual-showroom/template-host/quizAdapter.js",
+    "sha256": "32EF382C906D2DF0B5C3FD58554A0E7631FA1F28113C765AA23EE2C9574CAA28"
+  },
+  {
+    "file": "scripts/virtual-showroom/prepare-readiness-templates.mjs",
+    "sha256": "C5DE3149EB88EE9B576C407B197F2BBBC4F65615FD9945431A19ECBBCA7E952F"
+  }
+]
